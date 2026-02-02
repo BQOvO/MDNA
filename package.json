@@ -1,7 +1,4 @@
 {
-  "name": "bqmaadna",
-  "version": "1.0.0",
-  "description": "二重螺旋小助手 - 基于MaaFramework的自动化助手",
   "devDependencies": {
     "prettier-plugin-multiline-arrays": "^3.0.6"
   }
