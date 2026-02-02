@@ -1,4 +1,4 @@
-name: install 
+name: install
 
 on:
   push:
@@ -26,9 +26,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - id: set_tag
         run: |
-          # 检查标签格式
           is_release=${{ startsWith(github.ref, 'refs/tags/v') }}
           tag=$(git describe --tags --match "v*" ${{ github.ref }} || true)
           if [[ $tag != v* ]]; then
@@ -38,30 +38,84 @@ jobs:
             fi
             tag=$(date "+$tag-%y%m%d-$(git rev-parse --short HEAD)")
           fi
-
           if ! $($is_release) ; then
             prefix=${tag%-*-*}
             suffix=${tag#$prefix-}
             tag="$prefix-ci.$suffix"
           fi
 
-          # 检查是否为预发布版本
-          is_prerelease=false
-          if [[ $tag =~ .*alpha.* || $tag =~ .*beta.* || $tag =~ .*rc.* || $tag =~ .*dev.* || $tag =~ .*-ci.* ]]; then
-            is_prerelease=true
-            echo "This is a pre-release version"
+          # Determine if this is a prerelease (contains -alpha, -beta, -rc, -ci, etc.)
+          is_prerelease="false"
+          if [[ "$tag" == *"-alpha"* ]] || [[ "$tag" == *"-beta"* ]] || [[ "$tag" == *"-rc"* ]] || [[ "$tag" == *"-ci"* ]] || [[ "$tag" == *"-"* ]]; then
+            is_prerelease="true"
           fi
 
           echo tag=$tag | tee -a $GITHUB_OUTPUT
           echo is_release=$is_release | tee -a $GITHUB_OUTPUT
           echo is_prerelease=$is_prerelease | tee -a $GITHUB_OUTPUT
+
     outputs:
       tag: ${{ steps.set_tag.outputs.tag }}
       is_release: ${{ steps.set_tag.outputs.is_release }}
       is_prerelease: ${{ steps.set_tag.outputs.is_prerelease }}
 
+  download-python-embed:
+    needs: meta
+    strategy:
+      matrix:
+        include:
+          # Windows x86_64
+          - os: win
+            arch: x86_64
+            runs-on: windows-latest
+          # Windows aarch64
+          - os: win
+            arch: aarch64
+            runs-on: windows-11-arm
+          # macOS x86_64 (Intel)
+          - os: macos
+            arch: x86_64
+            runs-on: macos-15-intel
+          # macOS aarch64 (Apple Silicon)
+          - os: macos
+            arch: aarch64
+            runs-on: macos-latest
+          # Linux x86_64
+          - os: linux
+            arch: x86_64
+            runs-on: ubuntu-latest
+          # Linux aarch64
+          - os: linux
+            arch: aarch64
+            runs-on: ubuntu-24.04-arm
+      fail-fast: false
+    runs-on: ${{ matrix.runs-on }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+          architecture: ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}
+
+      - name: Download Python embed
+        shell: bash
+        run: |
+          python ./tools/install_python.py ./python
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-embed-${{ matrix.os }}-${{ matrix.arch }}
+          path: ./python
+
   install:
-    needs: [meta]
+    needs:
+      - meta
+      - download-python-embed
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -102,32 +156,47 @@ jobs:
           rm -f "${ARCHIVE_FILE_PATH}"
           echo "Archive cleanup command executed for MFAAvalonia."
 
-      - name: Change executable icon on Windows
-        if: runner.os == 'Windows'
+      - name: Apply custom icon to MFAAvalonia.exe on Windows
+        if: matrix.os == 'win'
         shell: bash
         run: |
-          # 下载rcedit
-          curl -L https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe -o rcedit.exe
-            
-            # 使用rcedit修改图标（请修改以下路径）
-            ./rcedit.exe "MFA/MFAAvalonia.exe" --set-icon "assets/logo.ico"
-  
+          ICON_PATH="./assets/resource/image/logo.ico"
+          if [ ! -f "$ICON_PATH" ]; then
+            echo "❌ ERROR: Icon file not found at $ICON_PATH"
+            exit 1
+          fi
 
-      - name: Remove built-in runtime in MFA
-        if: matrix.os != 'android'
-        shell: bash
-        run: |
-          rm -rf MFA/runtimes
-          
+          echo "✅ Applying icon from $ICON_PATH to MFA/MFAAvalonia.exe..."
+
+          # Download rcedit.exe (Windows tool)
+          curl -L https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe -o rcedit.exe
+
+          # Install wine if not present
+          if ! command -v wine &> /dev/null; then
+            echo "📦 Installing wine..."
+            sudo apt-get update
+            sudo apt-get install -y wine
+          fi
+
+          # Make it executable and run via wine
+          chmod +x rcedit.exe
+          wine ./rcedit.exe "MFA/MFAAvalonia.exe" --set-icon "$ICON_PATH"
+
+          echo "✅ Icon successfully applied."
+
       - name: Install
         shell: bash
+        env:
+          TARGET_OS: ${{ matrix.os }}
         run: |
+          python -m pip install json-with-comments
+          python ./tools/install.py ${{ needs.meta.outputs.tag }}
+
           if [[ "${{ matrix.os }}" != "android" ]]; then
             if [ -d "MFA" ]; then
               echo "Copying MFA files to install directory..."
               mkdir -p install
               rsync -av --ignore-existing MFA/ install/
-              echo "MFA files copied successfully."
             else
               echo "MFA directory not found, skipping copy."
             fi
@@ -135,27 +204,29 @@ jobs:
             echo "Skipping copy MFA for Android."
           fi
 
-          cd tools/
-          python -m pip install -r ./requirements.txt
-          python ./install.py ${{ needs.meta.outputs.tag }} ${{ matrix.os }} ${{ matrix.arch }}
-          cd ..
+      - uses: actions/download-artifact@v4
+        if: matrix.os != 'android'
+        with:
+          name: python-embed-${{ matrix.os }}-${{ matrix.arch }}
+          path: ./install/python
 
       - uses: actions/upload-artifact@v4
         with:
-          name: BQMaaDNA-${{ matrix.os }}-${{ matrix.arch }}
+          name: BQmaaDNA-${{ matrix.os }}-${{ matrix.arch }}
           path: "install"
-  
+
   changelog:
     name: Generate changelog
     runs-on: ubuntu-latest
     outputs:
       release_body: ${{ steps.git-cliff.outputs.content }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-  
+
       - name: Generate a changelog
         uses: orhun/git-cliff-action@v4
         id: git-cliff
@@ -165,22 +236,26 @@ jobs:
         env:
           OUTPUT: CHANGES.md
           GITHUB_REPO: ${{ github.repository }}
-          
+
   release:
     if: ${{ needs.meta.outputs.is_release == 'true' }}
-    needs: [meta, install, changelog]
+    needs:
+      - meta
+      - install
+      - changelog
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/download-artifact@v4
         with:
           path: assets
-  
+
       - run: |
           cd assets
           for f in *; do
             (cd $f && zip -r ../$f-${{ needs.meta.outputs.tag }}.zip .)
           done
-          
+
       - uses: softprops/action-gh-release@v2
         with:
           files: assets/*
@@ -188,15 +263,10 @@ jobs:
           body: ${{ needs.changelog.outputs.release_body }}
           draft: false
           prerelease: ${{ needs.meta.outputs.is_prerelease == 'true' }}
-  
-        # Mirror酱为第三方分发服务，新项目默认关闭
-        # 若有需要请联系 Mirror酱 开通，直接自行开启是无法使用的
-        # https://mirrorchyan.com/
+
       - name: Trigger MirrorChyanUploading
-        if: false
-        shell: bash
         run: |
-          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release.yml -f tag=${{ needs.meta.outputs.tag }}
-          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release_note.yml -f tag=${{ needs.meta.outputs.tag }}
+          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan
+          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release_note
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
