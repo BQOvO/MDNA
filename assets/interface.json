@@ -3,13 +3,13 @@
     "name": "BQMaaDNA",
     "title": "BQMaaDNA",
     "description": "这是一个BQ使用 MaaFramework 创建的二重螺旋自动化脚本。",
-    "icon": "./logo.ico",
+    "icon": "./resource/logo.ico",
     "contact": "QQ群: 123456789",
     "license": "MIT",
     "welcome": "首次使用！欢迎使用 BQMaaDNA!",
     // 填写项目地址和版本号可实现自动更新功能
-    "github": "https://github.com/BQOvO/BQmaa",
-    "version": "1.0.10",
+    "github": "https://github.com/BQOvO/BQMaaDNA",
+    "version": "1.0.16",
     // Mirror酱为第三方分发服务，新项目默认关闭
     // 若有需要请联系 Mirror酱 开通，直接自行开启是无法使用的
     // "mirrorchyan_rid": "MaaXXX",
