@@ -95,6 +95,8 @@ def install_agent():
             # Android 不使用嵌入式 Python
             interface.pop("agent", None)
         case os_name if os_name in os_exec_map:
+            if "agent" not in interface:
+                interface["agent"] = {}
             interface["agent"]["child_exec"] = os_exec_map[os_name]
             interface["agent"]["child_args"] = ["-u", r"./agent/main.py"]
             interface["agent"]["embedded"] = True
