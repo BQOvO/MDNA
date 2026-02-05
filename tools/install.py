@@ -4,7 +4,7 @@ import os
 import shutil
 import sys
 import json
-import jsonc
+import jsonc  # type: ignore
 
 from configure import configure_ocr_model
 
@@ -116,6 +116,6 @@ if __name__ == "__main__":
     install_deps()
     install_resource()
     install_chores()
-    install_agent()
+    #install_agent()
 
     print(f"Install to {install_path} successfully.")
