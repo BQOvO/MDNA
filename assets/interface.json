@@ -38,16 +38,16 @@
             "description": "# !!!注意事项\n1.该任务目前仅支持黎瑟主控\n2.请在开始挑战页面开始执行本任务"
         },
         {
-            "name":"迷津",
-            "entry":"mijin",
-            "default_check": false,
-            "option": ["迷津等级"]
+            "name":"委托密函",
+            "entry": "weituomihan",
+            "option": ["挑战类型"],
+            "default_check": false
         }
     ],
     "option": {
         "魔之楔挑战等级":{
             "type": "select",
-            "label": "$魔之楔挑战等级",
+            "label": "魔之楔挑战等级",
             "default_case": "Lv.40",
             "cases": [
                 {
@@ -111,28 +111,20 @@
                 }
             ]
         },
-        "迷津等级":{
+        "挑战类型":{
             "type": "select",
-            "label": "$迷津等级",
-            "default_case": "Lv.70",
+            "label": "挑战类型",
+            "default_case": "探险/无尽",
             "cases": [
                 {
-                    "name": "LV.60",
+                    "name": "探险/无尽",
                     "pipeline_override": {
-                        "迷津-坠入深渊": {
-                            "next": "mijin60"
-                        }
-                    }
-                },
-                {
-                    "name": "Lv.70",
-                    "pipeline_override": {
-                        "迷津-坠入深渊": {
-                            "next": "mijin70"
+                        "weituomihan": {
+                            "next": "探险/无尽"
                         }
                     }
                 }
             ]
         }
-    }
+        }
 }
