@@ -19,19 +19,14 @@ on:
       - "**.py"
   workflow_dispatch:
 
-permissions:
-  contents: write
-  actions: write
-
 jobs:
   meta:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - id: set_tag
         run: |
           is_release=${{ startsWith(github.ref, 'refs/tags/v') }}
@@ -48,53 +43,55 @@ jobs:
             suffix=${tag#$prefix-}
             tag="$prefix-ci.$suffix"
           fi
-          is_prerelease=false
-          if [[ $tag =~ .*alpha.* || $tag =~ .*beta.* || $tag =~ .*rc.* || $tag =~ .*dev.* || $tag =~ .*-ci.* ]]; then
-            is_prerelease=true
+
+          # Determine if this is a prerelease (contains -alpha, -beta, -rc, -ci, etc.)
+          is_prerelease="false"
+          if [[ "$tag" == *"-alpha"* ]] || [[ "$tag" == *"-beta"* ]] || [[ "$tag" == *"-rc"* ]] || [[ "$tag" == *"-ci"* ]] || [[ "$tag" == *"-"* ]]; then
+            is_prerelease="true"
           fi
 
           echo tag=$tag | tee -a $GITHUB_OUTPUT
           echo is_release=$is_release | tee -a $GITHUB_OUTPUT
           echo is_prerelease=$is_prerelease | tee -a $GITHUB_OUTPUT
+
     outputs:
       tag: ${{ steps.set_tag.outputs.tag }}
       is_release: ${{ steps.set_tag.outputs.is_release }}
       is_prerelease: ${{ steps.set_tag.outputs.is_prerelease }}
 
-  windows:
+  download-python-embed:
     needs: meta
-    runs-on: windows-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     strategy:
       matrix:
-        arch: [aarch64, x86_64]
+        include:
+          # Windows x86_64
+          - os: win
+            arch: x86_64
+            runs-on: windows-latest
+          # Windows aarch64
+          - os: win
+            arch: aarch64
+            runs-on: windows-11-arm
+          # macOS x86_64 (Intel)
+          - os: macos
+            arch: x86_64
+            runs-on: macos-15-intel
+          # macOS aarch64 (Apple Silicon)
+          - os: macos
+            arch: aarch64
+            runs-on: macos-latest
+          # Linux x86_64
+          - os: linux
+            arch: x86_64
+            runs-on: ubuntu-latest
+          # Linux aarch64
+          - os: linux
+            arch: aarch64
+            runs-on: ubuntu-24.04-arm
       fail-fast: false
+    runs-on: ${{ matrix.runs-on }}
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
-
-      - name: Download MFAAvalonia
-        uses: robinraju/release-downloader@v1
-        with:
-          repository: MaaXYZ/MFAAvalonia
-          fileName: "MFAAvalonia-*-win-x64*"
-          latest: true
-          out-file-path: "install"
-          extract: true
-
-      - name: Download MaaFramework
-        uses: robinraju/release-downloader@v1
-        with:
-          repository: MaaXYZ/MaaFramework
-          fileName: "MAA-win-${{ matrix.arch }}*"
-          latest: true
-          out-file-path: "deps"
-          extract: true
-
-        steps:
       - uses: actions/checkout@v4
         with:
           submodules: true
@@ -114,105 +111,15 @@ jobs:
         with:
           name: python-embed-${{ matrix.os }}-${{ matrix.arch }}
           path: ./python
-    
-      - name: Rename MFAAvalonia to MDNA
-        shell: bash
-        run: |
-          # 查找 MFAAvalonia.exe 的位置
-          exe_path=$(find install -name "MFAAvalonia.exe" | head -n 1)
-          
-          if [ -z "$exe_path" ]; then
-            echo "Warning: MFAAvalonia.exe not found in install directory."
-            exit 1
-          fi
-          
-          echo "Found MFAAvalonia.exe at: $exe_path"
-          
-          # 获取目录路径
-          exe_dir=$(dirname "$exe_path")
-          
-          # 重命名为 MDNA.exe
-          mv "$exe_path" "$exe_dir/MDNA.exe"
-          
-          if [ $? -eq 0 ]; then
-            echo "MFAAvalonia.exe renamed to MDNA.exe successfully"
-          else
-            echo "Failed to rename MFAAvalonia.exe"
-            exit 1
-          fi
 
-      - name: Modify MDNA exe icon
-        shell: bash
-        run: |
-          # 根据架构选择 rcedit 版本
-          if [ "${{ matrix.arch }}" == "x86_64" ]; then
-            rcedit_url="https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe"
-          else
-            rcedit_url="https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x86.exe"
-          fi
-          
-          # 下载 rcedit
-          echo "Downloading rcedit for ${{ matrix.arch }}..."
-          curl -L "$rcedit_url" -o rcedit.exe
-          
-          # 检查 logo.ico 是否存在
-          if [ ! -f "logo.ico" ]; then
-            echo "Warning: logo.ico not found in project root."
-            exit 0
-          fi
-          
-          # 查找 MDNA.exe 的位置
-          exe_path=$(find install -name "MDNA.exe" | head -n 1)
-          
-          if [ -z "$exe_path" ]; then
-            echo "Warning: MDNA.exe not found in install directory."
-            exit 0
-          fi
-          
-          echo "Found MDNA.exe at: $exe_path"
-          
-          # 修改 exe 图标
-          ./rcedit.exe "$exe_path" --set-icon "logo.ico"
-          
-          if [ $? -eq 0 ]; then
-            echo "MDNA icon modified successfully"
-          else
-            echo "Failed to modify MDNA icon"
-            exit 1
-          fi
-
-      - name: Install
-        shell: bash
-        run: |
-          # 确定平台标签
-          if [ "${{ matrix.arch }}" == "x86_64" ]; then
-            platform_tag="win-x64"
-          else
-            platform_tag="win-arm64"
-          fi
-          
-          echo "Building for platform: ${platform_tag}"
-          
-          # 运行安装脚本，传入版本号和平台标签
-          python ./tools/install.py ${{ needs.meta.outputs.tag }} ${platform_tag}
-
-          # 清理zip文件
-          echo "Cleaning up zip files..."
-          find install -name "MFAAvalonia-*.zip" -delete 2>/dev/null || true
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: MDNA-win-${{ matrix.arch }}
-          path: "install"
-
-  unix:
-    needs: meta
-    runs-on: ${{ matrix.os }}
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  install:
+    needs:
+      - meta
+      - download-python-embed
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [win, macos, linux, android]
         arch: [aarch64, x86_64]
       fail-fast: false
 
@@ -221,69 +128,99 @@ jobs:
         with:
           submodules: true
 
-      - name: Download MFAAvalonia
-        uses: robinraju/release-downloader@v1
-        with:
-          repository: MaaXYZ/MFAAvalonia
-          fileName: "MFAAvalonia-*-${{ matrix.os == 'ubuntu-latest' && 'linux' || 'osx' }}-${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}*"
-          latest: true
-          out-file-path: "install"
-          extract: true
-
       - name: Download MaaFramework
         uses: robinraju/release-downloader@v1
         with:
           repository: MaaXYZ/MaaFramework
-          fileName: "MAA-${{ matrix.os == 'ubuntu-latest' && 'linux' || 'macos' }}-${{ matrix.arch }}*"
+          fileName: "MAA-${{ matrix.os }}-${{ matrix.arch }}*"
           latest: true
           out-file-path: "deps"
           extract: true
 
-      - name: Setup Embed Python (macOS)
-        if: matrix.os == 'macos-latest'
+      - name: Download MFAAvalonia
+        if: matrix.os != 'android'
+        id: download_mfa
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: SweetSmellFox/MFAAvalonia
+          fileName: "MFAAvalonia-*-${{ (matrix.os == 'win' && 'win') || (matrix.os == 'macos' && 'osx') || (matrix.os == 'linux' && 'linux') }}-${{ (matrix.arch == 'x86_64' && 'x64') || (matrix.arch == 'aarch64' && 'arm64') }}*"
+          latest: true
+          out-file-path: "MFA"
+          extract: true
+
+      - name: Clean up MFAAvalonia archive
+        if: matrix.os != 'android'
         shell: bash
         run: |
-          chmod +x ./tools/ci/setup_embed_python.sh
-          ./tools/ci/setup_embed_python.sh ${{ matrix.arch }}
+          ARCHIVE_FILE_PATH="${{ fromJson(steps.download_mfa.outputs.downloaded_files)[0] }}"
+          rm -f "${ARCHIVE_FILE_PATH}"
+          echo "Archive cleanup command executed for MFAAvalonia."
+
+      - name: Apply custom icon to MFAAvalonia.exe on Windows
+        if: matrix.os == 'win'
+        shell: bash
+        run: |
+          ICON_PATH="./assets/resource/image/logo.ico"
+          if [ ! -f "$ICON_PATH" ]; then
+            echo "❌ ERROR: Icon file not found at $ICON_PATH"
+            exit 1
+          fi
+
+          echo "✅ Applying icon from $ICON_PATH to MFA/MFAAvalonia.exe..."
+
+          # Download rcedit.exe (Windows tool)
+          curl -L https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe -o rcedit.exe
+
+          # Install wine if not present
+          if ! command -v wine &> /dev/null; then
+            echo "📦 Installing wine..."
+            sudo apt-get update
+            sudo apt-get install -y wine
+          fi
+
+          # Make it executable and run via wine
+          chmod +x rcedit.exe
+          wine ./rcedit.exe "MFA/MFAAvalonia.exe" --set-icon "$ICON_PATH"
+
+          echo "✅ Icon successfully applied."
 
       - name: Install
         shell: bash
+        env:
+          TARGET_OS: ${{ matrix.os }}
         run: |
-          # 确定平台标签
-          if [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
-            os_name="linux"
-          else
-            os_name="osx"
-          fi
-          
-          if [ "${{ matrix.arch }}" == "x86_64" ]; then
-            arch_name="x64"
-          else
-            arch_name="arm64"
-          fi
-          
-          platform_tag="${os_name}-${arch_name}"
-          echo "Building for platform: ${platform_tag}"
-          
-          # 运行安装脚本，传入版本号和平台标签
-          python ./tools/install.py ${{ needs.meta.outputs.tag }} ${platform_tag}
+          python -m pip install json-with-comments
+          python ./tools/install.py ${{ needs.meta.outputs.tag }}
 
-          # 清理zip文件
-          echo "Cleaning up zip files..."
-          find install -name "MFAAvalonia-*.zip" -delete 2>/dev/null || true
+          if [[ "${{ matrix.os }}" != "android" ]]; then
+            if [ -d "MFA" ]; then
+              echo "Copying MFA files to install directory..."
+              mkdir -p install
+              rsync -av --ignore-existing MFA/ install/
+            else
+              echo "MFA directory not found, skipping copy."
+            fi
+          else
+            echo "Skipping copy MFA for Android."
+          fi
+
+      - uses: actions/download-artifact@v4
+        if: matrix.os != 'android'
+        with:
+          name: python-embed-${{ matrix.os }}-${{ matrix.arch }}
+          path: ./install/python
 
       - uses: actions/upload-artifact@v4
         with:
-          name: MDNA-${{ matrix.os == 'ubuntu-latest' && 'linux' || 'macos' }}-${{ matrix.arch }}
+          name: BQmaaDNA-${{ matrix.os }}-${{ matrix.arch }}
           path: "install"
 
   changelog:
     name: Generate changelog
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     outputs:
       release_body: ${{ steps.git-cliff.outputs.content }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -304,8 +241,7 @@ jobs:
     if: ${{ needs.meta.outputs.is_release == 'true' }}
     needs:
       - meta
-      - windows
-      - unix
+      - install
       - changelog
     runs-on: ubuntu-latest
 
@@ -314,58 +250,11 @@ jobs:
         with:
           path: assets
 
-      - name: Check assets directory
-        run: |
-          ls -la assets
-          if [ -z "$(ls -A assets)" ]; then
-            echo "assets directory is empty"
-            exit 1
-          fi
-
-      - name: Compress artifacts and generate checksums
-        run: |
+      - run: |
           cd assets
-          echo "Processing artifacts..."
-          
-          # 创建临时目录存放压缩文件
-          mkdir -p release_files
-          checksum_file="checksums.sha256"
-          touch "$checksum_file"
-
-          for artifact_dir in *; do
-            if [ -d "$artifact_dir" ]; then
-              echo "Processing artifact: $artifact_dir"
-              zip_file="release_files/$artifact_dir-${{ needs.meta.outputs.tag }}.zip"
-              
-              # 压缩目录
-              (cd "$artifact_dir" && zip -r "../$zip_file" .)
-              
-              if [ $? -eq 0 ]; then
-                echo "ZIP file created: $zip_file"
-                # 生成校验和
-                sha256sum "$zip_file" >> "$checksum_file"
-              else
-                echo "Failed to create ZIP file: $zip_file"
-                exit 1
-              fi
-            fi
+          for f in *; do
+            (cd $f && zip -r ../$f-${{ needs.meta.outputs.tag }}.zip .)
           done
-          
-          # 移动所有文件到assets根目录
-          mv release_files/* . 2>/dev/null || true
-          rmdir release_files 2>/dev/null || true
-
-      - uses: softprops/action-gh-release@v2
-        with:
-          files: assets/*.zip
-          tag_name: ${{ needs.meta.outputs.tag }}
-          body: ${{ needs.changelog.outputs.release_body }}
-          draft: false
-          prerelease: ${{ needs.meta.outputs.is_prerelease == 'true' }}
-            else
-              echo "Skipping non-directory: $f"
-            fi
-           done
 
       - uses: softprops/action-gh-release@v2
         with:
@@ -377,6 +266,7 @@ jobs:
 
       - name: Trigger MirrorChyanUploading
         if: false
+        shell: bash
         run: |
           gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan
           gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release_note
