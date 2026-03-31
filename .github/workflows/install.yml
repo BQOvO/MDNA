@@ -314,20 +314,6 @@ jobs:
         with:
           path: assets
 
-      - run: |
-          cd assets
-          for f in *; do
-            (cd $f && zip -r ../$f-${{ needs.meta.outputs.tag }}.zip .)
-          done
-
-      - uses: softprops/action-gh-release@v2
-        with:
-          files: assets/*
-          tag_name: ${{ needs.meta.outputs.tag }}
-          body: ${{ needs.changelog.outputs.release_body }}
-          draft: false
-          prerelease: ${{ needs.meta.outputs.is_prerelease == 'true' }}
-
       - name: Check assets directory
         run: |
           ls -la assets
@@ -336,31 +322,50 @@ jobs:
             exit 1
           fi
 
-      - name: Compress and generate checksums
+      - name: Compress artifacts and generate checksums
         run: |
           cd assets
-          echo "Generating checksums for all zip files..."
+          echo "Processing artifacts..."
+          
+          # 创建临时目录存放压缩文件
+          mkdir -p release_files
           checksum_file="checksums.sha256"
           touch "$checksum_file"
 
-          for f in *; do
-            if [ -d "$f" ]; then
-              echo "Processing directory: $f"
-              zip_file="$f-${{ needs.meta.outputs.tag }}.zip"
-              (cd "$f" && zip -r "../$zip_file" .)
+          for artifact_dir in *; do
+            if [ -d "$artifact_dir" ]; then
+              echo "Processing artifact: $artifact_dir"
+              zip_file="release_files/$artifact_dir-${{ needs.meta.outputs.tag }}.zip"
+              
+              # 压缩目录
+              (cd "$artifact_dir" && zip -r "../$zip_file" .)
+              
               if [ $? -eq 0 ]; then
-                echo "ZIP file created: ../$zip_file"
-                echo "Processing directory: $f"
+                echo "ZIP file created: $zip_file"
+                # 生成校验和
                 sha256sum "$zip_file" >> "$checksum_file"
-                echo "" >> "$checksum_file"
               else
-                echo "Failed to create ZIP file: ../$zip_file"
+                echo "Failed to create ZIP file: $zip_file"
                 exit 1
               fi
+            fi
+          done
+          
+          # 移动所有文件到assets根目录
+          mv release_files/* . 2>/dev/null || true
+          rmdir release_files 2>/dev/null || true
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: assets/*.zip
+          tag_name: ${{ needs.meta.outputs.tag }}
+          body: ${{ needs.changelog.outputs.release_body }}
+          draft: false
+          prerelease: ${{ needs.meta.outputs.is_prerelease == 'true' }}
             else
               echo "Skipping non-directory: $f"
             fi
-          done
+           done
 
       - uses: softprops/action-gh-release@v2
         with:
