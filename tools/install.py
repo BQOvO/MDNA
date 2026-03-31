@@ -57,25 +57,11 @@ def install_resource():
         install_path / "resource",
         dirs_exist_ok=True,
     )
-    shutil.copytree(
-        working_dir / "assets" / "tasks",
-        install_path / "tasks",
-        dirs_exist_ok=True,
-    )
     shutil.copy2(
         working_dir / "assets" / "interface.json",
         install_path,
     )
 
-    # Copy lang folder for MFAAvalonia i18n support
-    lang_src = working_dir / "assets" / "lang"
-    if lang_src.exists():
-        shutil.copytree(
-            lang_src,
-            install_path / "lang",
-            dirs_exist_ok=True,
-        )
-        print("Copied lang folder for i18n support")
 
     with open(install_path / "interface.json", "r", encoding="utf-8") as f:
         interface = json.load(f)
