@@ -197,6 +197,28 @@ jobs:
               echo "Copying MFA files to install directory..."
               mkdir -p install
               rsync -av --ignore-existing MFA/ install/
+               cd install
+          case "${{ matrix.os }}" in
+          win)
+            exe_name="MFAAvalonia.exe"
+            new_name="MDNA.exe"
+            ;;
+          macos|linux)
+            exe_name="MFAAvalonia"
+            new_name="MDNA"
+            ;;
+          *)
+            echo "Unknown OS: ${{ matrix.os }}"
+            exit 1
+            ;;
+          esac
+          if [ -f "$exe_name" ]; then
+            mv "$exe_name" "$new_name"
+            echo "Renamed $exe_name to $new_name"
+          else
+            echo "Warning: $exe_name not found in install directory."
+          fi
+          cd ..
             else
               echo "MFA directory not found, skipping copy."
             fi
@@ -212,7 +234,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: BQmaaDNA-${{ matrix.os }}-${{ matrix.arch }}
+          name: MDNA-${{ matrix.os }}-${{ matrix.arch }}
           path: "install"
 
   changelog:
