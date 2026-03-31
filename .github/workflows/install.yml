@@ -77,7 +77,7 @@ jobs:
           submodules: true
 
       - name: Download MFAAvalonia
-        uses: robinraju/release-downloader@v1write
+        uses: robinraju/release-downloader@v1
         with:
           repository: MaaXYZ/MFAAvalonia
           fileName: "MFAAvalonia-*-win-x64*"
@@ -335,9 +335,9 @@ jobs:
           draft: false
           prerelease: ${{ needs.meta.outputs.is_prerelease == 'true' }}
 
-#  - name: Trigger MirrorChyanUploading
-#    run: |
-#      gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan
-#      gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release_note
-#    env:
-#      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Trigger MirrorChyanUploading
+#        run: |
+#         gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan
+#          gh workflow run --repo $GITHUB_REPOSITORY mirrorchyan_release_note
+#       env:
+#          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
