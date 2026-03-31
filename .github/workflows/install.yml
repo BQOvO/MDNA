@@ -128,13 +128,13 @@ jobs:
         with:
           submodules: true
 
-      - name: Download MFAAvalonia
+      - name: Download MaaFramework
         uses: robinraju/release-downloader@v1
         with:
-          repository: MaaXYZ/MFAAvalonia
-          fileName: "MFAAvalonia-*-win-x64*"
+          repository: MaaXYZ/MaaFramework
+          fileName: "MAA-${{ matrix.os }}-${{ matrix.arch }}*"
           latest: true
-          out-file-path: "install"
+          out-file-path: "deps"
           extract: true
 
       - name: Download MFAAvalonia
@@ -145,7 +145,7 @@ jobs:
           repository: SweetSmellFox/MFAAvalonia
           fileName: "MFAAvalonia-*-${{ (matrix.os == 'win' && 'win') || (matrix.os == 'macos' && 'osx') || (matrix.os == 'linux' && 'linux') }}-${{ (matrix.arch == 'x86_64' && 'x64') || (matrix.arch == 'aarch64' && 'arm64') }}*"
           latest: true
-          out-file-path: "install"
+          out-file-path: "MFA"
           extract: true
 
       - name: Clean up MFAAvalonia archive
@@ -156,71 +156,33 @@ jobs:
           rm -f "${ARCHIVE_FILE_PATH}"
           echo "Archive cleanup command executed for MFAAvalonia."
 
-      - name: Rename MFAAvalonia to MDNA
+      - name: Apply custom icon to MFAAvalonia.exe on Windows
+        if: matrix.os == 'win'
         shell: bash
         run: |
-          # 查找 MFAAvalonia.exe 的位置（在install目录中）
-          exe_path=$(find install -name "MFAAvalonia.exe" | head -n 1)
-          
-          if [ -z "$exe_path" ]; then
-            echo "Warning: MFAAvalonia.exe not found in install directory."
+          ICON_PATH="./assets/resource/image/logo.ico"
+          if [ ! -f "$ICON_PATH" ]; then
+            echo "❌ ERROR: Icon file not found at $ICON_PATH"
             exit 1
           fi
-          
-          echo "Found MFAAvalonia.exe at: $exe_path"
-          
-          # 获取目录路径
-          exe_dir=$(dirname "$exe_path")
-          
-          # 重命名为 MDNA.exe
-          mv "$exe_path" "$exe_dir/MDNA.exe"
-          
-          if [ $? -eq 0 ]; then
-            echo "MFAAvalonia.exe renamed to MDNA.exe successfully"
-          else
-            echo "Failed to rename MFAAvalonia.exe"
-            exit 1
-          fi    
 
-      - name: Modify MDNA exe icon
-        shell: bash
-        run: |
-          # 根据架构选择 rcedit 版本
-          if [ "${{ matrix.arch }}" == "x86_64" ]; then
-            rcedit_url="https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe"
-          else
-            rcedit_url="https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x86.exe"
+          echo "✅ Applying icon from $ICON_PATH to MFA/MFAAvalonia.exe..."
+
+          # Download rcedit.exe (Windows tool)
+          curl -L https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe -o rcedit.exe
+
+          # Install wine if not present
+          if ! command -v wine &> /dev/null; then
+            echo "📦 Installing wine..."
+            sudo apt-get update
+            sudo apt-get install -y wine
           fi
-          
-          # 下载 rcedit
-          echo "Downloading rcedit for ${{ matrix.arch }}..."
-          curl -L "$rcedit_url" -o rcedit.exe
-          
-          # 检查 logo.ico 是否存在
-          if [ ! -f "logo.ico" ]; then
-            echo "Warning: logo.ico not found in project root."
-            exit 0
-          fi
-          
-          # 查找 MDNA.exe 的位置
-          exe_path=$(find install -name "MDNA.exe" | head -n 1)
-          
-          if [ -z "$exe_path" ]; then
-            echo "Warning: MDNA.exe not found in install directory."
-            exit 0
-          fi
-          
-          echo "Found MDNA.exe at: $exe_path"
-          
-          # 修改 exe 图标
-          ./rcedit.exe "$exe_path" --set-icon "logo.ico"
-          
-          if [ $? -eq 0 ]; then
-            echo "MDNA icon modified successfully"
-          else
-            echo "Failed to modify MDNA icon"
-            exit 1
-          fi
+
+          # Make it executable and run via wine
+          chmod +x rcedit.exe
+          wine ./rcedit.exe "MFA/MFAAvalonia.exe" --set-icon "$ICON_PATH"
+
+          echo "✅ Icon successfully applied."
 
       - name: Install
         shell: bash
@@ -250,8 +212,34 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: BQmaaDNA-${{ matrix.os }}-${{ matrix.arch }}
+          name: MDNA-${{ matrix.os }}-${{ matrix.arch }}
           path: "install"
+
+      - name: Rename MFAAvalonia to MDNA
+        shell: bash
+        run: |
+          # 查找 MFAAvalonia.exe 的位置
+          exe_path=$(find install -name "MFAAvalonia.exe" | head -n 1)
+          
+          if [ -z "$exe_path" ]; then
+            echo "Warning: MFAAvalonia.exe not found in install directory."
+            exit 1
+          fi
+          
+          echo "Found MFAAvalonia.exe at: $exe_path"
+          
+          # 获取目录路径
+          exe_dir=$(dirname "$exe_path")
+          
+          # 重命名为 MDNA.exe
+          mv "$exe_path" "$exe_dir/MDNA.exe"
+          
+          if [ $? -eq 0 ]; then
+            echo "MFAAvalonia.exe renamed to MDNA.exe successfully"
+          else
+            echo "Failed to rename MFAAvalonia.exe"
+            exit 1
+          fi
 
   changelog:
     name: Generate changelog
@@ -296,7 +284,7 @@ jobs:
 
       - uses: softprops/action-gh-release@v2
         with:
-          files: assets/*.zip assets/checksums.sha256
+          files: assets/*
           tag_name: ${{ needs.meta.outputs.tag }}
           body: ${{ needs.changelog.outputs.release_body }}
           draft: false
