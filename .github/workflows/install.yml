@@ -213,7 +213,24 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: MDNA-${{ matrix.os }}-${{ matrix.arch }}
-          path: "install"
+          path: ./install
+
+      - name: Install MFAAvalonia
+        shell: bash
+        run: |
+          rm -rf MFA/resource/base/model/ocr  # 删除MFA自带的 OCR model目录
+          mkdir -p install  # 创建安装目录
+          cp -r MFA/* install/  # 复制所有MFA文件
+          rm -f install/MFAAvalonia-*.zip install/MFAAvalonia-*.tar.gz  # 清理下载的压缩包
+
+          # 清理MFAA自带的deps文件夹内容
+          # if [ -d "install/deps" ]; then
+          #   echo "清理MFAA自带的deps目录..."
+          #   rm -rf install/deps/*
+          # else
+          #   echo "创建deps目录..."
+          #   mkdir -p install/deps
+          # fi
 
       - name: Rename MFAAvalonia to MDNA
         shell: bash
