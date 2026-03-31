@@ -1,89 +1,73 @@
 from pathlib import Path
 
+import os
 import shutil
 import sys
 import json
+import jsonc  # type: ignore
 
-import os
-import sys
+from configure import configure_ocr_model
 
-script_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(script_dir)
 
 working_dir = Path(__file__).parent.parent
 install_path = working_dir / Path("install")
 version = len(sys.argv) > 1 and sys.argv[1] or "v0.0.1"
-platform_tag = len(sys.argv) > 2 and sys.argv[2] or ""
 
 
-def install_deps(platform: str):
-    """安装 MaaFramework 依赖到对应架构路径
+def install_deps():
+    if not (working_dir / "deps" / "bin").exists():
+        print('Please download the MaaFramework to "deps" first.')
+        print('请先下载 MaaFramework 到 "deps"。')
+        sys.exit(1)
 
-    Args:
-        platform: 平台标签，如 win-x64, linux-arm64, osx-arm64
-    """
-    if not platform:
-        raise ValueError("platform_tag is required")
-
-    print(f"Installing MaaFramework dependencies for platform: {platform}")
-
-    # 将 Framework 的库文件复制到对应平台的 runtimes 目录
     shutil.copytree(
         working_dir / "deps" / "bin",
-        install_path / "runtimes" / platform / "native",
+        install_path,
         ignore=shutil.ignore_patterns(
             "*MaaDbgControlUnit*",
             "*MaaThriftControlUnit*",
-            "*MaaWin32ControlUnit*",
             "*MaaRpc*",
             "*MaaHttp*",
         ),
         dirs_exist_ok=True,
     )
-
-    # 复制 MaaAgentBinary
     shutil.copytree(
         working_dir / "deps" / "share" / "MaaAgentBinary",
         install_path / "MaaAgentBinary",
         dirs_exist_ok=True,
     )
 
-    print(f"MaaFramework dependencies installed to runtimes/{platform}/native")
-
 
 def install_resource():
+
+    configure_ocr_model()
+
     shutil.copytree(
         working_dir / "assets" / "resource",
         install_path / "resource",
         dirs_exist_ok=True,
     )
+
     shutil.copy2(
         working_dir / "assets" / "interface.json",
         install_path,
     )
 
-
     with open(install_path / "interface.json", "r", encoding="utf-8") as f:
-        interface = json.load(f)
+        interface = jsonc.load(f)
 
     interface["version"] = version
 
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
-        json.dump(interface, f, ensure_ascii=False, indent=4)
+        jsonc.dump(interface, f, ensure_ascii=False, indent=4)
 
 
 def install_chores():
-    for file in ["README.md", "LICENSE", "logo.ico", "requirements.txt"]:
+    for file in ["README.md", "LICENSE", "logo.png"]:
         shutil.copy2(
             working_dir / file,
-            install_path,
+            install_path / file,
         )
-    shutil.copytree(
-        working_dir / "docs",
-        install_path / "docs",
-        dirs_exist_ok=True,
-        ignore=shutil.ignore_patterns("*.yaml"),
-    )
 
 
 def install_agent():
@@ -94,25 +78,44 @@ def install_agent():
     )
 
     with open(install_path / "interface.json", "r", encoding="utf-8") as f:
-        interface = json.load(f)
+        interface = jsonc.load(f)
 
-    if sys.platform.startswith("win"):
-        interface["agent"]["child_exec"] = r"./python/python.exe"
-    elif sys.platform.startswith("darwin"):
-        interface["agent"]["child_exec"] = r"./python/bin/python3"
-    elif sys.platform.startswith("linux"):
-        interface["agent"]["child_exec"] = r"python3"
+    # 根据 CI 传入的 OS 环境变量来设置 child_exec
+    target_os = os.getenv("TARGET_OS", "").lower()
 
-    interface["agent"]["child_args"] = ["-u", r"./agent/main.py"]
+    # OS 到 child_exec 的映射
+    os_exec_map = {
+        "win": r"./python/python.exe",
+        "macos": r"./python/bin/python3",
+        "linux": r"python3",
+    }
+
+    match target_os:
+        case "android":
+            # Android 不使用嵌入式 Python
+            interface.pop("agent", None)
+        case os_name if os_name in os_exec_map:
+            if "agent" not in interface:
+                interface["agent"] = {}
+            interface["agent"]["child_exec"] = os_exec_map[os_name]
+            interface["agent"]["child_args"] = ["-u", r"./agent/main.py"]
+            interface["agent"]["embedded"] = True
+        case _:
+            raise ValueError(f"Unknown OS: {target_os}")
 
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
         json.dump(interface, f, ensure_ascii=False, indent=4)
 
+    shutil.copy2(
+        working_dir / "requirements.txt",
+        install_path / "requirements.txt",
+    )
+
 
 if __name__ == "__main__":
-    install_deps(platform_tag)
+    install_deps()
     install_resource()
     install_chores()
-    install_agent()
+    #install_agent()
 
     print(f"Install to {install_path} successfully.")
