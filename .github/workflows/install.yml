@@ -128,13 +128,13 @@ jobs:
         with:
           submodules: true
 
-      - name: Download MaaFramework
+      - name: Download MFAAvalonia
         uses: robinraju/release-downloader@v1
         with:
-          repository: MaaXYZ/MaaFramework
-          fileName: "MAA-${{ matrix.os }}-${{ matrix.arch }}*"
+          repository: MaaXYZ/MFAAvalonia
+          fileName: "MFAAvalonia-*-win-x64*"
           latest: true
-          out-file-path: "deps"
+          out-file-path: "install"
           extract: true
 
       - name: Download MFAAvalonia
@@ -145,7 +145,7 @@ jobs:
           repository: SweetSmellFox/MFAAvalonia
           fileName: "MFAAvalonia-*-${{ (matrix.os == 'win' && 'win') || (matrix.os == 'macos' && 'osx') || (matrix.os == 'linux' && 'linux') }}-${{ (matrix.arch == 'x86_64' && 'x64') || (matrix.arch == 'aarch64' && 'arm64') }}*"
           latest: true
-          out-file-path: "MFA"
+          out-file-path: "install"
           extract: true
 
       - name: Clean up MFAAvalonia archive
@@ -159,11 +159,11 @@ jobs:
       - name: Rename MFAAvalonia to MDNA
         shell: bash
         run: |
-          # 查找 MFAAvalonia.exe 的位置（在MFA目录中）
-          exe_path=$(find MFA -name "MFAAvalonia.exe" | head -n 1)
+          # 查找 MFAAvalonia.exe 的位置（在install目录中）
+          exe_path=$(find install -name "MFAAvalonia.exe" | head -n 1)
           
           if [ -z "$exe_path" ]; then
-            echo "Warning: MFAAvalonia.exe not found in MFA directory."
+            echo "Warning: MFAAvalonia.exe not found in install directory."
             exit 1
           fi
           
