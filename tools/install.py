@@ -4,7 +4,7 @@ import os
 import shutil
 import sys
 import json
-import jsonc  # type: ignore
+import jsonc
 
 from configure import configure_ocr_model
 
@@ -95,8 +95,6 @@ def install_agent():
             # Android 不使用嵌入式 Python
             interface.pop("agent", None)
         case os_name if os_name in os_exec_map:
-            if "agent" not in interface:
-                interface["agent"] = {}
             interface["agent"]["child_exec"] = os_exec_map[os_name]
             interface["agent"]["child_args"] = ["-u", r"./agent/main.py"]
             interface["agent"]["embedded"] = True
@@ -112,10 +110,22 @@ def install_agent():
     )
 
 
+# ✅ 新增：安装 Open.bat
+def install_open_bat():
+    src = working_dir / "Open.bat"
+    dst = install_path / "Open.bat"
+    if src.exists():
+        print("Copying Open.bat to install directory...")
+        shutil.copy2(src, dst)
+    else:
+        print("Warning: Open.bat not found in project root. Skipping.")
+
+
 if __name__ == "__main__":
     install_deps()
     install_resource()
     install_chores()
-    #install_agent()
+    install_agent()
+    install_open_bat()  # ✅ 新增这一行
 
     print(f"Install to {install_path} successfully.")
