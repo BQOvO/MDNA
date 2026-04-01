@@ -1,48 +1,50 @@
-# main.py 增强版本校验和初始化
-import sys
+import io
 import os
+import sys
 
-from maa.agent.agent_server import AgentServer
-from maa.toolkit import Toolkit
+# 强制 stdout/stderr 使用 UTF-8 编码，避免非 UTF-8 系统环境下中文输出报错
+if sys.stdout.encoding != "utf-8":
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+if sys.stderr.encoding != "utf-8":
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
 
-import my_action
-import my_reco
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-# 新增：显式指定 MaaFramework 版本（用于校验）
-EXPECTED_MAA_VERSION = "v5.9.2"
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-def check_maa_version():
-    """校验当前加载的 MaaFramework 版本是否匹配"""
-    try:
-        # 调用 MaaToolkit 的版本接口（需确认实际接口名，参考 MaaFramework 文档）
-        actual_version = Toolkit.get_version()  # 示例接口，需替换为真实接口
-        if EXPECTED_MAA_VERSION not in actual_version:
-            print(f"⚠️ MaaFramework 版本不匹配！预期 {EXPECTED_MAA_VERSION}，实际 {actual_version}")
-            # 非发布环境可选择退出，开发环境可提示
-            # sys.exit(1)
-        else:
-            print(f"✅ MaaFramework 版本验证通过：{actual_version}")
-    except Exception as e:
-        print(f"❌ 版本校验失败：{e}")
-        sys.exit(1)
+from agent.deploy.deploy import deploy, get_main_py_path
+
 
 def main():
-    
-    
-    # 显式指定配置目录，确保加载正确的 MaaFramework 资源
+
+    from maa.agent.agent_server import AgentServer
+    from maa.toolkit import Toolkit
+
     Toolkit.init_option("./")
 
-    if len(sys.argv) < 2:
-        print("Usage: python main.py <socket_id>")
-        print("socket_id is provided by AgentIdentifier.")
-        sys.exit(1)
-        
     socket_id = sys.argv[-1]
+    print(f"socket_id: {socket_id}")
 
     AgentServer.start_up(socket_id)
-    print(f"✅ AgentServer 启动成功（socket_id: {socket_id}）")
     AgentServer.join()
     AgentServer.shut_down()
 
+
 if __name__ == "__main__":
-    main()
+    # 在运行主程序之前进行部署检查
+    git_path = get_main_py_path().parent.parent / ".git"
+    if git_path.exists():
+        print("测试模式,. 不进行部署检查")
+        if len(sys.argv) == 1:
+            sys.argv.append("MAA_AGENT_SOCKET")
+    elif not deploy():
+        print("error: 部署检查失败，程序退出")
+        sys.exit(1)
+
+    from agent.CustomFile import *
+
+    try:
+        main()
+    except Exception as e:
+        print(f"error: 程序运行错误: {e}")
+        sys.exit(1)
