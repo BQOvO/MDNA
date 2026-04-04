@@ -13,7 +13,8 @@ from agent.custom.action.Count import Count
 #from agent.custom.action.Role.GeneralFight import GeneralFight
 
 
-#from agent.custom.recongition.CheckResolution import CheckResolution
+from agent.custom.recognition.CheckResolution import CheckResolution
+from agent.custom.recognition.CheckResolution_16_9 import CheckResolution16_9
 
 
 #@AgentServer.custom_action("Notice")
@@ -51,13 +52,20 @@ class Count_Cls(Count):
         #print(f"{self.__class__.__name__} 初始化")
 
 
-#@AgentServer.custom_recognition("CheckResolution")
-#class CheckResolution_Cls(CheckResolution):
-    #def __init__(self):
-        #super().__init__()
-        #print(f"{self.__class__.__name__} 初始化")
+@AgentServer.custom_recognition("CheckResolution")
+class CheckResolution_Cls(CheckResolution):
+    def __init__(self):
+        super().__init__()
+        print(f"{self.__class__.__name__} 初始化")
 
 
+@AgentServer.custom_recognition("CheckResolution_16_9")
+class CheckResolution_Cls(CheckResolution16_9):
+    def __init__(self):
+        super().__init__()
+        print(f"{self.__class__.__name__} 初始化")
+
+        
 #@AgentServer.custom_action("FieryWishingStar")
 #class FieryWishingStar_Cls(FieryWishingStar):
     #def __init__(self):
