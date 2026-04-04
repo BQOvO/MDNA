@@ -13,8 +13,8 @@ from agent.custom.action.Count import Count
 #from agent.custom.action.Role.GeneralFight import GeneralFight
 
 
-from agent.custom.recognition.CheckResolution import CheckResolution
-from agent.custom.recognition.CheckResolution_16_9 import CheckResolution16_9
+from agent.custom.recongition.CheckResolution import CheckResolution
+from agent.custom.recongition.CheckResolution_16_9 import CheckResolution16_9
 
 
 #@AgentServer.custom_action("Notice")
