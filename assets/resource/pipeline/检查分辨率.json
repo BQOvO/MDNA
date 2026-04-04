@@ -1,0 +1,50 @@
+{
+   "检查设置-启动节点":{
+      "recognition": "DirectHit",
+      "action": "DoNothing",
+      "focus": {
+         "Node.Action.succeed": {
+            "content": "检查运行配置任务开始执行",
+            "display": ["log", "toast"]
+        }
+      },
+      "next": ["检查设置-检查分辨率"]
+   },
+   "检查设置-检查分辨率":{
+      "recognition": "Custom",
+      "custom_recognition":"CheckResolution_16_9",
+      "action":"DoNothing",
+      "on_error": ["检查设置-检查分辨率-分辨率错误"],
+      "timeout":100,
+      "focus":{
+         "Node.Action.succeed": {
+            "content": "真棒！分辨率对了呢~",
+            "display": ["log", "toast"]
+        }
+      },
+      "post_delay": 1000,
+      "next": ["检查设置-鸣谢"]
+   },
+   "检查设置-检查分辨率-分辨率错误":{
+      "recognition": "DirectHit",
+      "action": "DoNothing",
+      "timeout":50,
+      "inverse": true,
+      "focus": {
+        "Node.Action.Failed": {
+         "content": "MDNA只支持在16：9分辨率下运行哦~~~，推荐1600*900",
+         "display":["log","modal"]
+        }
+      }
+   },
+   "检查设置-鸣谢":{
+      "recognition": "DirectHit",
+      "action": "DoNothing",
+      "focus": {
+         "Node.Action.succeed": {
+            "content": "其他设置请按照描述自行设置喵~",
+            "display": ["log"]
+        }
+      }
+   }
+}
