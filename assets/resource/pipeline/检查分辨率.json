@@ -3,7 +3,7 @@
       "recognition": "DirectHit",
       "action": "DoNothing",
       "focus": {
-         "Node.Action.succeed": {
+         "Node.recognition.succeed": {
             "content": "检查运行配置任务开始执行",
             "display": ["log", "toast"]
         }
@@ -18,7 +18,7 @@
       "on_error": ["检查设置-检查分辨率-分辨率错误"],
       "timeout":100,
       "focus":{
-         "Node.Action.succeed": {
+         "Node.recognition.succeed": {
             "content": "真棒！分辨率对了呢~",
             "display": ["log", "toast"]
         }
@@ -32,7 +32,7 @@
       "timeout":50,
       "inverse": true,
       "focus": {
-        "Node.Action.Failed": {
+        "Node.recognition.Failed": {
          "content": "MDNA只支持在16：9分辨率下运行哦~~~，推荐1600*900",
          "display":["log","modal"]
         }
@@ -42,7 +42,7 @@
       "recognition": "DirectHit",
       "action": "DoNothing",
       "focus": {
-         "Node.Action.succeed": {
+         "Node.recognition.succeed": {
             "content": "其他设置请按照描述自行设置喵~",
             "display": ["log"]
         }
