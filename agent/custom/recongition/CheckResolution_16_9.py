@@ -31,6 +31,6 @@ class CheckResolution16_9(CustomRecognition):
             return CustomRecognition.AnalyzeResult(box=(0, 0, 0, 0), detail="ok")
         else:
             print("[CheckResolution] 失败！停止任务 ❌")
-            context.tasker.post_stop()
+            #context.tasker.post_stop()
             # 识别失败，返回 None
             return None
