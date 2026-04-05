@@ -3,11 +3,12 @@
       "recognition": "DirectHit",
       "action": "DoNothing",
       "focus": {
-         "Node.recognition.succeed": {
-            "content": "检查运行配置任务开始执行",
-            "display": ["log", "toast"]
+         "Node.Recognition.Succeeded": {
+            "content": "[color:green]让可爱的小菲比帮忙检测一下你的分辨率吧~[/color]",
+            "display": ["log"]
         }
       },
+      "timeout":1000,
       "on_error": ["检查设置-检查分辨率-分辨率错误"],
       "next": ["检查设置-检查分辨率"]
    },
@@ -16,11 +17,10 @@
       "custom_recognition":"CheckResolution_16_9",
       "action":"DoNothing",
       "on_error": ["检查设置-检查分辨率-分辨率错误"],
-      "timeout":100,
       "focus":{
-         "Node.recognition.succeed": {
-            "content": "真棒！分辨率对了呢~",
-            "display": ["log", "toast"]
+         "Node.Action.Succeeded": {
+            "content": "[color:green]真棒！分辨率对了呢~[/color]",
+            "display": ["log"]
         }
       },
       "post_delay": 1000,
@@ -29,12 +29,14 @@
    "检查设置-检查分辨率-分辨率错误":{
       "recognition": "DirectHit",
       "action": "DoNothing",
-      "timeout":50,
-      "inverse": true,
       "focus": {
-        "Node.recognition.Failed": {
+        "Node.Recognition.Succeeded": {
          "content": "MDNA只支持在16：9分辨率下运行哦~~~，推荐1600*900",
-         "display":["log","modal"]
+         "display":["toast"]
+        },
+        "Node.Action.Succeeded": {
+         "content": "[color:red]MDNA只支持在16：9分辨率下运行哦~~~，推荐1600*900[/color]",
+         "display":["log"]
         }
       }
    },
@@ -42,10 +44,10 @@
       "recognition": "DirectHit",
       "action": "DoNothing",
       "focus": {
-         "Node.recognition.succeed": {
-            "content": "其他设置请按照描述自行设置喵~",
+         "Node.Recognition.Succeeded": {
+            "content": "[color:green]其他设置请按照描述自行设置喵~[/color]",
             "display": ["log"]
-        }
+         }
       }
    }
 }
