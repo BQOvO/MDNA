@@ -1,14 +1,14 @@
 from maa.context import Context
 from maa.custom_action import CustomAction
 import json
-from ..utils.Logger import Logger
+from ..utils.logger import logger
 """计数"""
 
 class Count(CustomAction):
     def run(
         self, context: Context, argv: CustomAction.RunArg
     ) -> CustomAction.RunResult:
-        logger = Logger("Count", context)
+        logger = logger("Count", context)
         """
         自定义动作：
         custom_action_param:

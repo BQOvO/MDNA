@@ -1,216 +1,201 @@
-"""
-自定义 Logger 组件
-支持组件标识、HTML UI 输出和资源清理
-"""
-
 import html
-import logging
-import re
+import os
 import sys
-from pathlib import Path
-from maa.context import Context
+from typing import Any
+
+from . import pienv
+
+LEVEL_SHORT_NAMES = {
+    "INFO": "info",
+    "ERROR": "err",
+    "WARNING": "warn",
+    "DEBUG": "debug",
+    "CRITICAL": "critical",
+    "SUCCESS": "success",
+    "TRACE": "trace",
+}
+
+ANSI_LEVEL_COLORS = {
+    "TRACE": "\033[34m",
+    "DEBUG": "\033[36m",
+    "INFO": "\033[32m",
+    "SUCCESS": "\033[32m",
+    "WARNING": "\033[33m",
+    "ERROR": "\033[31m",
+    "CRITICAL": "\033[41m\033[37m",
+}
+
+HTML_LEVEL_COLORS = {
+    "TRACE": "royalblue",
+    "DEBUG": "deepskyblue",
+    "INFO": "forestgreen",
+    "SUCCESS": "forestgreen",
+    "WARNING": "darkorange",
+    "ERROR": "crimson",
+    "CRITICAL": "firebrick",
+}
 
 
-class Logger:
-    """自定义 Logger 类，支持组件标识和 UI 输出"""
+def _client_name_key() -> str:
+    return pienv.client_name().strip().upper()
 
-    # 颜色名称到16进制的映射
-    COLOR_MAP = {
-        "black": "#000000",
-        "white": "#FFFFFF",
-        "red": "#FF0000",
-        "green": "#008000",
-        "blue": "#0000FF",
-        "yellow": "#FFFF00",
-        "cyan": "#00FFFF",
-        "magenta": "#FF00FF",
-        "orange": "#FFA500",
-        "purple": "#800080",
-        "pink": "#FFC0CB",
-        "brown": "#A52A2A",
-        "gray": "#808080",
-        "grey": "#808080",
-    }
 
-    def __init__(self, name: str, context: Context | None = None):
-        """
-        初始化 Logger
+def _is_mfaa_client() -> bool:
+    return _client_name_key() == "MFAAVALONIA"
 
-        Args:
-            name: 组件名称，用于标识日志来源
-        """
-        self.name = name
-        self.context = context
-        self._logger = logging.getLogger(f"custom.{name}")
-        self._logger.setLevel(logging.INFO)
 
-        # 避免重复添加 handler
-        if not self._logger.handlers:
-            self._setup_handlers()
+def _is_mxu_client() -> bool:
+    return _client_name_key() == "MXU"
 
-    def _setup_handlers(self):
-        """设置日志处理器"""
-        # 获取日志文件路径：__file__ 的上4层目录中的 debug/agent.log
-        # __file__ = ./agent/custom/utils/Logger.py
-        # parent = ./agent/custom/utils/
-        # parent.parent = ./agent/custom/
-        # parent.parent.parent = ./agent/
-        # parent.parent.parent.parent = ./
-        # 所以日志文件路径 = ./debug/agent.log
-        log_dir = Path(__file__).parent.parent.parent.parent / "debug"
-        log_dir.mkdir(parents=True, exist_ok=True)
-        log_file = log_dir / "agent.log"
 
-        # 创建格式器
-        formatter = logging.Formatter(
-            "%(asctime)s - [%(name)s] - %(levelname)s - %(message)s - {self.name}",
-            datefmt="%Y-%m-%d %H:%M:%S",
-        )
+def _resolve_console_stream():
+    if _is_mxu_client():
+        return sys.stdout
+    return sys.stderr
 
-        # 文件处理器（追加模式）
-        file_handler = logging.FileHandler(log_file, mode="a", encoding="utf-8")
-        file_handler.setLevel(logging.INFO)
-        file_handler.setFormatter(formatter)
 
-        # 控制台处理器
-        console_handler = logging.StreamHandler(sys.stdout)
-        console_handler.setLevel(logging.INFO)
-        console_handler.setFormatter(formatter)
+def _resolve_console_format() -> str:
+    if _is_mfaa_client():
+        return "{extra[level_short]}:{message}"
+    if _is_mxu_client():
+        return "{extra[mxu_html_message]}"
+    return "{extra[level_color]}{message}{extra[color_reset]}"
 
-        # 添加处理器
-        self._logger.addHandler(file_handler)
-        self._logger.addHandler(console_handler)
 
-    def _normalize_color(self, color: str) -> str:
-        """
-        规范化颜色值
+def _short_level_name(level_name: str) -> str:
+    return LEVEL_SHORT_NAMES.get(level_name, level_name.lower())
 
-        Args:
-            color: 颜色名称或16进制值
 
-        Returns:
-            16进制颜色值（带 # 前缀）
-        """
-        color = color.strip().lower()
+def _ansi_level_color(level_name: str) -> str:
+    return ANSI_LEVEL_COLORS.get(level_name, "")
 
-        # 如果是颜色名称，转换为16进制
-        if color in self.COLOR_MAP:
-            return self.COLOR_MAP[color]
 
-        # 如果已经是16进制格式，确保有 # 前缀
-        if color.startswith("#"):
-            return color
-        elif re.match(r"^[0-9A-Fa-f]{6}$", color):
-            return f"#{color}"
+def _format_mxu_html_message(level_name: str, message: str) -> str:
+    color = HTML_LEVEL_COLORS.get(level_name, "inherit")
+    return f'<span style="color:{color};">{html.escape(message)}</span>'
 
-        # 默认返回黑色
-        return "#000000"
 
-    def _is_html(self, text: str) -> bool:
-        """
-        检查文本是否已经是 HTML 代码
+def _enrich_record(record) -> bool:
+    level_name = record["level"].name
+    level_color = _ansi_level_color(level_name)
 
-        Args:
-            text: 要检查的文本
+    record["extra"]["level_short"] = _short_level_name(level_name)
+    record["extra"]["level_color"] = level_color
+    record["extra"]["color_reset"] = "\033[0m" if level_color else ""
+    record["extra"]["mxu_html_message"] = _format_mxu_html_message(
+        level_name, str(record["message"])
+    )
+    return True
 
-        Returns:
-            如果是 HTML 代码返回 True，否则返回 False
-        """
-        # 简单的 HTML 标签检测
-        html_pattern = re.compile(r"<[^>]+>", re.IGNORECASE)
-        return bool(html_pattern.search(text))
 
-    def ui(self, text: str, color: str = "black") -> bool:
-        """
-        生成带颜色的 HTML 代码
+_HAS_LOGURU = False
+_loguru_logger: Any = None
 
-        Args:
-            text: 要显示的文本
-            color: 颜色（颜色名称或16进制，如 "red" 或 "#FF0000"）
+try:
+    from loguru import logger as _imported_loguru_logger
 
-        Returns:
-            是否成功
-        """
-        if not self.context:
-            return False
-        # 如果文本已经是 HTML，直接返回（忽略颜色）
-        if self._is_html(text):
-            html_code = text
+    _loguru_logger = _imported_loguru_logger
+    _HAS_LOGURU = True
+except ImportError:
+    pass
 
-        else:
+import logging
+from logging.handlers import TimedRotatingFileHandler
 
-            # 规范化颜色
-            hex_color = self._normalize_color(color)
 
-            # 转义 HTML 特殊字符
-            escaped_text = html.escape(text)
+class _ConsoleFormatter(logging.Formatter):
+    def format(self, record):
+        level_name = record.levelname
+        message = record.getMessage()
 
-            # 生成带颜色的 HTML
-            html_code = f'<font color="{hex_color}">{escaped_text}</font>'
+        if _is_mfaa_client():
+            return f"{_short_level_name(level_name)}:{message}"
+        if _is_mxu_client():
+            return _format_mxu_html_message(level_name, message)
 
-        result = self.context.run_task(
-            "自定义信息_为了防止重复所以名字长一点",
-            {
-                "自定义信息_为了防止重复所以名字长一点": {
-                    "focus": {
-                        "Node.Recognition.Succeeded": html_code,
-                    }
-                }
-            },
-        )
-        return bool(result)
+        level_color = _ansi_level_color(level_name)
+        color_reset = "\033[0m" if level_color else ""
+        return f"{level_color}{message}{color_reset}"
 
-    def debug(self, message: str, *args, **kwargs):
-        """记录 DEBUG 级别日志"""
-        self._logger.debug(message, *args, **kwargs)
 
-    def info(self, message: str, *args, **kwargs):
-        """记录 INFO 级别日志"""
-        self._logger.info(message, *args, **kwargs)
+_FILE_FORMAT = logging.Formatter(
+    "%(asctime)s | %(levelname)-8s | %(name)s:%(funcName)s:%(lineno)d | %(message)s"
+)
+_std_logger = logging.getLogger("m9a")
 
-    def warning(self, message: str, *args, **kwargs):
-        """记录 WARNING 级别日志"""
-        self._logger.warning(message, *args, **kwargs)
 
-    def error(self, message: str, *args, **kwargs):
-        """记录 ERROR 级别日志"""
-        self._logger.error(message, *args, **kwargs)
+def _resolve_level(level) -> int:
+    if isinstance(level, int):
+        return level
+    return getattr(logging, str(level).upper(), logging.INFO)
 
-    def critical(self, message: str, *args, **kwargs):
-        """记录 CRITICAL 级别日志"""
-        self._logger.critical(message, *args, **kwargs)
 
-    def exception(self, message: str, *args, exc_info=True, **kwargs):
-        """记录异常日志"""
-        self._logger.exception(message, *args, exc_info=exc_info, **kwargs)
+def _setup_loguru_logger(log_dir="debug/custom", console_level="INFO"):
+    os.makedirs(log_dir, exist_ok=True)
+    _loguru_logger.remove()
 
-    def destroy(self):
-        """
-        销毁 Logger，清理所有资源
-        应该在不再使用 Logger 时调用
-        """
-        if self._logger is None:
-            return
+    _loguru_logger.add(
+        _resolve_console_stream(),
+        format=_resolve_console_format(),
+        colorize=False,
+        level=console_level,
+        filter=_enrich_record,
+    )
+    _loguru_logger.add(
+        f"{log_dir}/{{time:YYYY-MM-DD}}.log",
+        rotation="00:00",
+        retention="2 weeks",
+        compression="zip",
+        level="DEBUG",
+        format="{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <8} | {name}:{function}:{line} | {message}",
+        encoding="utf-8",
+        enqueue=True,
+        backtrace=True,
+        diagnose=True,
+        filter=_enrich_record,
+    )
+    return _loguru_logger
 
-        # 关闭所有 handlers
-        handlers = self._logger.handlers[:]  # 创建副本避免迭代时修改
-        for handler in handlers:
-            handler.close()
-            self._logger.removeHandler(handler)
 
-    def __enter__(self):
-        """上下文管理器入口"""
-        return self
+def _setup_std_logger(log_dir="debug/custom", console_level="INFO"):
+    os.makedirs(log_dir, exist_ok=True)
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """上下文管理器出口，自动清理资源"""
-        self.destroy()
+    _std_logger.handlers.clear()
+    _std_logger.setLevel(logging.DEBUG)
+    _std_logger.propagate = False
 
-    def __del__(self):
-        """析构函数，确保资源被清理"""
-        try:
-            if hasattr(self, "_logger") and self._logger is not None:
-                self.destroy()
-        except Exception:
-            # 析构函数中不应该抛出异常
-            pass
+    console_handler = logging.StreamHandler(_resolve_console_stream())
+    console_handler.setLevel(_resolve_level(console_level))
+    console_handler.setFormatter(_ConsoleFormatter())
+    _std_logger.addHandler(console_handler)
+
+    file_handler = TimedRotatingFileHandler(
+        os.path.join(log_dir, "runtime.log"),
+        when="midnight",
+        interval=1,
+        backupCount=14,
+        encoding="utf-8",
+    )
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(_FILE_FORMAT)
+    _std_logger.addHandler(file_handler)
+
+    return _std_logger
+
+
+def setup_logger(log_dir="debug/custom", console_level="INFO"):
+    """设置 logger（优先 loguru，无 loguru 时回退到标准 logging）"""
+    if _HAS_LOGURU:
+        return _setup_loguru_logger(log_dir=log_dir, console_level=console_level)
+    return _setup_std_logger(log_dir=log_dir, console_level=console_level)
+
+
+def change_console_level(level="DEBUG"):
+    """动态修改控制台日志等级"""
+    setup_logger(console_level=level)
+    logger.info(f"控制台日志等级已更改为: {level}")
+
+
+logger = setup_logger()
+
+__all__ = ["setup_logger", "change_console_level", "logger"]

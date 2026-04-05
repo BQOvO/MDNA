@@ -2,7 +2,7 @@ from maa.context import Context
 from maa.custom_recognition import CustomRecognition
 from numpy import ndarray
 import json
-from ..utils.Logger import Logger
+from ..utils.logger import logger
 
 
 class CheckResolution(CustomRecognition):
@@ -11,7 +11,7 @@ class CheckResolution(CustomRecognition):
         context: Context,
         argv: CustomRecognition.AnalyzeArg,
     ) -> CustomRecognition.AnalyzeResult | None:
-        logger = Logger("CheckResolution", context)
+        logger = logger("CheckResolution", context)
         param = json.loads(argv.custom_recognition_param)
         if not param:
             target_height = 720
