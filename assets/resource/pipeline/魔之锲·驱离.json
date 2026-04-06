@@ -1,0 +1,519 @@
+{
+    "魔之锲·驱离-启动节点": {},
+    "魔之锲·驱离-等级选择-40级": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    169,
+                    129,
+                    68,
+                    205
+                ],
+                "expected": [
+                    "40"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "next": [
+            "魔之锲·驱离-开始挑战"
+        ]
+    },
+    "魔之锲·驱离-等级选择-60级": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    169,
+                    129,
+                    68,
+                    205
+                ],
+                "expected": [
+                    "60"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "next": [
+            "魔之锲·驱离-开始挑战"
+        ]
+    },
+    "魔之锲·驱离-等级选择-80级": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    169,
+                    129,
+                    68,
+                    205
+                ],
+                "expected": [
+                    "80"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "next": [
+            "魔之锲·驱离-开始挑战"
+        ]
+    },
+    "魔之锲·驱离-等级选择-100级": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    169,
+                    129,
+                    68,
+                    205
+                ],
+                "expected": [
+                    "100"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "next": [
+            "魔之锲·驱离-开始挑战"
+        ]
+    },
+    "魔之锲·驱离-开始挑战": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "开始挑战"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        }
+    },
+    "魔之锲·驱离-不选书": {
+        "focus": {
+            "Node.Action.Succeeded": "你没有选择加成书"
+        },
+        "next": [
+            "魔之锲·驱离-选书-开始挑战"
+        ]
+    },
+    "魔之锲·驱离-选绿书": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    281,
+                    230,
+                    730,
+                    199
+                ],
+                "template": [
+                    "加成书/绿书.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    443,
+                    395,
+                    107,
+                    23
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "focus": {
+            "Node.Action.Succeeded": "你选择了使用绿色加成书"
+        },
+        "next": [
+            "魔之锲·驱离-选书-开始挑战"
+        ]
+    },
+    "魔之锲·驱离-选蓝书": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    281,
+                    230,
+                    730,
+                    199
+                ],
+                "template": [
+                    "加成书/蓝书.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    584,
+                    393,
+                    112,
+                    25
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "focus": {
+            "Node.Action.Succeeded": "你选择了使用蓝色加成书"
+        },
+        "next": [
+            "魔之锲·驱离-选书-开始挑战"
+        ]
+    },
+    "魔之锲·驱离-选紫书": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    281,
+                    230,
+                    730,
+                    199
+                ],
+                "template": [
+                    "加成书/紫书.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    755,
+                    393,
+                    58,
+                    24
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "focus": {
+            "Node.Action.Succeeded": "你选择使用紫色加成书"
+        },
+        "next": [
+            "魔之锲·驱离-选书-开始挑战"
+        ]
+    },
+    "魔之锲·驱离-选金书": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    281,
+                    230,
+                    730,
+                    199
+                ],
+                "template": [
+                    "加成书/金书.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    755,
+                    393,
+                    58,
+                    24
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "focus": {
+            "Node.Action.Succeeded": "你选择了使用金色加成书"
+        },
+        "next": [
+            "魔之锲·驱离-选书-开始挑战"
+        ]
+    },
+    "魔之锲·驱离-选书-开始挑战": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    635,
+                    470,
+                    296,
+                    58
+                ],
+                "expected": [
+                    "开始挑战"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "next": [
+            "魔之锲·驱离-加载等待节点1"
+        ]
+    },
+    "魔之锲·驱离-加载等待节点1": {
+        "post_delay": 1500,
+        "next": [
+            "魔之锲·驱离-加载等待节点2"
+        ]
+    },
+    "魔之锲·驱离-检测是否在战斗中": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    15,
+                    251,
+                    190,
+                    32
+                ],
+                "expected": [
+                    "驱离所有敌人"
+                ]
+            }
+        }
+    },
+    "魔之锲·驱离-复位-点击退出门": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "复位/副本内退出.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "post_delay": 500,
+        "focus": "开始复位喵~",
+        "next": [
+            "魔之锲·驱离-复位-设置"
+        ]
+    },
+    "魔之锲·驱离-复位-设置": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    889,
+                    615,
+                    109,
+                    74
+                ],
+                "expected": [
+                    "设置"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "post_delay": 500,
+        "next": [
+            "魔之锲·驱离-复位-点击其他设置"
+        ]
+    },
+    "魔之锲·驱离-复位-点击其他设置": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    "复位/其他设置.png"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "post_delay": 500,
+        "next": [
+            "魔之锲·驱离-复位-复位角色"
+        ]
+    },
+    "魔之锲·驱离-复位-复位角色": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    998,
+                    276,
+                    213,
+                    33
+                ],
+                "expected": [
+                    "复位角色"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "post_delay": 500,
+        "next": [
+            "魔之锲·驱离-复位-确认复位"
+        ]
+    },
+    "魔之锲·驱离-复位-确认复位": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    638,
+                    384,
+                    305,
+                    56
+                ],
+                "expected": [
+                    "确定"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        },
+        "post_delay": 1000,
+        "focus": {
+            "Node.Action.Succeeded": "复位完成喵~"
+        },
+        "next": [
+            "魔之锲·驱离-水母e技能"
+        ]
+    },
+    "魔之锲·驱离-水母e技能": {
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    864,
+                    626,
+                    46,
+                    37
+                ]
+            }
+        },
+        "next": [
+            "魔之锲·驱离-战斗挂机延迟1"
+        ]
+    },
+    "魔之锲·驱离-战斗挂机延迟1": {
+        "post_delay": 3000,
+        "timeout": 100,
+        "next": [
+            "魔之锲·驱离-检测是否完成委托1"
+        ],
+        "on_error": [
+            "魔之锲·驱离-战斗挂机延迟2"
+        ]
+    },
+    "魔之锲·驱离-检测是否完成委托1": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "驱离所有敌人"
+                ]
+            }
+        },
+        "next": [
+            "魔之锲·驱离-战斗挂机延迟2"
+        ]
+    },
+    "魔之锲·驱离-战斗挂机延迟2": {
+        "post_delay": 3000,
+        "timeout": 100,
+        "next": [
+            "魔之锲·驱离-检测是否完成委托2"
+        ],
+        "on_error": [
+            "魔之锲·驱离-水母e技能"
+        ]
+    },
+    "魔之锲·驱离-检测是否完成委托2": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "委托完成"
+                ]
+            }
+        },
+        "next": [
+            "魔之锲·驱离-挑战次数"
+        ]
+    },
+    "魔之锲·驱离-加载等待节点2": {
+        "post_delay": 1500,
+        "timeout": 500,
+        "next": [
+            "魔之锲·驱离-检测是否在战斗中"
+        ],
+        "on_error": [
+            "魔之锲·驱离-加载等待节点1"
+        ]
+    },
+    "魔之锲·驱离-再次进行": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    789,
+                    647,
+                    233,
+                    52
+                ],
+                "expected": [
+                    "再次进行"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {}
+        }
+    },
+    "魔之锲·驱离-挑战次数": {
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "Count",
+                "custom_action_param": {
+                    "count": 0,
+                    "target_count": 0,
+                    "count_msg": "魔之锲·驱离已挑战完成[color:red]{count}[/color]次喵~"
+                }
+            }
+        },
+        "post_delay": 200,
+        "next": [
+            "魔之锲·驱离-再次进行"
+        ]
+    }
+}
