@@ -360,12 +360,7 @@
         "recognition": {
             "type": "OCR",
             "param": {
-                "roi": [
-                    998,
-                    276,
-                    213,
-                    33
-                ],
+                "roi": [924,83,345,606],
                 "expected": [
                     "复位角色"
                 ]
@@ -505,15 +500,13 @@
             "param": {
                 "custom_action": "Count",
                 "custom_action_param": {
-                    "count": 0,
-                    "target_count": 0,
+                    "count": 1,
+                    "target_count": 999999,
+                    "else_node": "魔之锲·驱离-再次进行",
                     "count_msg": "魔之锲·驱离已挑战完成[color:red]{count}[/color]次喵~"
                 }
             }
         },
-        "post_delay": 200,
-        "next": [
-            "魔之锲·驱离-再次进行"
-        ]
+        "post_delay": 200
     }
 }
