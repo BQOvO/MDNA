@@ -2,7 +2,7 @@ from maa.context import Context
 from maa.custom_recognition import CustomRecognition
 from numpy import ndarray
 import json
-from ..utils.logger import logger
+from ..utils.Logger import Logger
 
 
 class CheckResolution(CustomRecognition):
