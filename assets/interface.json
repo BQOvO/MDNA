@@ -8,14 +8,14 @@
         ]
     },
     "name": "MDNA",
-    "title": "二重螺旋小助手 Oᴗoಣ 旅途愉快~ | 版本号:1.1.13 | 如果出现了bug,请在群里或github的issue中上传日志",
+    "title": "二重螺旋小助手 Oᴗoಣ 旅途愉快~ | 版本号:1.1.14 | 如果出现了bug,请在群里或github的issue中上传日志",
     "description": "使用前请将模拟器分辨率设置为16：9哦~~",
     "icon": "./resource/image/logo.ico",
     "contact": "QQ群:1002051753",
     "license": "MIT",
     "welcome": "首次使用！欢迎使用 MDNA!",
     "github": "https://github.com/BQOvO/MDNA",
-    "version": "1.1.13",
+    "version": "1.1.14",
     // Mirror酱为第三方分发服务，新项目默认关闭
     // 若有需要请联系 Mirror酱 开通，直接自行开启是无法使用的
     // "mirrorchyan_rid": "MaaXXX",
