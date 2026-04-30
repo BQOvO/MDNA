@@ -239,7 +239,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: MDNA-${{ matrix.os }}-${{ matrix.arch }}
+          name: MDNA-${{ matrix.os }}-${{ matrix.arch }}-MFAA
           path: "install"
 
   changelog:
