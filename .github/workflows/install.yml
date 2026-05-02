@@ -195,7 +195,7 @@ jobs:
           TARGET_OS: ${{ matrix.os }}
         run: |
           python -m pip install json-with-comments
-          python ./tools/install.py ${{ needs.meta.outputs.tag }}
+          python ./tools/install.py ${{ needs.meta.outputs.tag }} ${{ matrix.os }} ${{ matrix.arch }}
 
           if [[ "${{ matrix.os }}" != "android" ]]; then
             if [ -d "MFA" ]; then
