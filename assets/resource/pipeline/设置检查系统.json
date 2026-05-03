@@ -1,0 +1,150 @@
+{
+   "检查设置-启动节点":{
+      "recognition": "DirectHit",
+      "action": "DoNothing",
+      "focus": {
+         "Node.Recognition.Succeeded": {
+            "content": "[color:green]让可爱的小菲比帮忙检测一下你的分辨率吧~[/color]",
+            "display": ["log"]
+        }
+      },
+      "timeout":1000,
+      "on_error": ["检查设置-检查分辨率-分辨率错误"],
+      "post_delay": 1500,
+      "next": ["检查设置-检查分辨率"]
+   },
+   "检查设置-检查分辨率":{
+      "recognition": "Custom",
+      "custom_recognition":"CheckResolution_16_9",
+      "action":"DoNothing",
+      "on_error": ["检查设置-检查分辨率-分辨率错误"],
+      "focus":{
+         "Node.Action.Succeeded": {
+            "content": "[color:green]真棒！分辨率对了呢~[/color]",
+            "display": ["log"]
+        }
+      },
+      "post_delay": 1000,
+      "next": ["检查设置-打开玩家主页"]
+   },
+   "检查设置-检查分辨率-分辨率错误":{
+      "recognition": "DirectHit",
+      "action": "DoNothing",
+      "focus": {
+        "Node.Recognition.Succeeded": {
+         "content": "MDNA只支持在16：9分辨率下运行哦~~~，推荐1600*900",
+         "display":["toast"]
+        },
+        "Node.Action.Succeeded": {
+         "content": "[color:red]MDNA只支持在16：9分辨率下运行哦~~~，推荐1600*900[/color]",
+         "display":["log"]
+        }
+      }
+   },
+   "检查设置-打开玩家主页":{
+      "recognition": "TemplateMatch",
+      "action": "Click",
+      "template": ["玩家主页.png"],
+      "focus": {
+         "Node.Recognition.Succeeded": {
+            "content": ">现在开始更改设置喵~",
+            "display": ["log"]
+         }
+      },
+      "post_delay": 1500,
+      "next": ["检查设置-点击设置"]
+   },
+   "检查设置-点击设置":{
+      "recognition": "TemplateMatch",
+      "action": "Click",
+      "template": ["设置.png"],
+      "focus": {
+         "Node.Recognition.Succeeded": {
+            "content": ">打开设置界面喵~",
+            "display": ["log"]
+         }
+      },
+      "post_delay": 1500,
+      "next": ["检查设置-点击布局2"]
+   },
+   "检查设置-点击布局2":{
+      "recognition": "DirectHit",
+      "action": "Click",
+      "target":[443,101,143,56],
+      "focus": {
+         "Node.Recognition.Succeeded": {
+            "content": ">将按键布局设置为默认布局2喵~",
+            "display": ["log"]
+         }
+      },
+      "post_delay": 1500,
+      "next": ["检查设置-点击画面设置"]
+   },
+   "检查设置-点击画面设置":{
+      "recognition": "TemplateMatch",
+      "action": "Click",
+      "template": ["画面设置.png"],
+      "focus": {
+         "Node.Recognition.Succeeded": {
+            "content": ">打开画面设置界面喵~",
+            "display": ["log"]
+         }
+      },
+      "post_delay": 1500,
+      "next": ["检查设置-调整品质预设1"]
+   },
+   "检查设置-调整品质预设1":{
+      "recognition": "DirectHit",
+      "action": "Click",
+      "target":[528,81,40,12],
+      "post_delay": 1500,
+      "next": ["检查设置-调整品质预设2"]
+   },
+   "检查设置-调整品质预设2":{
+      "recognition": "OCR",
+      "action": "Click",
+      "roi": [454,97,75,156],
+      "expected": ["极低"],
+      "focus": {
+         "Node.Recognition.Succeeded": {
+            "content": ">将品质预设改为极低喵~",
+            "display": ["log"]
+         }
+      },
+      "post_delay": 1500,
+      "next": ["检查设置-界面往下滑"]
+   },
+   "检查设置-界面往下滑":{
+      "recognition": "DirectHit",
+      "action": "Swipe",
+      "begin":[285,301,9,4],
+      "end": [280,87,9,3],
+      "repeat": 2,
+      "focus": {
+         "Node.Action.Succeeded": {
+            "content": ">正在寻找人群密度喵~",
+            "display": ["log"]
+         }
+      },
+      "post_delay": 1500,
+      "next": ["检查设置-调整人物密度1"]
+   },
+   "检查设置-调整人物密度1":{
+      "recognition": "DirectHit",
+      "action": "Click",
+      "target":[534,111,28,14],
+      "post_delay": 1500,
+      "next": ["检查设置-调整人物密度2"]
+   },
+   "检查设置-调整人物密度2":{
+      "recognition": "OCR",
+      "action": "Click",
+      "expected": ["极高"],
+      "focus": {
+         "Node.Recognition.Succeeded": {
+            "content": ">将人物密度改为极高喵~",
+            "display": ["log"]
+         }
+       }
+   }
+}
