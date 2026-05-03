@@ -21,7 +21,7 @@
         {
             "name": "模拟器",
             "type": "Adb",
-            "display_short_side": 360 // 默认缩放分辨率的短边长度
+            "display_short_side": 720
         }
     ],
     "resource": [
