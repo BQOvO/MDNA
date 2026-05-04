@@ -1,4 +1,5 @@
 from maa.agent.agent_server import AgentServer
+from agent.custom.action.MacroPlayer import MacroPlayer
 from agent.custom.action.Count import Count
 #from agent.custom.action.OverridePipe import OverridePipe
 #from agent.custom.action.IDFRole import RecognitionRole
@@ -61,6 +62,12 @@ class CheckResolution_Cls(CheckResolution):
 
 @AgentServer.custom_recognition("CheckResolution_16_9")
 class CheckResolution_Cls(CheckResolution16_9):
+    def __init__(self):
+        super().__init__()
+        print(f"{self.__class__.__name__} 初始化")
+
+@AgentServer.custom_action("MacroPlayer")     # 注册名
+class MacroPlayer_Cls(MacroPlayer):
     def __init__(self):
         super().__init__()
         print(f"{self.__class__.__name__} 初始化")
