@@ -21,6 +21,7 @@ class Count(CustomAction):
                 "else_node_msg": "未达到目标次数，执行备用节点 {else_node}",
                 "count_msg": "当前次数: {count}, 目标次数: {target_count}"
             }
+        target_count 为 0 时表示无限刷，永远不会执行 next_node，只重复执行 else_node。
         count: 当前次数
         target_count: 目标次数
         next_node: 达到目标次数后执行的节点. 支持多个节点，按顺序执行，可以出现重复节点，可以为空
@@ -44,12 +45,35 @@ class Count(CustomAction):
             f"Count: current_count: {current_count}, target_count: {target_count}, next_node_msg: {next_node_msg}, else_node_msg: {else_node_msg}, count_msg: {count_msg}"
         )
 
-        if current_count <= target_count:
+        # ========== 新增：无限刷逻辑 ==========
+        if target_count == 0:
+            # 无限循环，始终执行 else_node，不计较次数
+            new_count = current_count + 1
+            argv_dict["count"] = new_count
+            if count_msg:
+                logger.ui(
+                    count_msg.format(count=new_count - 1, target_count=target_count),
+                )
+            # 保存更新后的参数
+            context.override_pipeline(
+                {argv.node_name: {"custom_action_param": argv_dict}}
+            )
+            else_nodes = argv_dict.get("else_node")
+            if else_node_msg and else_nodes:
+                node_str = (
+                    else_nodes if isinstance(else_nodes, str) else ", ".join(else_nodes)
+                )
+                logger.ui(else_node_msg.format(else_node=node_str))
+            self._run_nodes(context, else_nodes)
+            return CustomAction.RunResult(success=True)
+
+        # 正常有限次数的逻辑（原逻辑，但修正条件为 < 而非 <=）
+        if current_count < target_count:
             # 计数未达标时：递增计数并执行备用节点
             new_count = current_count + 1
             argv_dict["count"] = new_count
 
-            # 输出计数提示（使用更新后的计数）
+            # 输出计数提示（使用更新前的计数）
             if count_msg:
                 logger.ui(
                     count_msg.format(count=new_count - 1, target_count=target_count),
@@ -101,7 +125,6 @@ class Count(CustomAction):
         """统一处理节点执行逻辑"""
         if not nodes:
             return
-        # 确保节点列表为列表类型
         if isinstance(nodes, str):
             nodes = [nodes]
         for node in nodes:
