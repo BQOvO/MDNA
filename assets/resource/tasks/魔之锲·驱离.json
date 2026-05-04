@@ -16,7 +16,7 @@
             "cases": [
                 {
                     "name":"不加成",
-                    "icon":"加成书/不加成.png",
+                    "icon":"./resource/image/加成书/不加成.png",
                     "pipeline_override": {
                         "魔之锲·驱离-开始挑战":{
                             "next":"魔之锲·驱离-不选书"
@@ -28,7 +28,7 @@
                 },
                 {
                     "name":"绿书（1倍）",
-                    "icon":"加成书/绿书.png",
+                    "icon":"./resource/image/加成书/绿书.png",
                     "pipeline_override": {
                         "魔之锲·驱离-开始挑战":{
                             "next":"魔之锲·驱离-选绿书"
@@ -40,7 +40,7 @@
                 },
                 {
                     "name":"蓝书（2倍）",
-                    "icon":"加成书/蓝书.png",
+                    "icon":"./resource/image/加成书/蓝书.png",
                     "pipeline_override": {
                         "魔之锲·驱离-开始挑战":{
                             "next":"魔之锲·驱离-选蓝书"
@@ -52,7 +52,7 @@
                 },
                 {
                     "name":"紫书（8倍）",
-                    "icon":"加成书/紫书.png",
+                    "icon":"./resource/image/加成书/紫书.png",
                     "pipeline_override": {
                         "魔之锲·驱离-开始挑战":{
                             "next":"魔之锲·驱离-选紫书"
@@ -64,7 +64,7 @@
                 },
                 {
                     "name":"金书（20倍）",
-                    "icon":"加成书/金书.png",
+                    "icon":"./resource/image/加成书/金书.png",
                     "pipeline_override": {
                         "魔之锲·驱离-开始挑战":{
                             "next":"魔之锲·驱离-选金书"
