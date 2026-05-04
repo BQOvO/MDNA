@@ -34,7 +34,6 @@
     ],
     "import": [
         "resource/tasks/设置检查系统.json",
-        "resource/tasks/界面导航系统.json",
         "resource/tasks/魔之锲·驱离.json"
     ],
     "task": [],
