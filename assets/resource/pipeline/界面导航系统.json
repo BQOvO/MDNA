@@ -1,10 +1,995 @@
 {
+    "界面导航系统-活动界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "活动"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-迷津界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "迷津"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-迷津难度选择界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "难度选择"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "next": [
+            "界面导航系统-迷津界面"
+        ]
+    },
+    "界面导航系统-吟游诗集界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "吟游诗集"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-万华界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "万华"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-历练界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "历练"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "界面导航系统-打开委托界面"
+        ]
+    },
+    "界面导航系统-角色界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "整备"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-教学界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "教学"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-任务界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "任务"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-推理列表界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "推理列表"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    457,
+                    6,
+                    30,
+                    29
+                ]
+            }
+        },
+        "next": [
+            "界面导航系统-推理界面"
+        ]
+    },
+    "界面导航系统-推理界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "推理"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-背包界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "背包"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-成就": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "成就"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-好友界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "好友"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-载具界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "载具"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-声名界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "声名"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-扬名界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "扬名"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "next": [
+            "界面导航系统-声名界面"
+        ]
+    },
+    "界面导航系统-回馈界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "回馈"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "next": [
+            "界面导航系统-声名界面"
+        ]
+    },
+    "界面导航系统-百科选择界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    89,
+                    12,
+                    175,
+                    39
+                ],
+                "expected": [
+                    "阿特拉西亚百科"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-百科界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "百科"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        },
+        "next": [
+            "界面导航系统-百科选择界面"
+        ]
+    },
+    "界面导航系统-委托密函界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "委托密函"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-陈列室": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "陈列室"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-陈列室-远程武器": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "远程武器"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "next": [
+            "界面导航系统-陈列室"
+        ]
+    },
+    "界面导航系统-陈列室-近战武器": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "近战武器"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "next": [
+            "界面导航系统-陈列室"
+        ]
+    },
+    "界面导航系统-陈列室-角色": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "角色"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "next": [
+            "界面导航系统-陈列室"
+        ]
+    },
+    "界面导航系统-陈列室-读物": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "读物"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "next": [
+            "界面导航系统-陈列室"
+        ]
+    },
+    "界面导航系统-陈列室-物件": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "物件"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "next": [
+            "界面导航系统-陈列室"
+        ]
+    },
+    "界面导航系统-陈列室-敌人": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "敌人"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        },
+        "post_delay": 1000,
+        "next": [
+            "界面导航系统-陈列室"
+        ]
+    },
+    "界面导航系统-历练等级界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "历练等级"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-邮箱界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "邮箱"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-晨昏界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "晨昏"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-设置界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "设置"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-数据统计": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "数据统计"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        },
+        "next": [
+            "界面导航系统-个人主页"
+        ]
+    },
+    "界面导航系统-个人主页": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "个人主页"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        }
+    },
+    "界面导航系统-狩月人排名界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    84,
+                    10,
+                    149,
+                    47
+                ],
+                "expected": [
+                    "历史排名"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": [
+                    26,
+                    20,
+                    44,
+                    28
+                ]
+            }
+        },
+        "next": [
+            "界面导航系统-数据统计"
+        ]
+    },
     "界面导航系统-历练": {
         "recognition": {
             "type": "TemplateMatch",
             "param": {
                 "template": [
                     "历练.png"
+                ],
+                "threshold": [
+                    0.5
                 ]
             }
         },
@@ -26,48 +1011,162 @@
         },
         "next": [
             {
-                "name": "界面导航系统-委托结算界面退出",
+                "name": "界面导航系统-迷津界面",
                 "jump_back": true
             },
             {
-                "name": "界面导航系统-窗口关闭按钮",
+                "name": "界面导航系统-迷津难度选择界面",
                 "jump_back": true
             },
             {
-                "name": "界面导航系统-红色退出",
+                "name": "界面导航系统-活动界面",
                 "jump_back": true
             },
             {
-                "name": "界面导航系统-玩家主页",
+                "name": "界面导航系统-吟游诗集界面",
                 "jump_back": true
             },
+            {
+                "name": "界面导航系统-万华界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-角色界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-教学界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-任务界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-推理界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-推理列表界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-背包界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-成就",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-好友界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-载具界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-声名界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-扬名界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-回馈界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-百科界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-百科选择界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-委托密函界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-陈列室-远程武器",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-陈列室-近战武器",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-陈列室-角色",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-陈列室-读物",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-陈列室-物件",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-陈列室-敌人",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-陈列室",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-历练等级界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-邮箱界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-晨昏界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-设置界面",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-数据统计",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-个人主页",
+                "jump_back": true
+            },
+            {
+                "name": "界面导航系统-狩月人排名界面",
+                "jump_back": true
+            },
+            "界面导航系统-历练界面",
+            "界面导航系统-玩家主页",
             "界面导航系统-历练"
         ]
     },
-    "界面导航系统-固定延迟1": {
+    "界面导航系统-打开委托界面": {
         "recognition": {
-            "type": "DirectHit"
-        },
-        "action": {
-            "type": "DoNothing"
-        },
-        "post_delay": 6000
-    },
-    "界面导航系统-委托结算界面退出": {
-        "recognition": {
-            "type": "OCR",
+            "type": "TemplateMatch",
             "param": {
-                "expected": [
-                    "退出委托"
+                "template": [
+                    "历练委托.png"
+                ],
+                "threshold": [
+                    0.9
                 ]
             }
         },
+        "pre_delay": 2000,
         "action": {
             "type": "Click"
-        },
-        "next": [
-            "界面导航系统-固定延迟1"
-        ]
+        }
     },
     "界面导航系统-玩家主页": {
         "recognition": {
@@ -81,49 +1180,9 @@
         "action": {
             "type": "Click"
         },
+        "post_delay": 1000,
         "next": [
             "界面导航系统-历练"
         ]
-    },
-    "界面导航系统-窗口关闭按钮": {
-        "recognition": {
-            "type": "TemplateMatch",
-            "param": {
-                "template": [
-                    "窗口叉叉.png"
-                ]
-            }
-        },
-        "pre_delay": 1000,
-        "action": {
-            "type": "Click"
-        }
-    },
-    "界面导航系统-红色退出": {
-        "recognition": {
-            "type": "TemplateMatch",
-            "param": {
-                "template": [
-                    "红色退出.png"
-                ]
-            }
-        },
-        "pre_delay": 1000,
-        "action": {
-            "type": "Click"
-        }
-    },
-    "界面导航系统-打开委托界面": {
-        "recognition": {
-            "type": "TemplateMatch",
-            "param": {
-                "template": [
-                    "历练委托.png"
-                ]
-            }
-        },
-        "action": {
-            "type": "Click"
-        }
     }
 }
