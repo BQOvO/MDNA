@@ -192,7 +192,7 @@
         "action": {
             "type": "DoNothing"
         },
-        "post_delay": 5000,
+        "post_delay": 3000,
         "next": [
             "魔之锲·驱离-检测是否完成委托"
         ]
@@ -252,24 +252,27 @@
             "param": {
                 "custom_action": "Looper",
                 "custom_action_param": {
-                    "count": 1,
+                    "count": 3,
                     "nodes": [
                         "魔之锲·驱离-检测是否在战斗",
                         "魔之锲·驱离-战斗挂机延迟",
                         "魔之锲·驱离-是否在等待中完成了委托"
-                    ]
+                    ],
+                    "reset_nodes": "魔之锲·驱离-是否在等待中完成了委托"
                 }
             }
         },
+        "timeout": 10000,
         "next": [
-            "魔之锲·驱离-水母e技能"
+            "魔之锲·驱离-循环后-是否在等待中完成了委托",
+            "魔之锲·驱离-循环后-检测是否在战斗"
         ]
     },
     "魔之锲·驱离-战斗挂机延迟": {
         "recognition": {
             "type": "DirectHit"
         },
-        "pre_delay": 1000,
+        "pre_delay": 100,
         "action": {
             "type": "DoNothing"
         }
@@ -307,10 +310,7 @@
         "action": {
             "type": "DoNothing"
         },
-        "timeout": 200,
-        "next": [
-            "魔之锲·驱离-完成委托-等待皎皎结束语"
-        ]
+        "timeout": 100
     },
     "魔之锲·驱离-检测是否在战斗": {
         "recognition": {
@@ -324,7 +324,7 @@
         "action": {
             "type": "DoNothing"
         },
-        "timeout": 200
+        "timeout": 100
     },
     "魔之锲·驱离-检测是否完成委托": {
         "recognition": {
@@ -672,6 +672,38 @@
         },
         "next": [
             "魔之锲·驱离-选书-开始挑战"
+        ]
+    },
+    "魔之锲·驱离-循环后-是否在等待中完成了委托": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "委托完成"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "魔之锲·驱离-完成委托-等待皎皎结束语"
+        ]
+    },
+    "魔之锲·驱离-循环后-检测是否在战斗": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "驱离所有敌人"
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "魔之锲·驱离-水母e技能"
         ]
     }
 }

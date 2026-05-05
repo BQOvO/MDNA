@@ -3,12 +3,20 @@ import time
 from maa.context import Context
 from maa.custom_action import CustomAction
 
-# MaaStatus 常量（根据 MaaDef.h 定义）
-MaaStatus_Succeeded = 3000
-MaaStatus_Timeout = 5000   # 等待超时返回的状态（如果 binding 支持）
-
-
 class Looper(CustomAction):
+    """
+    循环执行一组节点，持续指定时间（秒），支持中断重置。
+
+    参数：
+        count: int                  # 循环持续时间（秒），例如 6 表示循环 6 秒
+        nodes: list[str]            # 要循环的节点列表（按顺序无限循环）
+        reset_nodes: list[str]      # 中断节点，成功时立即结束循环并执行 Looper 的 next
+
+    行为：
+        - 顺序执行 nodes 中的节点，无论成功失败都继续下一个（无限循环，循环列表直到时间用完）。
+        - 若某个节点成功且属于 reset_nodes，则立即返回成功，MAA 执行 Looper 的 next。
+        - 否则，持续循环直到总耗时达到 count 秒，然后返回成功，MAA 执行 Looper 的 next。
+    """
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
         try:
             param = json.loads(argv.custom_action_param) if argv.custom_action_param else {}
@@ -16,70 +24,38 @@ class Looper(CustomAction):
             print("[Looper] 参数 JSON 解析失败")
             return CustomAction.RunResult(success=False)
 
-        total_rounds = param.get("count", 1)
-        nodes = param.get("nodes", [])
-        retry_config = param.get("retry", {})
-        retry_default = param.get("retry_default", 1)
-        node_timeout_ms = param.get("node_timeout", 200)   # 默认 200ms
+        total_duration = param.get("count", 1)
+        try:
+            total_duration = float(total_duration)
+        except (ValueError, TypeError):
+            total_duration = 1.0
 
+        nodes = param.get("nodes", [])
         if not nodes:
             print("[Looper] 未指定 nodes 列表")
             return CustomAction.RunResult(success=False)
 
-        for round_idx in range(total_rounds):
-            print(f"[Looper] 开始第 {round_idx+1}/{total_rounds} 轮")
-            node_index = 0
-            fail_counts = {}
+        reset_nodes = param.get("reset_nodes", [])
 
-            while node_index < len(nodes):
-                node_name = nodes[node_index]
-                max_retry = retry_config.get(node_name, retry_default)
-                current_fail = fail_counts.get(node_name, 0)
+        start_time = time.monotonic()
+        node_index = 0
 
-                print(f"[Looper] 执行节点 {node_name} (超时={node_timeout_ms}ms)")
-                task_id = context.run_task(node_name)
+        while time.monotonic() - start_time < total_duration:
+            node_name = nodes[node_index]
+            print(f"[Looper] 执行节点: {node_name}")
+            task_detail = context.run_task(node_name)
+            success = task_detail.status.succeeded if task_detail else False
 
-                # 等待任务完成，带超时
-                timeout_sec = node_timeout_ms / 1000.0
-                # 注意：tasker.wait 返回值可能是状态码，也可能抛出异常；这里假设返回状态码
-                try:
-                    status = context.tasker.wait(task_id, timeout_sec)
-                except Exception as e:
-                    print(f"[Looper] 等待节点 {node_name} 时异常: {e}")
-                    status = MaaStatus_Timeout  # 视为超时
+            if success:
+                print(f"[Looper] {node_name} 成功")
+                if node_name in reset_nodes:
+                    print(f"[Looper] 命中重置节点 {node_name}，立即结束循环并执行 Looper 的 next")
+                    return CustomAction.RunResult(success=True)
+            else:
+                print(f"[Looper] {node_name} 失败，继续下一个节点")
 
-                success = (status == MaaStatus_Succeeded)
+            # 移动到下一个节点（循环列表）
+            node_index = (node_index + 1) % len(nodes)
 
-                if not success:
-                    current_fail += 1
-                    fail_counts[node_name] = current_fail
-                    print(f"[Looper] 节点 {node_name} 失败/超时，当前失败次数 {current_fail}/{max_retry}")
-                    if current_fail < max_retry:
-                        # 重试同一节点，不移动索引
-                        continue
-                    else:
-                        print(f"[Looper] 节点 {node_name} 失败次数达到上限，跳过")
-                        node_index += 1
-                        continue
-                else:
-                    print(f"[Looper] 节点 {node_name} 执行成功")
-                    # 检查是否需要重置循环索引（若该节点有 next 字段，则重置）
-                    should_reset = False
-                    node_data_json = context.tasker.resource.get_node_data(node_name)
-                    if node_data_json:
-                        try:
-                            node_data = json.loads(node_data_json)
-                            next_field = node_data.get("next")
-                            if next_field and isinstance(next_field, list) and len(next_field) > 0:
-                                should_reset = True
-                                print(f"[Looper] 节点 {node_name} 有 next -> 重置循环索引")
-                        except json.JSONDecodeError:
-                            pass
-                    if should_reset:
-                        node_index = 0
-                        fail_counts = {}
-                    else:
-                        node_index += 1
-
-        print("[Looper] 所有循环完成")
+        print(f"[Looper] 持续 {total_duration} 秒时间到，结束循环")
         return CustomAction.RunResult(success=True)
