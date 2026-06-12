@@ -1,0 +1,74 @@
+{
+    "夜航-30-1": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "残火暴徒秽兽"
+                ]
+            }
+        },
+        "pre_delay": 0,
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "VoyageClick"
+            }
+        },
+        "post_delay": 0
+    },
+    "夜航-30-2": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "霹雳疾冲秽兽"
+                ]
+            }
+        },
+        "pre_delay": 0,
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "VoyageClick"
+            }
+        },
+        "post_delay": 0
+    },
+    "夜航-30-3": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "枯萎游击秽兽"
+                ]
+            }
+        },
+        "pre_delay": 0,
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "VoyageClick"
+            }
+        },
+        "post_delay": 0
+    },
+    "夜航-30-4": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": [
+                    "凛霜疾冲秽兽"
+                ]
+            }
+        },
+        "pre_delay": 0,
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "VoyageClick"
+            }
+        },
+        "post_delay": 0
+    }
+}

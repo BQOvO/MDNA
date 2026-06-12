@@ -1,0 +1,236 @@
+{
+    "夜航-75-1": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "掠影蒙恩的神甫"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-75-10": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "侵蚀芳烬秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-75-11": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "侵蚀萼蚀秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-75-12": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "复仇魁蕊秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-75-13": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "爆破失序的应天侍"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-75-2": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "侵蚀疾冲秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-75-3": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "侵蚀暴徒秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-75-4": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "浴血失序的应天侍"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-75-5": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "霜狱失序的应天侍"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-75-6": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "侵蚀魁蕊秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-75-7": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "侵蚀失序的应天侍"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-75-8": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "复仇芳烬秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-75-9": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "猩红萼蚀秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    }
+}

@@ -1,0 +1,110 @@
+{
+    "夜航-55-1": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "舍身蒙恩的神甫"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-55-2": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "爆破蒙恩的先锋"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-55-3": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "猩红蒙恩的执事"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-55-4": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "枯萎蒙恩的神甫"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-55-5": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "残火蒙恩的先锋"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-55-6": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "舍身蒙恩的执事"
+                ]
+            },
+            "type": "OCR"
+        }
+    }
+}

@@ -1,0 +1,254 @@
+{
+    "夜航-60-1": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "残火钢拳铁卫"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-60-10": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "复仇劈斩列兵"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-60-11": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "枯萎远征列兵"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-60-12": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "残火突击列兵"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-60-13": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "凛霜警戒机"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-60-14": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "转雷佩剑炼金术师"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-60-2": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "枯萎红衫铁卫"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-60-3": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "爆破魁蕊秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-60-4": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "转雷萼蚀秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-60-5": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "舍身芳烬秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-60-6": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "掠影失序的应天传"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-60-7": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "霹雳魁蕊秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-60-8": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "舍身萼蚀秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-60-9": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "猩红狙击列兵"
+                ]
+            },
+            "type": "OCR"
+        }
+    }
+}

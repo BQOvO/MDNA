@@ -1,0 +1,146 @@
+{
+    "夜航-70-1": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "霹雳钢拳铁卫"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-70-2": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "凛霜失序的应天侍"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-70-3": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "残火帝皇之仁"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-70-4": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "浴血精锐士官"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-70-5": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "掠影狙击列兵"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-70-6": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "霜狱劈斩列兵"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-70-7": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "转雷远征列兵"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-70-8": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "守护突击列兵"
+                ]
+            },
+            "type": "OCR"
+        }
+    }
+}

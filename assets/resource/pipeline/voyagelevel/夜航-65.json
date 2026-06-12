@@ -1,0 +1,164 @@
+{
+    "夜航-65-1": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "霜狱野蜂暗箭"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-65-2": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "浴血野蜂利刃"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-65-3": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "浴血野蜂密探"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-65-4": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "掠影野蜂暗箭"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-65-5": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "守护野蜂利刃"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-65-6": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "转雷野蜂密探"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-65-7": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "浴血野蜂暗箭"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-65-8": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "掠影野蜂利刃"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-65-9": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "霜狱野蜂密探"
+                ]
+            },
+            "type": "OCR"
+        }
+    }
+}

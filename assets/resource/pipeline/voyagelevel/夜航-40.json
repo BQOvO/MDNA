@@ -1,0 +1,92 @@
+{
+    "夜航-40-1": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "凛霜游击秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-40-2": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "复仇飘浮秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-40-3": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "掠影灼心秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-40-4": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "霹雳暴徒秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "夜航-40-5": {
+        "action": {
+            "param": {
+                "custom_action": "VoyageClick"
+            },
+            "type": "Custom"
+        },
+        "post_delay": 0,
+        "pre_delay": 0,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "复仇疾冲秽兽"
+                ]
+            },
+            "type": "OCR"
+        }
+    }
+}

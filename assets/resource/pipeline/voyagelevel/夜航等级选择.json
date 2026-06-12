@@ -1,0 +1,232 @@
+{
+    "夜航-80": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    416,
+                    118,
+                    73,
+                    508
+                ],
+                "expected": [
+                    "80"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        }
+    },
+    "夜航-75": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    416,
+                    118,
+                    73,
+                    508
+                ],
+                "expected": [
+                    "75"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        }
+    },
+    "夜航-70": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    416,
+                    118,
+                    73,
+                    508
+                ],
+                "expected": [
+                    "70"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        }
+    },
+    "夜航-20": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    416,
+                    118,
+                    73,
+                    508
+                ],
+                "expected": [
+                    "20"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        }
+    },
+    "夜航-30": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    416,
+                    118,
+                    73,
+                    508
+                ],
+                "expected": [
+                    "30"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        }
+    },
+    "夜航-40": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    416,
+                    118,
+                    73,
+                    508
+                ],
+                "expected": [
+                    "40"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        }
+    },
+    "夜航-50": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    416,
+                    118,
+                    73,
+                    508
+                ],
+                "expected": [
+                    "50"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        }
+    },
+    "夜航-55": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    416,
+                    118,
+                    73,
+                    508
+                ],
+                "expected": [
+                    "55"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        }
+    },
+    "夜航-60": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    416,
+                    118,
+                    73,
+                    508
+                ],
+                "expected": [
+                    "60"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        }
+    },
+    "夜航-65": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    416,
+                    118,
+                    73,
+                    508
+                ],
+                "expected": [
+                    "65"
+                ]
+            }
+        },
+        "action": {
+            "type": "Click"
+        }
+    },
+    "夜航-等级条上滑动": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Swipe",
+            "param": {
+                "begin": [
+                    450,
+                    175
+                ],
+                "end": [
+                    [
+                        450,
+                        575
+                    ]
+                ]
+            }
+        }
+    },
+    "夜航-等级条下滑动": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Swipe",
+            "param": {
+                "begin": [
+                    450,
+                    575
+                ],
+                "end": [
+                    [
+                        450,
+                        175
+                    ]
+                ]
+            }
+        }
+    }
+}
