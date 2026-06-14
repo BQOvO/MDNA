@@ -1,0 +1,130 @@
+{
+    "夜航-20": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            440,
+            162,
+            20,
+            21
+        ]
+    },
+    "夜航-30": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            441,
+            230,
+            20,
+            22
+        ]
+    },
+    "夜航-40": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            441,
+            297,
+            20,
+            21
+        ]
+    },
+    "夜航-50": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            440,
+            365,
+            19,
+            21
+        ]
+    },
+    "夜航-55": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            439,
+            431,
+            19,
+            21
+        ]
+    },
+    "夜航-60": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            441,
+            498,
+            19,
+            21
+        ]
+    },
+    "夜航-65": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            441,
+            565,
+            19,
+            21
+        ]
+    },
+    "夜航-70": {
+        "recognition": "DirectHit",
+        "roi": [
+            416,
+            118,
+            73,
+            508
+        ],
+        "action": "Click"
+    },
+    "夜航-75": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            441,
+            497,
+            19,
+            22
+        ]
+    },
+    "夜航-80": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            440,
+            564,
+            19,
+            22
+        ]
+    },
+    "夜航-等级条上滑动": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            450,
+            175
+        ],
+        "end": [
+            [
+                450,
+                575
+            ]
+        ]
+    },
+    "夜航-等级条下滑动": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            450,
+            575
+        ],
+        "end": [
+            [
+                450,
+                175
+            ]
+        ]
+    }
+}

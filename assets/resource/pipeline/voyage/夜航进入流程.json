@@ -1,0 +1,53 @@
+{
+    "夜航-点击历练": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            0,
+            0,
+            0,
+            0
+        ],
+        "post_delay": 2000,
+        "next": [
+            "夜航-点击历练委托"
+        ]
+    },
+    "夜航-点击历练委托": {
+        "recognition": "TemplateMatch",
+        "roi": [
+            22,
+            157,
+            59,
+            53
+        ],
+        "template": [
+            "历练委托.png"
+        ],
+        "method": 3,
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "夜航-点击夜航手册"
+        ]
+    },
+    "夜航-点击夜航手册": {
+        "recognition": "OCR",
+        "expected": [
+            "夜航手册"
+        ],
+        "action": "Click",
+        "post_delay": 500
+    },
+    "进入历练夜航界面流程": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "玩家主页.png"
+        ],
+        "action": "DoNothing",
+        "post_delay": 1500,
+        "next": [
+            "夜航-点击历练"
+        ]
+    }
+}

@@ -1,0 +1,88 @@
+{
+    "其他设置": {
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "复位角色"
+        ],
+        "post_delay": 1000,
+        "recognition": {
+            "param": {
+                "template": [
+                    "复位/其他设置.png"
+                ]
+            },
+            "type": "TemplateMatch"
+        }
+    },
+    "复位流程": {
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "退出界面的设置"
+        ],
+        "post_delay": 1000,
+        "recognition": {
+            "param": {
+                "roi": [
+                    16,
+                    8,
+                    53,
+                    57
+                ],
+                "template": [
+                    "复位/副本内退出.png"
+                ]
+            },
+            "type": "TemplateMatch"
+        }
+    },
+    "复位角色": {
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "确定"
+        ],
+        "recognition": {
+            "param": {
+                "expected": [
+                    "复位角色"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "确定": {
+        "action": {
+            "type": "Click"
+        },
+        "recognition": {
+            "param": {
+                "expected": [
+                    "确定"
+                ]
+            },
+            "type": "OCR"
+        }
+    },
+    "退出界面的设置": {
+        "action": {
+            "type": "Click"
+        },
+        "next": [
+            "其他设置"
+        ],
+        "post_delay": 1000,
+        "recognition": {
+            "param": {
+                "expected": [
+                    "设置"
+                ]
+            },
+            "type": "OCR"
+        }
+    }
+}

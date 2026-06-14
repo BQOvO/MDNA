@@ -1,0 +1,67 @@
+{
+    "不选书": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "加成书/不加成.png"
+        ],
+        "action": "Click",
+        "target": [
+            372,
+            392,
+            35,
+            27
+        ]
+    },
+    "绿书": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "加成书/绿书.png"
+        ],
+        "action": "Click",
+        "target": [
+            497,
+            394,
+            34,
+            27
+        ]
+    },
+    "蓝书": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "加成书/蓝书.png"
+        ],
+        "action": "Click",
+        "target": [
+            623,
+            393,
+            35,
+            27
+        ]
+    },
+    "紫书": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "加成书/紫书.png"
+        ],
+        "action": "Click",
+        "target": [
+            748,
+            391,
+            34,
+            28
+        ]
+    },
+    "金书": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "加成书/金书.png"
+        ],
+        "action": "Click",
+        "target": [
+            874,
+            393,
+            35,
+            27
+        ]
+    }
+}

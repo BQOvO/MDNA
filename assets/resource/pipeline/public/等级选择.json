@@ -1,0 +1,54 @@
+{
+    "等级选择100": {
+        "recognition": "OCR",
+        "roi": [
+            146,
+            130,
+            98,
+            420
+        ],
+        "expected": [
+            "100"
+        ],
+        "action": "Click"
+    },
+    "等级选择40": {
+        "recognition": "OCR",
+        "roi": [
+            146,
+            130,
+            98,
+            420
+        ],
+        "expected": [
+            "40"
+        ],
+        "action": "Click"
+    },
+    "等级选择60": {
+        "recognition": "OCR",
+        "roi": [
+            146,
+            130,
+            98,
+            420
+        ],
+        "expected": [
+            "60"
+        ],
+        "action": "Click"
+    },
+    "等级选择80": {
+        "recognition": "OCR",
+        "roi": [
+            146,
+            130,
+            98,
+            420
+        ],
+        "expected": [
+            "80"
+        ],
+        "action": "Click"
+    }
+}

@@ -1,0 +1,68 @@
+{
+    "再次进行": {
+        "recognition": "OCR",
+        "roi": [
+            764,
+            619,
+            508,
+            90
+        ],
+        "expected": [
+            "再次进行"
+        ],
+        "action": "Click"
+    },
+    "加载中": {
+        "recognition": "TemplateMatch",
+        "roi": [
+            1184,
+            632,
+            71,
+            61
+        ],
+        "template": [
+            "加载过程中百分号.png"
+        ],
+        "action": "DoNothing"
+    },
+    "开始挑战": {
+        "recognition": "OCR",
+        "expected": [
+            "开始挑战"
+        ],
+        "action": "Click"
+    },
+    "确认选择": {
+        "recognition": "OCR",
+        "roi": [
+            841,
+            578,
+            434,
+            132
+        ],
+        "expected": [
+            "确认选择"
+        ],
+        "action": "Click"
+    },
+    "退出委托": {
+        "recognition": "OCR",
+        "roi": [
+            764,
+            619,
+            508,
+            90
+        ],
+        "expected": [
+            "退出委托"
+        ],
+        "action": "Click"
+    },
+    "退出委托门": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "复位/副本内退出.png"
+        ],
+        "action": "Click"
+    }
+}
