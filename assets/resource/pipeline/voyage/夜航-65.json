@@ -1,0 +1,199 @@
+{
+    "夜航-65-1": {
+        "recognition": "OCR",
+        "expected": [
+            "霜狱野蜂暗箭"
+        ],
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
+    },
+    "夜航-65-2": {
+        "recognition": "OCR",
+        "expected": [
+            "浴血野蜂利刃"
+        ],
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
+    },
+    "夜航-65-3": {
+        "recognition": "OCR",
+        "expected": [
+            "浴血野蜂密探"
+        ],
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
+    },
+    "夜航-65-4": {
+        "recognition": "OCR",
+        "expected": [
+            "掠影野蜂暗箭"
+        ],
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
+    },
+    "夜航-65-5-2": {
+        "recognition": "OCR",
+        "expected": [
+            "守护野蜂利刃"
+        ],
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
+    },
+    "夜航-65-6-2": {
+        "recognition": "OCR",
+        "expected": [
+            "转雷野蜂密探"
+        ],
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
+    },
+    "夜航-65-7-2": {
+        "recognition": "OCR",
+        "expected": [
+            "浴血野蜂暗箭"
+        ],
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
+    },
+    "夜航-65-8-2": {
+        "recognition": "OCR",
+        "expected": [
+            "掠影野蜂利刃"
+        ],
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
+    },
+    "夜航-65-9-2": {
+        "recognition": "OCR",
+        "expected": [
+            "霜狱野蜂密探"
+        ],
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
+    },
+    "夜航-65-5": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            530,
+            500
+        ],
+        "end": [
+            [
+                530,
+                180
+            ]
+        ],
+        "duration": [
+            1500
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-65-5-2"
+        ]
+    },
+    "夜航-65-6": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            530,
+            500
+        ],
+        "end": [
+            [
+                530,
+                180
+            ]
+        ],
+        "duration": [
+            1500
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-65-6-2"
+        ]
+    },
+    "夜航-65-7": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            530,
+            500
+        ],
+        "end": [
+            [
+                530,
+                180
+            ]
+        ],
+        "duration": [
+            1500
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-65-7-2"
+        ]
+    },
+    "夜航-65-8": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            530,
+            500
+        ],
+        "end": [
+            [
+                530,
+                180
+            ]
+        ],
+        "duration": [
+            1500
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-65-8-2"
+        ]
+    },
+    "夜航-65-9": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            530,
+            500
+        ],
+        "end": [
+            [
+                530,
+                180
+            ]
+        ],
+        "duration": [
+            1500
+        ],
+        "repeat": 2,
+        "repeat_delay": 500,
+        "post_delay": 1000,
+        "next": [
+            "夜航-65-9-2"
+        ]
+    }
+}
