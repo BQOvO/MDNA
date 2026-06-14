@@ -14,27 +14,41 @@ DEFAULT_MOVE_DURATION = 50        # 摇杆滑动耗时（毫秒）
 
 class MacroPlayer(CustomAction):
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
-        # 第一步：打印日志，确认动作被调用
         print("[MacroPlayer] run() 开始执行", flush=True)
         try:
-            # 解析参数
-            param = json.loads(argv.custom_action_param)
-            macro_file = param.get("file")
-            print(f"[MacroPlayer] 宏文件路径: {macro_file}", flush=True)
+            param_str = argv.custom_action_param
+            # 尝试解析为 JSON
+            try:
+                param = json.loads(param_str)
+            except json.JSONDecodeError:
+                # 如果解析失败，则整个字符串视为文件路径
+                param = param_str
 
-            if not macro_file:
-                print("[MacroPlayer] 未指定宏文件", flush=True)
+            steps = None
+            macro_file = None
+
+            if isinstance(param, str):
+                # 直接是文件路径
+                macro_file = param
+            elif isinstance(param, dict):
+                # 对象格式：优先取 steps，否则取 file
+                steps = param.get("steps")
+                macro_file = param.get("file")
+            else:
+                print("[MacroPlayer] 参数格式错误，应为文件路径字符串或对象", flush=True)
                 return CustomAction.RunResult(success=False)
 
-            # 读取宏文件
-            try:
+            # 获取宏定义
+            if steps is not None:
+                macro = {"steps": steps}
+            elif macro_file:
+                print(f"[MacroPlayer] 从文件读取宏: {macro_file}", flush=True)
                 with open(macro_file, "r", encoding="utf-8") as f:
                     macro = json.load(f)
                     if isinstance(macro, list):
                         macro = {"steps": macro}
-            except Exception as e:
-                print(f"[MacroPlayer] 读取宏文件失败: {e}", flush=True)
-                traceback.print_exc()
+            else:
+                print("[MacroPlayer] 未指定 steps 或 file 参数", flush=True)
                 return CustomAction.RunResult(success=False)
 
             controller = context.tasker.controller
@@ -55,6 +69,10 @@ class MacroPlayer(CustomAction):
                 if action == "click":
                     x, y = step["x"], step["y"]
                     controller.post_click(x, y).wait()
+                elif action == "fly":
+                    controller.post_click(1107, 360).wait()
+                elif action == "jump":
+                    controller.post_click(997, 404).wait()
                 elif action == "long_press":
                     x, y = step["x"], step["y"]
                     duration = step.get("duration", 1000)
@@ -67,22 +85,21 @@ class MacroPlayer(CustomAction):
                     controller.post_swipe(x1, y1, x2, y2, move_dur).wait()
                     if hold_dur > 0:
                         time.sleep(hold_dur / 1000.0)
-                elif action in ("move_up", "move_down", "move_left", "move_right"):
+                elif action in ("up", "down", "left", "right", "move_up", "move_down", "move_left", "move_right"):
                     center_x = step.get("center_x", DEFAULT_JOYSTICK_CENTER_X)
                     center_y = step.get("center_y", DEFAULT_JOYSTICK_CENTER_Y)
                     distance = step.get("distance", DEFAULT_MOVE_DISTANCE)
                     duration = step.get("duration", DEFAULT_MOVE_DURATION)
-
-                    if action == "move_up":
+                    endhold = step.get("endhold", 0)
+                    if action in ("up", "move_up"):
                         end_x, end_y = center_x, center_y - distance
-                    elif action == "move_down":
+                    elif action in ("down", "move_down"):
                         end_x, end_y = center_x, center_y + distance
-                    elif action == "move_left":
+                    elif action in ("left", "move_left"):
                         end_x, end_y = center_x - distance, center_y
-                    else:  # move_right
+                    else:
                         end_x, end_y = center_x + distance, center_y
-
-                    controller.post_swipe(center_x, center_y, end_x, end_y, duration).wait()
+                    controller.post_swipe(center_x, center_y, end_x, end_y, duration, endhold).wait()
                 elif action == "wait":
                     dur = step.get("duration", 0)
                     time.sleep(dur / 1000.0)

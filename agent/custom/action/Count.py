@@ -1,131 +1,145 @@
-from maa.context import Context
-from maa.custom_action import CustomAction
 import json
-from ..utils.Logger import Logger
-"""计数"""
+import threading
+from maa.custom_action import CustomAction
+from maa.context import Context
+
+_globals = {}       # 存储 (task_id, f"count_{id}") -> total
+_targets = {}       # 存储 (task_id, f"target_{id}") -> target_total
+_lock = threading.Lock()
+
 
 class Count(CustomAction):
-    def run(
-        self, context: Context, argv: CustomAction.RunArg
-    ) -> CustomAction.RunResult:
-        logger = Logger("Count", context)
-        """
-        自定义动作：
-        custom_action_param:
-            {
-                "count": 0,
-                "target_count": 10,
-                "next_node": ["node1", "node2"],
-                "else_node": ["node3"],
-                "next_node_msg": "已达到目标次数，执行下一节点 {next_node}",
-                "else_node_msg": "未达到目标次数，执行备用节点 {else_node}",
-                "count_msg": "当前次数: {count}, 目标次数: {target_count}"
-            }
-        target_count 为 0 时表示无限刷，永远不会执行 next_node，只重复执行 else_node。
-        count: 当前次数
-        target_count: 目标次数
-        next_node: 达到目标次数后执行的节点. 支持多个节点，按顺序执行，可以出现重复节点，可以为空
-        else_node: 未达到目标次数时执行的节点. 支持多个节点，按顺序执行，可以出现重复节点，可以为空
-        next_node_msg: 达到目标次数后执行的节点时的提示消息，可以为空 可以使用 {next_node} 来引用 next_node 中的节点名称
-        else_node_msg: 未达到目标次数时执行的节点时的提示消息 可以为空 可以使用 {else_node} 来引用 else_node 中的节点名称
-        count_msg: 每次执行时的提示消息 可以为空 可以使用 {count} 来引用 count 中的当前次数 可以使用 {target_count} 来引用 target_count 中的目标次数
-        """
+    """
+    计数器：根据 id 独立计数，每次调用 +1。
+    - 当 target_total > 0 时：达到目标返回成功（触发 next），否则返回失败（触发 onerror）
+    - 当 target_total == 0 时：无限计数，永不达标，始终返回失败
+    参数:
+        id (str): 计数器唯一标识，必填
+        target_total (int): 目标次数，0 表示无限计数
+        auto_reset (bool): 达标后是否重置计数器，默认 True（无限计数时无效）
+        msg (str): 可选消息模板，可用 {id}, {total}, {target}
+    """
+    def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
+        try:
+            param = json.loads(argv.custom_action_param) if argv.custom_action_param else {}
+        except:
+            print("[Count] 参数解析失败")
+            return CustomAction.RunResult(success=False)
 
-        argv_dict: dict = json.loads(argv.custom_action_param)
-        if not argv_dict:
-            return CustomAction.RunResult(success=True)
+        cid = param.get("id")
+        if not cid:
+            print("[Count] 缺少 id 参数")
+            return CustomAction.RunResult(success=False)
 
-        # 提取参数
-        current_count: int = argv_dict.get("count", 0)
-        target_count: int = argv_dict.get("target_count", 0)
-        next_node_msg: str = argv_dict.get("next_node_msg", "")
-        else_node_msg: str = argv_dict.get("else_node_msg", "")
-        count_msg: str = argv_dict.get("count_msg", "")
-        logger.info(
-            f"Count: current_count: {current_count}, target_count: {target_count}, next_node_msg: {next_node_msg}, else_node_msg: {else_node_msg}, count_msg: {count_msg}"
-        )
+        target_total = param.get("target_total")
+        if target_total is None:
+            print("[Count] 缺少 target_total 参数")
+            return CustomAction.RunResult(success=False)
 
-        # ========== 新增：无限刷逻辑 ==========
-        if target_count == 0:
-            # 无限循环，始终执行 else_node，不计较次数
-            new_count = current_count + 1
-            argv_dict["count"] = new_count
-            if count_msg:
-                logger.ui(
-                    count_msg.format(count=new_count - 1, target_count=target_count),
-                )
-            # 保存更新后的参数
-            context.override_pipeline(
-                {argv.node_name: {"custom_action_param": argv_dict}}
-            )
-            else_nodes = argv_dict.get("else_node")
-            if else_node_msg and else_nodes:
-                node_str = (
-                    else_nodes if isinstance(else_nodes, str) else ", ".join(else_nodes)
-                )
-                logger.ui(else_node_msg.format(else_node=node_str))
-            self._run_nodes(context, else_nodes)
-            return CustomAction.RunResult(success=True)
+        task_id = context.task_id
+        total_key = (task_id, f"count_{cid}")
+        target_key = (task_id, f"target_{cid}")
 
-        # 正常有限次数的逻辑（原逻辑，但修正条件为 < 而非 <=）
-        if current_count < target_count:
-            # 计数未达标时：递增计数并执行备用节点
-            new_count = current_count + 1
-            argv_dict["count"] = new_count
+        with _lock:
+            # 存储目标值（首次设置后不再改变）
+            if target_key not in _targets:
+                _targets[target_key] = target_total
+            elif _targets[target_key] != target_total and target_total != 0:
+                print(f"[Count] 警告: 计数器 '{cid}' 目标值已存在 ({_targets[target_key]})，忽略新值 {target_total}")
 
-            # 输出计数提示（使用更新前的计数）
-            if count_msg:
-                logger.ui(
-                    count_msg.format(count=new_count - 1, target_count=target_count),
-                )
+            total = _globals.get(total_key, 0) + 1
+            _globals[total_key] = total
 
-            # 保存更新后的参数
-            context.override_pipeline(
-                {argv.node_name: {"custom_action_param": argv_dict}}
-            )
-
-            # 输出备用节点提示
-            else_nodes = argv_dict.get("else_node")
-            if else_node_msg and else_nodes:
-                node_str = (
-                    else_nodes if isinstance(else_nodes, str) else ", ".join(else_nodes)
-                )
-                logger.ui(else_node_msg.format(else_node=node_str))
-            self._run_nodes(context, else_nodes)
+        # 输出消息
+        msg = param.get("msg")
+        if msg:
+            if target_total == 0:
+                print(msg.format(id=cid, total=total, target="∞"))
+            else:
+                print(msg.format(id=cid, total=total, target=target_total))
         else:
-            # 计数达标时：重置计数并执行下一节点
-            reset_params = {
-                "count": 0,
-                "target_count": target_count,
-                "else_node": argv_dict.get("else_node"),
-                "next_node": argv_dict.get("next_node"),
-                # 保留消息参数避免丢失
-                "next_node_msg": next_node_msg,
-                "else_node_msg": else_node_msg,
-                "count_msg": count_msg,
-            }
+            if target_total == 0:
+                print(f"[Count] 计数器 '{cid}' = {total} (无限计数)")
+            else:
+                print(f"[Count] 计数器 '{cid}' = {total}/{target_total}")
 
-            # 保存重置后的参数
-            context.override_pipeline(
-                {argv.node_name: {"custom_action_param": reset_params}}
-            )
+        # 判断是否达标（target_total==0 永远不达标）
+        reached = (target_total > 0 and total >= target_total)
+        auto_reset = param.get("auto_reset", True)
+        if reached and auto_reset:
+            with _lock:
+                if total_key in _globals:
+                    del _globals[total_key]
+            print(f"[Count] 计数器 '{cid}' 达标，已重置计数")
 
-            # 输出下一节点提示
-            next_nodes = argv_dict.get("next_node")
-            if next_node_msg and next_nodes:
-                node_str = (
-                    next_nodes if isinstance(next_nodes, str) else ", ".join(next_nodes)
-                )
-                logger.ui(next_node_msg.format(next_node=node_str))
-            self._run_nodes(context, next_nodes)
+        return CustomAction.RunResult(success=reached)
+
+
+class CountPrint(CustomAction):
+    """
+    输出指定计数器的当前值（只读）。
+    支持三种参数格式：
+    1. 列表: ["counter1", "counter2"] 
+       输出格式：有目标时 "counter: total/target"，无目标或无限计数时 "counter: total"
+    2. 字典: {"counter1": "自定义模板 {total}/{target}", "counter2": None}
+       - None 表示使用默认输出
+       - 模板中可用 {id}, {total}, {target}（无限计数时 target 显示 "∞"）
+    3. 对象: {"ids": [...], "msg": "全局模板"}  —— 兼容旧格式，target 为 None 或无限计数时显示 "∞"
+    """
+    def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
+        try:
+            param = json.loads(argv.custom_action_param) if argv.custom_action_param else {}
+        except:
+            print("[CountPrint] 参数解析失败")
+            return CustomAction.RunResult(success=False)
+
+        task_id = context.task_id
+        with _lock:
+            if isinstance(param, list):
+                for cid in param:
+                    total_key = (task_id, f"count_{cid}")
+                    target_key = (task_id, f"target_{cid}")
+                    total = _globals.get(total_key, 0)
+                    target = _targets.get(target_key)
+                    if target is None or target == 0:
+                        print(f"{cid}: {total}")
+                    else:
+                        print(f"{cid}: {total}/{target}")
+            elif isinstance(param, dict):
+                if "ids" in param or "msg" in param:
+                    # 兼容旧对象格式
+                    ids = param.get("ids", [])
+                    msg_template = param.get("msg")
+                    for cid in ids:
+                        total_key = (task_id, f"count_{cid}")
+                        target_key = (task_id, f"target_{cid}")
+                        total = _globals.get(total_key, 0)
+                        target = _targets.get(target_key)
+                        if msg_template:
+                            display_target = "∞" if (target is None or target == 0) else target
+                            print(msg_template.format(id=cid, total=total, target=display_target))
+                        else:
+                            if target is None or target == 0:
+                                print(f"{cid}: {total}")
+                            else:
+                                print(f"{cid}: {total}/{target}")
+                else:
+                    # 新字典格式
+                    for cid, template in param.items():
+                        total_key = (task_id, f"count_{cid}")
+                        target_key = (task_id, f"target_{cid}")
+                        total = _globals.get(total_key, 0)
+                        target = _targets.get(target_key)
+                        if template is None:
+                            if target is None or target == 0:
+                                print(f"{cid}: {total}")
+                            else:
+                                print(f"{cid}: {total}/{target}")
+                        else:
+                            display_target = "∞" if (target is None or target == 0) else target
+                            print(template.format(id=cid, total=total, target=display_target))
+            else:
+                print("[CountPrint] 参数格式错误，需要列表或字典")
+                return CustomAction.RunResult(success=False)
 
         return CustomAction.RunResult(success=True)
-
-    def _run_nodes(self, context: Context, nodes: str | list[str] | None):
-        """统一处理节点执行逻辑"""
-        if not nodes:
-            return
-        if isinstance(nodes, str):
-            nodes = [nodes]
-        for node in nodes:
-            context.run_task(node)
