@@ -22,12 +22,10 @@ class Looper(CustomAction):
         node_index = 0
 
         while True:
-            # 检查停止信号
             if context.tasker.stopping:
                 print("[Looper] 任务被停止，退出")
                 return CustomAction.RunResult(success=False)
 
-            # 检查剩余时间
             now = time.monotonic()
             elapsed = now - start_time
             if elapsed >= total_duration:
@@ -40,15 +38,12 @@ class Looper(CustomAction):
                 last_log_time = now
 
             node_name = nodes[node_index]
-            print(f"[Looper] 执行节点: {node_name}")
             task_detail = context.run_task(node_name)
             success = task_detail.status.succeeded if task_detail else False
 
             if success:
                 print(f"[Looper] {node_name} 成功，结束循环")
                 return CustomAction.RunResult(success=True)
-            else:
-                print(f"[Looper] {node_name} 失败，继续下一个")
 
             node_index = (node_index + 1) % len(nodes)
 
