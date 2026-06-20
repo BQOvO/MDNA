@@ -56,13 +56,104 @@
         "expected": [
             "退出委托"
         ],
-        "action": "Click"
+        "action": "Click",
+        "post_delay": 2000,
+        "next": [
+            {
+                "name": "退出委托-等待加载中界面",
+                "jump_back": true
+            },
+            "退出委托-检测是否到达历练界面"
+        ]
     },
     "退出委托门": {
         "recognition": "TemplateMatch",
+        "roi": [
+            23,
+            12,
+            41,
+            46
+        ],
         "template": [
             "复位/副本内退出.png"
         ],
         "action": "Click"
+    },
+    "委托完成": {
+        "recognition": "OCR",
+        "roi": [
+            18,
+            412,
+            142,
+            54
+        ],
+        "expected": [
+            "委托完成"
+        ],
+        "action": "DoNothing",
+        "timeout": 100
+    },
+    "放弃挑战": {
+        "recognition": "OCR",
+        "roi": [
+            1154,
+            657,
+            76,
+            30
+        ],
+        "expected": [
+            "放弃挑战"
+        ],
+        "action": "Click"
+    },
+    "再接再厉": {
+        "recognition": "OCR",
+        "roi": [
+            5,
+            339,
+            194,
+            220
+        ],
+        "expected": [
+            "再接再厉"
+        ],
+        "action": "DoNothing"
+    },
+    "退出委托-检测是否到达历练界面": {
+        "recognition": "OCR",
+        "roi": [
+            86,
+            14,
+            117,
+            33
+        ],
+        "expected": [
+            "历练"
+        ],
+        "action": "DoNothing",
+        "next": [
+            "退出委托-点击退出"
+        ]
+    },
+    "退出委托-等待加载中界面": {
+        "recognition": "TemplateMatch",
+        "roi": [
+            1184,
+            632,
+            71,
+            61
+        ],
+        "template": [
+            "加载过程中百分号.png"
+        ],
+        "action": "Click"
+    },
+    "退出委托-点击退出": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            47,
+            32
+        ]
     }
 }

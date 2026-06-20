@@ -3,10 +3,10 @@
         "recognition": "DirectHit",
         "action": "Click",
         "target": [
-            0,
-            0,
-            0,
-            0
+            1157,
+            21,
+            24,
+            24
         ],
         "post_delay": 2000,
         "next": [
@@ -41,8 +41,17 @@
     },
     "进入历练夜航界面流程": {
         "recognition": "TemplateMatch",
+        "roi": [
+            11,
+            9,
+            82,
+            60
+        ],
         "template": [
             "玩家主页.png"
+        ],
+        "threshold": [
+            0.5
         ],
         "action": "DoNothing",
         "post_delay": 1500,

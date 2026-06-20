@@ -1,0 +1,67 @@
+{
+    "水母": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            870,
+            628,
+            34,
+            33
+        ]
+    },
+    "黎瑟": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "timeout": 100,
+        "next": [
+            "黎瑟-检测q技能是否消失",
+            "黎瑟-q技能还在",
+            "黎瑟-卡黑幕节点"
+        ]
+    },
+    "黎瑟-q技能还在": {
+        "recognition": "OCR",
+        "roi": [
+            931,
+            604,
+            20,
+            22
+        ],
+        "expected": [
+            "0"
+        ],
+        "action": "DoNothing"
+    },
+    "黎瑟-检测q技能是否消失": {
+        "recognition": "OCR",
+        "roi": [
+            926,
+            596,
+            34,
+            33
+        ],
+        "expected": [
+            "7"
+        ],
+        "action": "DoNothing",
+        "post_delay": 0,
+        "next": [
+            "黎瑟-点击q技能"
+        ]
+    },
+    "黎瑟-点击q技能": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            950,
+            625,
+            34,
+            33
+        ]
+    },
+    "黎瑟-卡黑幕节点": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 5000
+    }
+}
