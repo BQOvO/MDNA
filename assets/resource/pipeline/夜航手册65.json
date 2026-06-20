@@ -304,9 +304,9 @@
         "action": "Custom",
         "custom_action": "CountPrint",
         "custom_action_param": {
-            "all": "夜航手册65已完成{total}/{target}次",
-            "failed": "失败{total}次",
-            "success": "成功{total}次"
+            "all": "夜航手册65已全部完成",
+            "success": "成功{total}次",
+            "failed": "失败{total}次"
         },
         "post_delay": 0,
         "next": [
@@ -320,8 +320,8 @@
         "custom_action": "CountPrint",
         "custom_action_param": {
             "all": "夜航手册65已完成{total}/{target}次",
-            "failed": "失败{total}次",
-            "success": "成功{total}次"
+            "success": "成功{total}次",
+            "failed": "失败{total}次"
         },
         "post_delay": 0,
         "next": [
