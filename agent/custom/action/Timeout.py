@@ -3,29 +3,29 @@ import threading
 from maa.custom_action import CustomAction
 from maa.context import Context
 
-_timer = None
-_timer_lock = threading.Lock()
-_timeout_next = None
-_tasker = None   # 只保存 tasker，不保存 context
+# 全局字典：task_id -> {"triggered": bool, "timer": Timer}
+_timeout_data = {}
+_data_lock = threading.Lock()
+
 
 class TimeoutStart(CustomAction):
-    DEFAULT_TIMEOUT_NODE = "超时处理"
-
+    """
+    启动一个定时器，超时后设置标志。
+    参数：
+        duration (float): 超时秒数（必填）
+    """
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
-        global _timer, _timeout_next, _tasker
-
-        # 解析参数（支持纯数字或 JSON）
         param_str = argv.custom_action_param
         duration = None
-        timeout_next = None
+
+        # 解析参数（支持纯数字或 JSON）
         try:
             param = json.loads(param_str)
             if isinstance(param, dict):
                 duration = param.get("duration")
-                timeout_next = param.get("timeout_next")
             else:
                 duration = float(param)
-        except (json.JSONDecodeError, ValueError, TypeError):
+        except:
             try:
                 duration = float(param_str)
             except ValueError:
@@ -33,63 +33,85 @@ class TimeoutStart(CustomAction):
                 return CustomAction.RunResult(success=False)
 
         if duration is None:
-            print("[TimeoutStart] 缺少 duration 参数")
+            print("[TimeoutStart] 缺少 duration")
             return CustomAction.RunResult(success=False)
 
-        if not timeout_next:
-            timeout_next = self.DEFAULT_TIMEOUT_NODE
+        # 通过 argv.task_detail 获取 task_id
+        try:
+            task_id = argv.task_detail.task_id
+        except AttributeError as e:
+            print(f"[TimeoutStart] 获取 task_id 失败: {e}")
+            return CustomAction.RunResult(success=False)
 
-        # 取消之前的计时器
-        with _timer_lock:
-            if _timer is not None:
-                _timer.cancel()
-                _timer = None
-            _timeout_next = timeout_next
-            _tasker = context.tasker   # 保存 tasker，生命周期长
+        # 清除该任务之前的计时器（如果有）
+        with _data_lock:
+            if task_id in _timeout_data:
+                _timeout_data[task_id]["timer"].cancel()
+                del _timeout_data[task_id]
 
-        # 启动新计时器
+        # 定义超时回调（子线程执行，仅设置标志）
         def timeout_callback():
-            global _timer, _timeout_next, _tasker
-            with _timer_lock:
-                if _timer is None:
-                    return   # 已被取消
-                # 取出超时节点和 tasker，释放全局变量，避免重复执行
-                task = _timeout_next
-                tasker = _tasker
-                _timer = None
-                _timeout_next = None
-                _tasker = None
-
-            # 在子线程中使用 tasker 的异步 API 执行超时节点
-            if tasker and task:
-                print(f"[TimeoutStart] 超时！执行节点 {task}")
-                try:
-                    # 方式1：post_task 投递超时节点（异步）
-                    job = tasker.post_task(task)
-                    # 可选：等待完成，但会阻塞子线程，不推荐
-                    # job.wait()
-                except Exception as e:
-                    print(f"[TimeoutStart] 超时回调异常: {e}")
+            with _data_lock:
+                if task_id in _timeout_data:
+                    _timeout_data[task_id]["triggered"] = True
+                    print(f"[TimeoutStart] 任务 {task_id} 超时标志已设置")
 
         timer = threading.Timer(duration, timeout_callback)
-        with _timer_lock:
-            _timer = timer
+        with _data_lock:
+            _timeout_data[task_id] = {
+                "triggered": False,
+                "timer": timer
+            }
         timer.start()
 
-        print(f"[TimeoutStart] 计时开始，{duration} 秒后超时执行 {timeout_next}")
+        print(f"[TimeoutStart] 任务 {task_id} 计时开始，{duration} 秒后超时")
         return CustomAction.RunResult(success=True)
 
 
 class TimeoutReset(CustomAction):
+    """取消当前任务的计时器，清除超时标志"""
+
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
-        global _timer, _timeout_next, _tasker
-        with _timer_lock:
-            if _timer is not None:
-                _timer.cancel()
-                _timer = None
-                print("[TimeoutReset] 计时器已取消")
+        try:
+            task_id = argv.task_detail.task_id
+        except AttributeError as e:
+            print(f"[TimeoutReset] 获取 task_id 失败: {e}")
+            return CustomAction.RunResult(success=False)
+
+        with _data_lock:
+            if task_id in _timeout_data:
+                _timeout_data[task_id]["timer"].cancel()
+                del _timeout_data[task_id]
+                print(f"[TimeoutReset] 任务 {task_id} 计时器已取消")
             else:
-                print("[TimeoutReset] 没有活跃的计时器")
-            _timeout_next = None
-            _tasker = None
+                print(f"[TimeoutReset] 任务 {task_id} 没有活跃的计时器")
         return CustomAction.RunResult(success=True)
+
+
+class CheckTimeout(CustomAction):
+    """
+    检查当前任务是否超时。
+    - 未超时：返回 True（执行 next）
+    - 超时：返回 False（执行 on_error）
+    """
+
+    def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
+        try:
+            task_id = argv.task_detail.task_id
+        except AttributeError as e:
+            print(f"[CheckTimeout] 获取 task_id 失败: {e}")
+            return CustomAction.RunResult(success=True)  # 获取失败时默认未超时
+
+        with _data_lock:
+            if task_id not in _timeout_data:
+                return CustomAction.RunResult(success=True)
+
+            data = _timeout_data[task_id]
+            if not data["triggered"]:
+                return CustomAction.RunResult(success=True)
+
+            # 超时触发，清除数据（避免重复触发）
+            del _timeout_data[task_id]
+            print(f"[CheckTimeout] 任务 {task_id} 超时")
+
+        return CustomAction.RunResult(success=False)

@@ -1,12 +1,12 @@
 from maa.agent.agent_server import AgentServer
 from agent.custom.action.MacroPlayer import MacroPlayer
-from agent.custom.action.Count import Count
+from agent.custom.action.Count import Count,CountPrint
 from agent.custom.action.Looper import Looper
 from agent.custom.action.randomr import randomr
 from agent.custom.action.FishFight import FishFight
 from agent.custom.action.VoyageClick import VoyageClick
 from agent.custom.action.outnoder import Outnoder
-from agent.custom.action.Timeout import TimeoutStart,TimeoutReset
+from agent.custom.action.Timeout import TimeoutStart,TimeoutReset,CheckTimeout
 
 from agent.custom.recongition.CheckResolution import CheckResolution
 from agent.custom.recongition.CheckResolution_16_9 import CheckResolution16_9
@@ -76,6 +76,18 @@ class TimeoutStart_Cls(TimeoutStart):
 
 @AgentServer.custom_action("TimeoutReset")
 class TimeoutReset_Cls(TimeoutReset):
+    def __init__(self):
+        super().__init__()
+        print(f"{self.__class__.__name__} 初始化")
+
+@AgentServer.custom_action("CountPrint")
+class CountPrint_Cls(CountPrint):
+    def __init__(self):
+        super().__init__()
+        print(f"{self.__class__.__name__} 初始化")
+
+@AgentServer.custom_action("CheckTimeout")
+class CheckTimeout_Cls(CheckTimeout):
     def __init__(self):
         super().__init__()
         print(f"{self.__class__.__name__} 初始化")
