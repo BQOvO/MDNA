@@ -1,110 +1,83 @@
 {
     "夜航-20-1": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "expected": [
-                    "爆破疾冲秽兽"
-                ]
-            }
-        },
+        "recognition": "OCR",
+        "expected": [
+            "爆破疾冲秽兽"
+        ],
         "pre_delay": 0,
-        "action": {
-            "type": "Custom",
-            "param": {
-                "custom_action": "VoyageClick"
-            }
-        },
+        "action": "Custom",
+        "custom_action": "VoyageClick",
         "post_delay": 0
     },
     "夜航-20-2": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "expected": [
-                    "猩红游击秽兽"
-                ]
-            }
-        },
+        "recognition": "OCR",
+        "expected": [
+            "猩红游击秽兽"
+        ],
         "pre_delay": 0,
-        "action": {
-            "type": "Custom",
-            "param": {
-                "custom_action": "VoyageClick"
-            }
-        },
+        "action": "Custom",
+        "custom_action": "VoyageClick",
         "post_delay": 0
     },
     "夜航-20-3": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "expected": [
-                    "守护飘浮秽兽"
-                ]
-            }
-        },
+        "recognition": "OCR",
+        "expected": [
+            "守护飘浮秽兽"
+        ],
         "pre_delay": 0,
-        "action": {
-            "type": "Custom",
-            "param": {
-                "custom_action": "VoyageClick"
-            }
-        },
+        "action": "Custom",
+        "custom_action": "VoyageClick",
         "post_delay": 0
     },
     "夜航-20-4": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "expected": [
-                    "凛霜灼心秽兽"
-                ]
-            }
-        },
+        "recognition": "OCR",
+        "expected": [
+            "凛霜灼心秽兽"
+        ],
         "pre_delay": 0,
-        "action": {
-            "type": "Custom",
-            "param": {
-                "custom_action": "VoyageClick"
-            }
-        },
+        "action": "Custom",
+        "custom_action": "VoyageClick",
         "post_delay": 0
     },
     "夜航-20-5": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "expected": [
-                    "复仇蒙恩的先锋"
-                ]
-            }
-        },
+        "recognition": "OCR",
+        "expected": [
+            "复仇蒙恩的先锋"
+        ],
         "pre_delay": 0,
-        "action": {
-            "type": "Custom",
-            "param": {
-                "custom_action": "VoyageClick"
-            }
-        },
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
+    },
+    "夜航-20-6-1": {
+        "recognition": "OCR",
+        "expected": [
+            "霜狱蒙恩的执事"
+        ],
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "VoyageClick",
         "post_delay": 0
     },
     "夜航-20-6": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "expected": [
-                    "霜狱蒙恩的执事"
-                ]
-            }
-        },
-        "pre_delay": 0,
-        "action": {
-            "type": "Custom",
-            "param": {
-                "custom_action": "VoyageClick"
-            }
-        },
-        "post_delay": 0
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            600,
+            500
+        ],
+        "end": [
+            [
+                600,
+                135
+            ]
+        ],
+        "duration": [
+            1500
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-20-6-1"
+        ]
     }
 }
