@@ -19,8 +19,12 @@ def main():
 
     from maa.agent.agent_server import AgentServer
     from maa.toolkit import Toolkit
+    from maa.tasker import Tasker   # 新增导入
 
     Toolkit.init_option("./")
+    
+    # 全局关闭 on_error 截图
+    Tasker.set_save_on_error(False)
 
     socket_id = sys.argv[-1]
     print(f"socket_id: {socket_id}")
