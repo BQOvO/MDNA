@@ -38,11 +38,14 @@ class Looper(CustomAction):
                 last_log_time = now
 
             node_name = nodes[node_index]
-            task_detail = context.run_task(node_name)
-            success = task_detail.status.succeeded if task_detail else False
+            # 获取当前截图
+            image = context.tasker.controller.post_screencap().wait().get()
+            # 仅执行识别，不执行动作
+            reco_detail = context.run_recognition(node_name, image)
+            success = reco_detail.hit if reco_detail else False
 
             if success:
-                print(f"[Looper] {node_name} 成功，结束循环")
+                print(f"[Looper] {node_name} 识别成功，结束循环")
                 return CustomAction.RunResult(success=True)
 
             node_index = (node_index + 1) % len(nodes)
