@@ -2,6 +2,7 @@ import json
 import threading
 from maa.custom_action import CustomAction
 from maa.context import Context
+from ..utils.Logger import Logger   # 导入 Logger
 
 _globals = {}
 _targets = {}
@@ -80,13 +81,16 @@ class Count(CustomAction):
 
 class CountPrint(CustomAction):
     """
-    输出指定计数器的当前值（只读）。
+    输出指定计数器的当前值（只读），所有信息合并为一行。
     参数支持：
     - 列表: ["id1", "id2"]
     - 字典: {"id1": "模板", "id2": None}
     - 字符串: 单个 id（等同于列表）
     """
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
+        logger = Logger("CountPrint", context)
+        parts = []   # 收集所有输出片段
+
         try:
             param = json.loads(argv.custom_action_param) if argv.custom_action_param else {}
         except:
@@ -95,7 +99,7 @@ class CountPrint(CustomAction):
         if isinstance(param, str):
             param = [param]
 
-        task_id = argv.task_detail.task_id   # 正确获取
+        task_id = argv.task_detail.task_id
         with _lock:
             if isinstance(param, list):
                 for cid in param:
@@ -104,9 +108,9 @@ class CountPrint(CustomAction):
                     total = _globals.get(total_key, 0)
                     target = _targets.get(target_key)
                     if target is None or target == 0:
-                        print(f"{cid}: {total}")
+                        parts.append(f"{cid}: {total}")
                     else:
-                        print(f"{cid}: {total}/{target}")
+                        parts.append(f"{cid}: {total}/{target}")
             elif isinstance(param, dict):
                 if "ids" in param or "msg" in param:
                     ids = param.get("ids", [])
@@ -118,12 +122,12 @@ class CountPrint(CustomAction):
                         target = _targets.get(target_key)
                         if msg_template:
                             display_target = "∞" if (target is None or target == 0) else target
-                            print(msg_template.format(id=cid, total=total, target=display_target))
+                            parts.append(msg_template.format(id=cid, total=total, target=display_target))
                         else:
                             if target is None or target == 0:
-                                print(f"{cid}: {total}")
+                                parts.append(f"{cid}: {total}")
                             else:
-                                print(f"{cid}: {total}/{target}")
+                                parts.append(f"{cid}: {total}/{target}")
                 else:
                     for cid, template in param.items():
                         total_key = (task_id, f"count_{cid}")
@@ -132,14 +136,19 @@ class CountPrint(CustomAction):
                         target = _targets.get(target_key)
                         if template is None:
                             if target is None or target == 0:
-                                print(f"{cid}: {total}")
+                                parts.append(f"{cid}: {total}")
                             else:
-                                print(f"{cid}: {total}/{target}")
+                                parts.append(f"{cid}: {total}/{target}")
                         else:
                             display_target = "∞" if (target is None or target == 0) else target
-                            print(template.format(id=cid, total=total, target=display_target))
+                            parts.append(template.format(id=cid, total=total, target=display_target))
             else:
-                print("[CountPrint] 参数格式错误，需要列表、字典或字符串")
-                return CustomAction.RunResult(success=False)
+                parts.append("[CountPrint] 参数格式错误，需要列表、字典或字符串")
+
+        # 合并为一行输出
+        if parts:
+            logger.ui(" | ".join(parts))
+        else:
+            logger.ui("[CountPrint] 没有可输出的统计信息", color="gray")
 
         return CustomAction.RunResult(success=True)
