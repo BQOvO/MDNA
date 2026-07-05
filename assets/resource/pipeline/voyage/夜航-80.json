@@ -12,7 +12,10 @@
             "param": {
                 "expected": [
                     "侵蚀钢拳铁卫"
-                ]
+                ],
+                 "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -30,7 +33,10 @@
             "param": {
                 "expected": [
                     "侵蚀红衫铁卫"
-                ]
+                ],
+                 "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -48,7 +54,10 @@
             "param": {
                 "expected": [
                     "守护失序的应天侍"
-                ]
+                ],
+                 "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -66,7 +75,10 @@
             "param": {
                 "expected": [
                     "复仇萼蚀秽兽"
-                ]
+                ],
+                 "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
