@@ -4,6 +4,9 @@
         "expected": [
             "爆破疾冲秽兽"
         ],
+        "replace": [
+            ["\\s+", ""]
+        ],
         "pre_delay": 0,
         "action": "Custom",
         "custom_action": "VoyageClick",
@@ -13,6 +16,9 @@
         "recognition": "OCR",
         "expected": [
             "猩红游击秽兽"
+        ],
+        "replace": [
+            ["\\s+", ""]
         ],
         "pre_delay": 0,
         "action": "Custom",
@@ -24,6 +30,9 @@
         "expected": [
             "守护飘浮秽兽"
         ],
+        "replace": [
+            ["\\s+", ""]
+        ],
         "pre_delay": 0,
         "action": "Custom",
         "custom_action": "VoyageClick",
@@ -33,6 +42,9 @@
         "recognition": "OCR",
         "expected": [
             "凛霜灼心秽兽"
+        ],
+        "replace": [
+            ["\\s+", ""]
         ],
         "pre_delay": 0,
         "action": "Custom",
@@ -44,6 +56,9 @@
         "expected": [
             "复仇蒙恩的先锋"
         ],
+        "replace": [
+            ["\\s+", ""]
+        ],
         "pre_delay": 0,
         "action": "Custom",
         "custom_action": "VoyageClick",
@@ -53,6 +68,9 @@
         "recognition": "OCR",
         "expected": [
             "霜狱蒙恩的执事"
+        ],
+        "replace": [
+            ["\\s+", ""]
         ],
         "pre_delay": 0,
         "action": "Custom",
