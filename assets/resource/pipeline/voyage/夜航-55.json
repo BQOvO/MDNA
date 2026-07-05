@@ -4,6 +4,9 @@
         "expected": [
             "舍身蒙恩的神甫"
         ],
+        "replace": [
+            ["\\s+", ""]
+        ],
         "pre_delay": 0,
         "action": "Custom",
         "custom_action": "VoyageClick",
@@ -13,6 +16,9 @@
         "recognition": "OCR",
         "expected": [
             "爆破蒙恩的先锋"
+        ],
+        "replace": [
+            ["\\s+", ""]
         ],
         "pre_delay": 0,
         "action": "Custom",
@@ -24,6 +30,9 @@
         "expected": [
             "猩红蒙恩的执事"
         ],
+        "replace": [
+            ["\\s+", ""]
+        ],
         "pre_delay": 0,
         "action": "Custom",
         "custom_action": "VoyageClick",
@@ -33,6 +42,9 @@
         "recognition": "OCR",
         "expected": [
             "枯萎蒙恩的神甫"
+        ],
+        "replace": [
+            ["\\s+", ""]
         ],
         "pre_delay": 0,
         "action": "Custom",
@@ -44,6 +56,9 @@
         "expected": [
             "残火蒙恩的先锋"
         ],
+        "replace": [
+            ["\\s+", ""]
+        ],
         "pre_delay": 0,
         "action": "Custom",
         "custom_action": "VoyageClick",
@@ -53,6 +68,9 @@
         "recognition": "OCR",
         "expected": [
             "舍身蒙恩的执事"
+        ],
+        "replace": [
+            ["\\s+", ""]
         ],
         "pre_delay": 0,
         "action": "Custom",
