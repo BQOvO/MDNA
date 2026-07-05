@@ -12,7 +12,10 @@
             "param": {
                 "expected": [
                     "霹雳钢拳铁卫"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -30,7 +33,10 @@
             "param": {
                 "expected": [
                     "凛霜失序的应天侍"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -48,7 +54,10 @@
             "param": {
                 "expected": [
                     "残火帝皇之仁"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -66,7 +75,10 @@
             "param": {
                 "expected": [
                     "浴血精锐士官"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -84,7 +96,10 @@
             "param": {
                 "expected": [
                     "掠影狙击列兵"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -102,7 +117,10 @@
             "param": {
                 "expected": [
                     "霜狱劈斩列兵"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -120,7 +138,10 @@
             "param": {
                 "expected": [
                     "转雷远征列兵"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -138,7 +159,10 @@
             "param": {
                 "expected": [
                     "守护突击列兵"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
