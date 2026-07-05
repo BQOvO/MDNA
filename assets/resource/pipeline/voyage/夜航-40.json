@@ -12,7 +12,10 @@
             "param": {
                 "expected": [
                     "凛霜游击秽兽"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -30,7 +33,10 @@
             "param": {
                 "expected": [
                     "复仇飘浮秽兽"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -48,7 +54,10 @@
             "param": {
                 "expected": [
                     "掠影灼心秽兽"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -66,7 +75,10 @@
             "param": {
                 "expected": [
                     "霹雳暴徒秽兽"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -84,7 +96,10 @@
             "param": {
                 "expected": [
                     "复仇疾冲秽兽"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
