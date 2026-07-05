@@ -4,6 +4,9 @@
         "expected": [
             "霜狱野蜂暗箭"
         ],
+        "replace": [
+            ["\\s+", ""]
+        ],
         "pre_delay": 0,
         "action": "Custom",
         "custom_action": "VoyageClick",
@@ -13,6 +16,9 @@
         "recognition": "OCR",
         "expected": [
             "浴血野蜂利刃"
+        ],
+        "replace": [
+            ["\\s+", ""]
         ],
         "pre_delay": 0,
         "action": "Custom",
@@ -24,6 +30,9 @@
         "expected": [
             "浴血野蜂密探"
         ],
+        "replace": [
+            ["\\s+", ""]
+        ],
         "pre_delay": 0,
         "action": "Custom",
         "custom_action": "VoyageClick",
@@ -33,6 +42,9 @@
         "recognition": "OCR",
         "expected": [
             "掠影野蜂暗箭"
+        ],
+        "replace": [
+            ["\\s+", ""]
         ],
         "pre_delay": 0,
         "action": "Custom",
@@ -65,6 +77,9 @@
         "expected": [
             "守护野蜂利刃"
         ],
+        "replace": [
+            ["\\s+", ""]
+        ],
         "pre_delay": 0,
         "action": "Custom",
         "custom_action": "VoyageClick",
@@ -95,6 +110,9 @@
         "recognition": "OCR",
         "expected": [
             "转雷野蜂密探"
+        ],
+        "replace": [
+            ["\\s+", ""]
         ],
         "pre_delay": 0,
         "action": "Custom",
@@ -127,6 +145,9 @@
         "expected": [
             "浴血野蜂暗箭"
         ],
+        "replace": [
+            ["\\s+", ""]
+        ],
         "pre_delay": 0,
         "action": "Custom",
         "custom_action": "VoyageClick",
@@ -157,6 +178,9 @@
         "recognition": "OCR",
         "expected": [
             "掠影野蜂利刃"
+        ],
+        "replace": [
+            ["\\s+", ""]
         ],
         "pre_delay": 0,
         "action": "Custom",
@@ -190,6 +214,9 @@
         "recognition": "OCR",
         "expected": [
             "霜狱野蜂密探"
+        ],
+        "replace": [
+            ["\\s+", ""]
         ],
         "pre_delay": 0,
         "action": "Custom",
