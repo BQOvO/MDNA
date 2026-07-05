@@ -5,7 +5,10 @@
             "param": {
                 "expected": [
                     "残火暴徒秽兽"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             }
         },
         "pre_delay": 0,
@@ -23,7 +26,10 @@
             "param": {
                 "expected": [
                     "霹雳疾冲秽兽"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             }
         },
         "pre_delay": 0,
@@ -41,7 +47,10 @@
             "param": {
                 "expected": [
                     "枯萎游击秽兽"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             }
         },
         "pre_delay": 0,
@@ -59,7 +68,10 @@
             "param": {
                 "expected": [
                     "凛霜疾冲秽兽"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             }
         },
         "pre_delay": 0,
