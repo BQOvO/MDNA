@@ -12,7 +12,10 @@
             "param": {
                 "expected": [
                     "掠影蒙恩的神甫"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -30,7 +33,10 @@
             "param": {
                 "expected": [
                     "侵蚀芳烬秽兽"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -48,7 +54,10 @@
             "param": {
                 "expected": [
                     "侵蚀萼蚀秽兽"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -66,7 +75,10 @@
             "param": {
                 "expected": [
                     "复仇魁蕊秽兽"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -84,7 +96,10 @@
             "param": {
                 "expected": [
                     "爆破失序的应天侍"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -102,7 +117,9 @@
             "param": {
                 "expected": [
                     "侵蚀疾冲秽兽"
-                ]
+                ], "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -120,7 +137,10 @@
             "param": {
                 "expected": [
                     "侵蚀暴徒秽兽"
-                ]
+                ],
+                "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -138,7 +158,10 @@
             "param": {
                 "expected": [
                     "浴血失序的应天侍"
-                ]
+                ],
+                 "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -156,7 +179,10 @@
             "param": {
                 "expected": [
                     "霜狱失序的应天侍"
-                ]
+                ],
+                 "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -174,7 +200,10 @@
             "param": {
                 "expected": [
                     "侵蚀魁蕊秽兽"
-                ]
+                ],
+                 "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -192,7 +221,10 @@
             "param": {
                 "expected": [
                     "侵蚀失序的应天侍"
-                ]
+                ],
+                 "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -210,7 +242,10 @@
             "param": {
                 "expected": [
                     "复仇芳烬秽兽"
-                ]
+                ],
+                 "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
@@ -228,7 +263,10 @@
             "param": {
                 "expected": [
                     "猩红萼蚀秽兽"
-                ]
+                ],
+                 "replace": [
+            ["\\s+", ""]
+        ]
             },
             "type": "OCR"
         }
