@@ -12,6 +12,9 @@
 
 基于全新架构的 二重螺旋 小助手。图像技术 + 模拟控制，解放双手！  
 由 [MaaFramework](https://github.com/MaaXYZ/MaaFramework) 强力驱动！
+<a href="https://github.com/BQOvO/MDNA" target="_blank" style="font-weight: bold;">🔗 本项目 GitHub 仓库</a><br>
+🌟喜欢本项目就在仓库右上角点个星星吧🌟
+
 </div>
 
 ##  免责声明
