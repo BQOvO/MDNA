@@ -52,6 +52,7 @@ All issues and consequences arising from the use of this software are not relate
     - [ ] 夜航手册30
     - [ ] 夜航手册20
 
+\* **更多新的副本与功能正在加急开发**
 \* **若有其他功能需求请提交 [issue](https://github.com/BQOvO/MDNA/issues)**
 
 ## 鸣谢
