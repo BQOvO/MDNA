@@ -149,6 +149,16 @@ def install_agent():
         install_path / "requirements.txt",
     )
 
+def install_config():
+    """复制 CI 配置文件到 install/config"""
+    src = working_dir / "ci" / "config"
+    dst = install_path / "config"
+    if src.exists():
+        shutil.copytree(src, dst, dirs_exist_ok=True)
+        print(f" 已复制配置: {src} -> {dst}")
+    else:
+        print("ℹ 未找到 ci/config 目录，跳过配置复制。")
+
 
 # ✅ 新增：安装 Open.bat
 def install_open_bat():
@@ -166,6 +176,7 @@ if __name__ == "__main__":
     install_resource()
     install_chores()
     install_agent()
-    install_open_bat()  # ✅ 新增这一行
+    install_open_bat()
+    install_config()
 
     print(f"Install to {install_path} successfully.")
