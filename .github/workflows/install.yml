@@ -138,7 +138,7 @@ jobs:
         with:
           repository: MaaXYZ/MaaFramework
           fileName: "MAA-${{ matrix.os }}-${{ matrix.arch }}*"
-          tag: ${{ env.MAAFRAMEWORK_VERSION }}  # 用指定版本替代 latest
+          tag: ${{ env.MAAFRAMEWORK_VERSION }}
           out-file-path: "deps"
           extract: true
 
@@ -149,7 +149,7 @@ jobs:
         with:
           repository: SweetSmellFox/MFAAvalonia
           fileName: "MFAAvalonia-*-${{ (matrix.os == 'win' && 'win') || (matrix.os == 'macos' && 'osx') || (matrix.os == 'linux' && 'linux') }}-${{ (matrix.arch == 'x86_64' && 'x64') || (matrix.arch == 'aarch64' && 'arm64') }}*"
-          tag: ${{ env.MFAAVALONIA_VERSION }}  # 用指定版本替代 latest
+          tag: ${{ env.MFAAVALONIA_VERSION }}
           out-file-path: "MFA"
           extract: true
 
@@ -173,17 +173,14 @@ jobs:
 
           echo "✅ Applying icon from $ICON_PATH to MFA/MFAAvalonia.exe..."
 
-          # Download rcedit.exe (Windows tool)
           curl -L https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe -o rcedit.exe
 
-          # Install wine if not present
           if ! command -v wine &> /dev/null; then
             echo "📦 Installing wine..."
             sudo apt-get update
             sudo apt-get install -y wine
           fi
 
-          # Make it executable and run via wine
           chmod +x rcedit.exe
           wine ./rcedit.exe "MFA/MFAAvalonia.exe" --set-icon "$ICON_PATH"
 
@@ -202,33 +199,45 @@ jobs:
               echo "Copying MFA files to install directory..."
               mkdir -p install
               rsync -av --ignore-existing MFA/ install/
-               cd install
-          case "${{ matrix.os }}" in
-          win)
-            exe_name="MFAAvalonia.exe"
-            new_name="MDNA.exe"
-            ;;
-          macos|linux)
-            exe_name="MFAAvalonia"
-            new_name="MDNA"
-            ;;
-          *)
-            echo "Unknown OS: ${{ matrix.os }}"
-            exit 1
-            ;;
-          esac
-          if [ -f "$exe_name" ]; then
-            mv "$exe_name" "$new_name"
-            echo "Renamed $exe_name to $new_name"
-          else
-            echo "Warning: $exe_name not found in install directory."
-          fi
-          cd ..
+              cd install
+              case "${{ matrix.os }}" in
+              win)
+                exe_name="MFAAvalonia.exe"
+                new_name="MDNA.exe"
+                ;;
+              macos|linux)
+                exe_name="MFAAvalonia"
+                new_name="MDNA"
+                ;;
+              *)
+                echo "Unknown OS: ${{ matrix.os }}"
+                exit 1
+                ;;
+              esac
+              if [ -f "$exe_name" ]; then
+                mv "$exe_name" "$new_name"
+                echo "Renamed $exe_name to $new_name"
+              else
+                echo "Warning: $exe_name not found in install directory."
+              fi
+              cd ..
             else
               echo "MFA directory not found, skipping copy."
             fi
           else
             echo "Skipping copy MFA for Android."
+          fi
+
+      # ========== 新增：复制自定义配置文件 ==========
+      - name: Install custom config
+        shell: bash
+        run: |
+          if [ -d "ci/config" ]; then
+            mkdir -p install/config
+            cp -r ci/config/* install/config/
+            echo "✅ 已复制自定义配置到 install/config"
+          else
+            echo "ℹ️ 未找到 ci/config，跳过"
           fi
 
       - uses: actions/download-artifact@v4
