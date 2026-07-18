@@ -1,10 +1,10 @@
 {
     "interface_version": 2,
     "agent": {
-    "child_exec": "python",
-    "child_args": [
-      "{PROJECT_DIR}/agent/main.py"
-    ]
+        "child_exec": "python",
+        "child_args": [
+            "{PROJECT_DIR}/agent/main.py"
+        ]
     },
     "name": "MDNA",
     //"title": "二重螺旋小助手 Oᴗoಣ 旅途愉快~ | 版本号:1.1.14 | 如果出现了bug,请在群里或github的issue中上传日志",
@@ -14,8 +14,12 @@
     "license": "MIT",
     "welcome": "首次使用！欢迎使用 MDNA!",
     "github": "https://github.com/BQOvO/MDNA",
-    // "mirrorchyan_rid": "MaaXXX",
-    // "mirrorchyan_multiplatform": true,
+
+
+    "mirrorchyan_rid": "MaaXXX",
+    "mirrorchyan_multiplatform": true,
+    
+    
     "controller": [
         {
             "name": "模拟器",
