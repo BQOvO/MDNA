@@ -139,6 +139,20 @@ def install_open_bat():
     else:
         print("Warning: Open.bat not found in project root. Skipping.")
 
+def _install_dependencies():
+    """
+    自动安装 Python 依赖。
+    在 CI 打包时，它会使用嵌入式 Python 来安装依赖，确保打包出的程序开箱即用。
+    """
+    print("📦 正在检查并安装 Python 依赖...")
+    try:
+        # 使用当前 Python 解释器执行 pip 安装命令
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", str(working_dir / "requirements.txt")])
+        print("✅ 依赖安装完成。")
+    except subprocess.CalledProcessError as e:
+        print(f"❌ 依赖安装失败: {e}")
+        sys.exit(1)
+
 def install_tasks():
     src = working_dir / "tasks"
     dst = install_path / "tasks"
