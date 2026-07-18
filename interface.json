@@ -9,7 +9,7 @@
     "name": "MDNA",
     //"title": "二重螺旋小助手 Oᴗoಣ 旅途愉快~ | 版本号:1.1.14 | 如果出现了bug,请在群里或github的issue中上传日志",
     "description": "使用前请将模拟器分辨率设置为16：9哦~~",
-    "icon": "logo.ico",
+    "icon": "./resource/image/logo.ico",
     "contact": "QQ群:1002051753",
     "license": "MIT",
     "welcome": "首次使用！欢迎使用 MDNA!",
