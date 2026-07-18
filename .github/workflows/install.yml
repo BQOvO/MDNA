@@ -2,8 +2,8 @@ name: install
 
 # 依赖版本号：留空使用最新版，或指定如 "v4.6.0" / "v0.6.0"
 env:
-  MAAFRAMEWORK_VERSION: "v5.12.1"   # MaaXYZ/MaaFramework 版本
-  MFAAVALONIA_VERSION: "v2.11.8"   # SweetSmellFox/MFAAvalonia 版本
+  MAAFRAMEWORK_VERSION: "v5.12.1"
+  MFAAVALONIA_VERSION: "v2.11.8"
 
 on:
   push:
@@ -49,7 +49,6 @@ jobs:
             tag="$prefix-ci.$suffix"
           fi
 
-          # Determine if this is a prerelease (contains -alpha, -beta, -rc, -ci, etc.)
           is_prerelease="false"
           if [[ "$tag" == *"-alpha"* ]] || [[ "$tag" == *"-beta"* ]] || [[ "$tag" == *"-rc"* ]] || [[ "$tag" == *"-ci"* ]] || [[ "$tag" == *"-"* ]]; then
             is_prerelease="true"
@@ -69,27 +68,21 @@ jobs:
     strategy:
       matrix:
         include:
-          # Windows x86_64
           - os: win
             arch: x86_64
             runs-on: windows-latest
-          # Windows aarch64
           - os: win
             arch: aarch64
             runs-on: windows-11-arm
-          # macOS x86_64 (Intel)
           - os: macos
             arch: x86_64
             runs-on: macos-15-intel
-          # macOS aarch64 (Apple Silicon)
           - os: macos
             arch: aarch64
             runs-on: macos-latest
-          # Linux x86_64
           - os: linux
             arch: x86_64
             runs-on: ubuntu-latest
-          # Linux aarch64
           - os: linux
             arch: aarch64
             runs-on: ubuntu-24.04-arm
@@ -186,6 +179,13 @@ jobs:
 
           echo "✅ Icon successfully applied."
 
+      # ========== 先下载 Python-embed 再 Install ==========
+      - uses: actions/download-artifact@v4
+        if: matrix.os != 'android'
+        with:
+          name: python-embed-${{ matrix.os }}-${{ matrix.arch }}
+          path: ./install/python
+
       - name: Install
         shell: bash
         env:
@@ -228,7 +228,6 @@ jobs:
             echo "Skipping copy MFA for Android."
           fi
 
-      # ========== 新增：复制自定义配置文件 ==========
       - name: Install custom config
         shell: bash
         run: |
@@ -240,11 +239,7 @@ jobs:
             echo "ℹ️ 未找到 ci/config，跳过"
           fi
 
-      - uses: actions/download-artifact@v4
-        if: matrix.os != 'android'
-        with:
-          name: python-embed-${{ matrix.os }}-${{ matrix.arch }}
-          path: ./install/python
+      # 删除原来位置的那个 download-artifact（已移至 Install 前）
 
       - uses: actions/upload-artifact@v4
         with:

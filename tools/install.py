@@ -14,7 +14,6 @@ version = len(sys.argv) > 1 and sys.argv[1] or "v0.0.1"
 
 
 def _raw_os_and_arch() -> tuple[str, str]:
-    """CI: argv 为 tag, os, arch；本地未传 os/arch 时用 platform 推断。"""
     if len(sys.argv) >= 4:
         return sys.argv[2].strip(), sys.argv[3].strip()
     sys_map = {"windows": "win", "linux": "linux", "darwin": "osx"}
@@ -23,7 +22,6 @@ def _raw_os_and_arch() -> tuple[str, str]:
 
 
 def normalize_os(raw: str) -> str:
-    """规范为 win / linux / osx；CI 的 android 单独保留。"""
     s = raw.lower().strip()
     if s in ("windows", "win32", "win64", "win"):
         return "win"
@@ -38,7 +36,6 @@ def normalize_os(raw: str) -> str:
 
 
 def normalize_arch(raw: str) -> str:
-    """规范为 x64 / arm64。"""
     s = raw.lower().strip()
     if s in ("amd64", "x86_64", "x64", "x86-64"):
         return "x64"
@@ -49,9 +46,7 @@ def normalize_arch(raw: str) -> str:
 
 
 _raw_os, _raw_arch = _raw_os_and_arch()
-# 当前系统（win / linux / osx，CI 上可能为 android）
 current_system = normalize_os(_raw_os)
-# 当前架构（x64 / arm64）
 current_architecture = normalize_arch(_raw_arch)
 
 
@@ -80,11 +75,10 @@ def install_deps():
 
 
 def install_resource():
-
     configure_ocr_model()
 
     shutil.copytree(
-        working_dir /  "resource",
+        working_dir / "resource",
         install_path / "resource",
         dirs_exist_ok=True,
     )
@@ -99,7 +93,6 @@ def install_resource():
 
     interface["version"] = version
     interface["title"] = f"二重螺旋小助手 Oᴗoಣ 旅途愉快~| 版本号:{version} | 如果出现了bug,请在群里或github的issue中上传日志"
-    #标题行往这里塞
 
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
         jsonc.dump(interface, f, ensure_ascii=False, indent=4)
@@ -123,7 +116,6 @@ def install_agent():
     with open(install_path / "interface.json", "r", encoding="utf-8") as f:
         interface = jsonc.load(f)
 
-    # OS 到 child_exec 的映射（与 normalize_os 的 win / linux / osx 一致）
     os_exec_map = {
         "win": r"./python/python.exe",
         "osx": r"./python/bin/python3",
@@ -132,7 +124,6 @@ def install_agent():
 
     match current_system:
         case "android":
-            # Android 不使用嵌入式 Python
             interface.pop("agent", None)
         case os_name if os_name in os_exec_map:
             interface["agent"]["child_exec"] = os_exec_map[os_name]
@@ -149,8 +140,8 @@ def install_agent():
         install_path / "requirements.txt",
     )
 
+
 def install_config():
-    """复制 CI 配置文件到 install/config"""
     src = working_dir / "ci" / "config"
     dst = install_path / "config"
     if src.exists():
@@ -160,7 +151,6 @@ def install_config():
         print("ℹ 未找到 ci/config 目录，跳过配置复制。")
 
 
-# ✅ 新增：安装 Open.bat
 def install_open_bat():
     src = working_dir / "Open.bat"
     dst = install_path / "Open.bat"
@@ -169,6 +159,7 @@ def install_open_bat():
         shutil.copy2(src, dst)
     else:
         print("Warning: Open.bat not found in project root. Skipping.")
+
 
 def install_tasks():
     src = working_dir / "tasks"
@@ -180,6 +171,30 @@ def install_tasks():
         print("ℹ️ tasks 目录不存在，跳过")
 
 
+def install_maa_bindings():
+    """将 MaaFramework 的 Python 绑定复制到嵌入式 Python 环境"""
+    src_candidates = [
+        working_dir / "deps" / "python" / "Lib" / "site-packages" / "maa",
+        working_dir / "deps" / "lib" / "python3.12" / "site-packages" / "maa",
+        working_dir / "deps" / "lib" / "python3.11" / "site-packages" / "maa",
+        working_dir / "runtimes" / "win-x64" / "python" / "Lib" / "site-packages" / "maa",
+    ]
+    src = None
+    for candidate in src_candidates:
+        if candidate.exists():
+            src = candidate
+            break
+
+    if src is None:
+        print("⚠️ 未找到 maa 绑定源，请检查 deps 目录")
+        return
+
+    dst = install_path / "python" / "Lib" / "site-packages" / "maa"
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(src, dst, dirs_exist_ok=True)
+    print(f"✅ 已复制 maa 绑定: {src} -> {dst}")
+
+
 if __name__ == "__main__":
     install_deps()
     install_resource()
@@ -188,5 +203,6 @@ if __name__ == "__main__":
     install_open_bat()
     install_config()
     install_tasks()
+    install_maa_bindings()   # 新增
 
     print(f"Install to {install_path} successfully.")
