@@ -5,7 +5,7 @@ import json
 import jsonc
 import platform
 import subprocess
-import os  # <--- 新增：用于修改文件权限
+import os
 from configure import configure_ocr_model
 
 working_dir = Path(__file__).parent.parent
@@ -160,16 +160,20 @@ def install_maa_bindings():
         print(f"⚠️ 未找到嵌入式 Python 解释器: {python_exe}")
         return
 
-    # 2. 新增：为 Linux/macOS 的 Python 解释器添加可执行权限
-    if current_system != "win":
+    # 2. 判断是否需要使用 Wine (当前宿主机是 Linux 但目标是 Windows)
+    use_wine = (current_system == "win" and sys.platform != "win32")
+    cmd_prefix = ["wine"] if use_wine else []
+
+    # 3. 如果不用 Wine，且是 Linux/macOS，才需要赋予可执行权限
+    if not use_wine and current_system != "win":
         print(f"🔧 正在为 {python_exe} 添加可执行权限...")
         os.chmod(python_exe, 0o755)
 
     print(f"📦 正在使用 pip 安装 maafw 绑定...")
     
-    # 3. 执行 pip install maafw
+    # 4. 执行 pip install maafw
     try:
-        subprocess.check_call([str(python_exe), "-m", "pip", "install", "maafw"])
+        subprocess.check_call(cmd_prefix + [str(python_exe), "-m", "pip", "install", "maafw"])
         print("✅ maafw 绑定安装成功！")
     except subprocess.CalledProcessError as e:
         print(f"❌ maafw 绑定安装失败，错误码: {e.returncode}")
