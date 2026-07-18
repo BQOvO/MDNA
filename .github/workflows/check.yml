@@ -6,14 +6,14 @@ on:
       - "**"
     paths:
       - ".github/workflows/check.yml"
-      - "assets/**"
+      - "resource/**"
       - "**.py"
   pull_request:
     branches:
       - "**"
     paths:
       - ".github/workflows/check.yml"
-      - "assets/**"
+      - "resource/**"
       - "**.py"
   workflow_dispatch:
 
@@ -33,4 +33,4 @@ jobs:
 
       - name: Check Resource
         run: |
-            python ./check_resource.py ./assets/resource/
+            python ./check_resource.py ./interface.json
