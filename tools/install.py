@@ -4,6 +4,7 @@ import sys
 import json
 import jsonc
 import platform
+import subprocess
 from configure import configure_ocr_model
 
 working_dir = Path(__file__).parent.parent
@@ -124,9 +125,9 @@ def install_config():
     dst = install_path / "config"
     if src.exists():
         shutil.copytree(src, dst, dirs_exist_ok=True)
-        print(f" 已复制配置: {src} -> {dst}")
+        print(f"✅ 已复制配置: {src} -> {dst}")
     else:
-        print("ℹ 未找到 ci/config 目录，跳过配置复制。")
+        print("ℹ️ 未找到 ci/config 目录，跳过配置复制。")
 
 def install_open_bat():
     src = working_dir / "Open.bat"
@@ -147,28 +148,25 @@ def install_tasks():
         print("ℹ️ tasks 目录不存在，跳过")
 
 def install_maa_bindings():
-    """将 MaaFramework 的 Python 绑定复制到嵌入式 Python 环境"""
-    # 1. 在 deps 目录下查找解压后的 MaaFramework 文件夹
-    maa_fw_dirs = [d for d in (working_dir / "deps").iterdir() if d.is_dir() and d.name.startswith("MaaFramework")]
+    """通过 pip 安装 MaaFramework 的 Python 绑定到嵌入式 Python 环境中"""
+    # 1. 定位嵌入式 Python 解释器
+    if current_system == "win":
+        python_exe = install_path / "python" / "python.exe"
+    else:
+        python_exe = install_path / "python" / "bin" / "python3"
+        
+    if not python_exe.exists():
+        print(f"⚠️ 未找到嵌入式 Python 解释器: {python_exe}")
+        return
+
+    print(f"📦 正在使用 pip 安装 maafw 绑定...")
     
-    if not maa_fw_dirs:
-        print("⚠️ 未在 deps 目录下找到 MaaFramework 文件夹，请检查下载步骤")
-        return
-
-    # 2. 假设只有一个匹配的文件夹，获取其路径
-    maa_fw_dir = maa_fw_dirs[0]
-    src = maa_fw_dir / "python" / "maa"
-
-    # 3. 确认源路径存在
-    if not src.exists():
-        print(f"⚠️ 未找到 maa 绑定源，请检查 deps 目录下的 {maa_fw_dir} 文件夹")
-        return
-
-    # 4. 定义目标路径并执行复制
-    dst = install_path / "python" / "Lib" / "site-packages" / "maa"
-    dst.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copytree(src, dst, dirs_exist_ok=True)
-    print(f"✅ 已复制 maa 绑定: {src} -> {dst}")
+    # 2. 执行 pip install maafw
+    try:
+        subprocess.check_call([str(python_exe), "-m", "pip", "install", "maafw"])
+        print("✅ maafw 绑定安装成功！")
+    except subprocess.CalledProcessError as e:
+        print(f"❌ maafw 绑定安装失败，错误码: {e.returncode}")
 
 if __name__ == "__main__":
     install_deps()
@@ -178,5 +176,5 @@ if __name__ == "__main__":
     install_open_bat()
     install_config()
     install_tasks()
-    install_maa_bindings() # 新增
+    install_maa_bindings()
     print(f"Install to {install_path} successfully.")
