@@ -5,6 +5,7 @@ import json
 import jsonc
 import platform
 import subprocess
+import os  # <--- 新增：用于修改文件权限
 from configure import configure_ocr_model
 
 working_dir = Path(__file__).parent.parent
@@ -159,9 +160,14 @@ def install_maa_bindings():
         print(f"⚠️ 未找到嵌入式 Python 解释器: {python_exe}")
         return
 
+    # 2. 新增：为 Linux/macOS 的 Python 解释器添加可执行权限
+    if current_system != "win":
+        print(f"🔧 正在为 {python_exe} 添加可执行权限...")
+        os.chmod(python_exe, 0o755)
+
     print(f"📦 正在使用 pip 安装 maafw 绑定...")
     
-    # 2. 执行 pip install maafw
+    # 3. 执行 pip install maafw
     try:
         subprocess.check_call([str(python_exe), "-m", "pip", "install", "maafw"])
         print("✅ maafw 绑定安装成功！")
