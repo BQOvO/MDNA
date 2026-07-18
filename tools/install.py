@@ -1,25 +1,29 @@
 from pathlib import Path
+
 import shutil
 import sys
 import json
 import jsonc
 import platform
-import subprocess
-import os
 from configure import configure_ocr_model
+
 
 working_dir = Path(__file__).parent.parent
 install_path = working_dir / Path("install")
 version = len(sys.argv) > 1 and sys.argv[1] or "v0.0.1"
 
+
 def _raw_os_and_arch() -> tuple[str, str]:
+    """CI: argv 为 tag, os, arch；本地未传 os/arch 时用 platform 推断。"""
     if len(sys.argv) >= 4:
         return sys.argv[2].strip(), sys.argv[3].strip()
     sys_map = {"windows": "win", "linux": "linux", "darwin": "osx"}
     raw_os = sys_map.get(platform.system().lower(), platform.system().lower())
     return raw_os, platform.machine().lower()
 
+
 def normalize_os(raw: str) -> str:
+    """规范为 win / linux / osx；CI 的 android 单独保留。"""
     s = raw.lower().strip()
     if s in ("windows", "win32", "win64", "win"):
         return "win"
@@ -32,7 +36,9 @@ def normalize_os(raw: str) -> str:
     print(f"Unsupported OS: {raw!r}")
     sys.exit(1)
 
+
 def normalize_arch(raw: str) -> str:
+    """规范为 x64 / arm64。"""
     s = raw.lower().strip()
     if s in ("amd64", "x86_64", "x64", "x86-64"):
         return "x64"
@@ -41,15 +47,20 @@ def normalize_arch(raw: str) -> str:
     print(f"Unsupported architecture: {raw!r}")
     sys.exit(1)
 
+
 _raw_os, _raw_arch = _raw_os_and_arch()
+# 当前系统（win / linux / osx，CI 上可能为 android）
 current_system = normalize_os(_raw_os)
+# 当前架构（x64 / arm64）
 current_architecture = normalize_arch(_raw_arch)
+
 
 def install_deps():
     if not (working_dir / "deps" / "bin").exists():
         print('Please download the MaaFramework to "deps" first.')
         print('请先下载 MaaFramework 到 "deps"。')
         sys.exit(1)
+
     shutil.copytree(
         working_dir / "deps" / "bin",
         install_path / "runtimes" / f"{current_system}-{current_architecture}",
@@ -67,23 +78,32 @@ def install_deps():
         dirs_exist_ok=True,
     )
 
+
 def install_resource():
+
     configure_ocr_model()
+
     shutil.copytree(
-        working_dir / "resource",
+        working_dir /  "resource",
         install_path / "resource",
         dirs_exist_ok=True,
     )
+
     shutil.copy2(
         working_dir / "interface.json",
         install_path,
     )
+
     with open(install_path / "interface.json", "r", encoding="utf-8") as f:
         interface = jsonc.load(f)
+
     interface["version"] = version
     interface["title"] = f"二重螺旋小助手 Oᴗoಣ 旅途愉快~| 版本号:{version} | 如果出现了bug,请在群里或github的issue中上传日志"
+    #标题行往这里塞
+
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
         jsonc.dump(interface, f, ensure_ascii=False, indent=4)
+
 
 def install_chores():
     for file in ["README.md", "LICENSE", "logo.png"]:
@@ -92,21 +112,27 @@ def install_chores():
             install_path / file,
         )
 
+
 def install_agent():
     shutil.copytree(
         working_dir / "agent",
         install_path / "agent",
         dirs_exist_ok=True,
     )
+
     with open(install_path / "interface.json", "r", encoding="utf-8") as f:
         interface = jsonc.load(f)
+
+    # OS 到 child_exec 的映射（与 normalize_os 的 win / linux / osx 一致）
     os_exec_map = {
         "win": r"./python/python.exe",
         "osx": r"./python/bin/python3",
         "linux": r"python3",
     }
+
     match current_system:
         case "android":
+            # Android 不使用嵌入式 Python
             interface.pop("agent", None)
         case os_name if os_name in os_exec_map:
             interface["agent"]["child_exec"] = os_exec_map[os_name]
@@ -114,22 +140,27 @@ def install_agent():
             interface["agent"]["embedded"] = True
         case _:
             raise ValueError(f"Unknown OS: {current_system}")
+
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
         json.dump(interface, f, ensure_ascii=False, indent=4)
+
     shutil.copy2(
         working_dir / "requirements.txt",
         install_path / "requirements.txt",
     )
 
 def install_config():
+    """复制 CI 配置文件到 install/config"""
     src = working_dir / "ci" / "config"
     dst = install_path / "config"
     if src.exists():
         shutil.copytree(src, dst, dirs_exist_ok=True)
-        print(f"✅ 已复制配置: {src} -> {dst}")
+        print(f" 已复制配置: {src} -> {dst}")
     else:
-        print("ℹ️ 未找到 ci/config 目录，跳过配置复制。")
+        print("ℹ 未找到 ci/config 目录，跳过配置复制。")
 
+
+# ✅ 新增：安装 Open.bat
 def install_open_bat():
     src = working_dir / "Open.bat"
     dst = install_path / "Open.bat"
@@ -138,20 +169,6 @@ def install_open_bat():
         shutil.copy2(src, dst)
     else:
         print("Warning: Open.bat not found in project root. Skipping.")
-
-def _install_dependencies():
-    """
-    自动安装 Python 依赖。
-    在 CI 打包时，它会使用嵌入式 Python 来安装依赖，确保打包出的程序开箱即用。
-    """
-    print("📦 正在检查并安装 Python 依赖...")
-    try:
-        # 使用当前 Python 解释器执行 pip 安装命令
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", str(working_dir / "requirements.txt")])
-        print("✅ 依赖安装完成。")
-    except subprocess.CalledProcessError as e:
-        print(f"❌ 依赖安装失败: {e}")
-        sys.exit(1)
 
 def install_tasks():
     src = working_dir / "tasks"
@@ -171,7 +188,5 @@ if __name__ == "__main__":
     install_open_bat()
     install_config()
     install_tasks()
-    # --- 修改开始：注释掉函数调用 ---
-    # install_maa_bindings()
-    # --- 修改结束 ---
+
     print(f"Install to {install_path} successfully.")
