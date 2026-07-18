@@ -170,6 +170,15 @@ def install_open_bat():
     else:
         print("Warning: Open.bat not found in project root. Skipping.")
 
+def install_tasks():
+    src = working_dir / "tasks"
+    dst = install_path / "tasks"
+    if src.exists():
+        shutil.copytree(src, dst, dirs_exist_ok=True)
+        print(f"✅ 已复制 tasks: {src} -> {dst}")
+    else:
+        print("ℹ️ tasks 目录不存在，跳过")
+
 
 if __name__ == "__main__":
     install_deps()
@@ -178,5 +187,6 @@ if __name__ == "__main__":
     install_agent()
     install_open_bat()
     install_config()
+    install_tasks()
 
     print(f"Install to {install_path} successfully.")
