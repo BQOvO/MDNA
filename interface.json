@@ -1,16 +1,15 @@
 {
     "interface_version": 2,
     "agent": {
-        "child_exec": "python",
-        "child_args": [
-            "../agent/main.py",
-            "-dev"
-        ]
+    "child_exec": "python",
+    "child_args": [
+      "{PROJECT_DIR}/agent/main.py"
+    ]
     },
     "name": "MDNA",
     //"title": "二重螺旋小助手 Oᴗoಣ 旅途愉快~ | 版本号:1.1.14 | 如果出现了bug,请在群里或github的issue中上传日志",
     "description": "使用前请将模拟器分辨率设置为16：9哦~~",
-    "icon": "./resource/image/logo.ico",
+    "icon": "logo.ico",
     "contact": "QQ群:1002051753",
     "license": "MIT",
     "welcome": "首次使用！欢迎使用 MDNA!",
@@ -33,13 +32,13 @@
         }
     ],
     "import": [
-        "resource/tasks/夜航手册65.json",
-        "resource/tasks/夜航手册60.json",
-        "resource/tasks/夜航手册30.json",
-        "resource/tasks/夜航手册20.json",
-        "resource/tasks/夜航手册55.json",
-        "resource/tasks/夜航手册40.json",
-        "resource/tasks/preset/夜航手册.json"
+        "tasks/夜航手册65.json",
+        "tasks/夜航手册60.json",
+        "tasks/夜航手册30.json",
+        "tasks/夜航手册20.json",
+        "tasks/夜航手册55.json",
+        "tasks/夜航手册40.json",
+        "tasks/preset/夜航手册.json"
     ],
     "task": [],
     "option": {}
