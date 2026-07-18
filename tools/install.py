@@ -148,35 +148,6 @@ def install_tasks():
     else:
         print("ℹ️ tasks 目录不存在，跳过")
 
-def install_maa_bindings():
-    """通过 pip 安装 MaaFramework 的 Python 绑定到嵌入式 Python 环境中"""
-    # 1. 定位嵌入式 Python 解释器
-    if current_system == "win":
-        python_exe = install_path / "python" / "python.exe"
-    else:
-        python_exe = install_path / "python" / "bin" / "python3"
-        
-    if not python_exe.exists():
-        print(f"⚠️ 未找到嵌入式 Python 解释器: {python_exe}")
-        return
-
-    # 2. 判断是否需要使用 Wine (当前宿主机是 Linux 但目标是 Windows)
-    use_wine = (current_system == "win" and sys.platform != "win32")
-    cmd_prefix = ["wine"] if use_wine else []
-
-    # 3. 如果不用 Wine，且是 Linux/macOS，才需要赋予可执行权限
-    if not use_wine and current_system != "win":
-        print(f"🔧 正在为 {python_exe} 添加可执行权限...")
-        os.chmod(python_exe, 0o755)
-
-    print(f"📦 正在使用 pip 安装 maafw 绑定...")
-    
-    # 4. 执行 pip install maafw
-    try:
-        subprocess.check_call(cmd_prefix + [str(python_exe), "-m", "pip", "install", "maafw"])
-        print("✅ maafw 绑定安装成功！")
-    except subprocess.CalledProcessError as e:
-        print(f"❌ maafw 绑定安装失败，错误码: {e.returncode}")
 
 if __name__ == "__main__":
     install_deps()
@@ -186,5 +157,7 @@ if __name__ == "__main__":
     install_open_bat()
     install_config()
     install_tasks()
-    install_maa_bindings()
+    # --- 修改开始：注释掉函数调用 ---
+    # install_maa_bindings()
+    # --- 修改结束 ---
     print(f"Install to {install_path} successfully.")
