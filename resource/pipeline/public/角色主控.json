@@ -41,8 +41,9 @@
             33
         ],
         "expected": [
-            "7"
+            "0"
         ],
+        "inverse": true,
         "action": "DoNothing",
         "post_delay": 0,
         "next": [
