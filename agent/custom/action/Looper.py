@@ -32,7 +32,7 @@ class Looper(CustomAction):
                 break
 
             # 每秒输出一次剩余时间
-            if now - last_log_time >= 1.0:
+            if now - last_log_time >= 5.0:
                 remaining = total_duration - elapsed
                 print(f"[Looper] 剩余 {remaining:.1f} 秒")
                 last_log_time = now
