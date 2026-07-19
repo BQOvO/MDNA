@@ -74,4 +74,6 @@ All issues and consequences arising from the use of this software are not relate
 <a href="https://github.com/BQOvO/MDNA/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=BQOvO/MDNA&max=1000" alt="Contributors to MDNA"/>
 </a>
+
+
 当然啦，群里的大佬们每个都非常友好且强大，非常感谢他们的帮助与支持，在此给群里的各位大佬们鞠躬啦
