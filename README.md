@@ -55,6 +55,16 @@ All issues and consequences arising from the use of this software are not relate
 \* **更多新的副本与功能正在加急开发**
 \* **若有其他功能需求请提交 [issue](https://github.com/BQOvO/MDNA/issues)**
 
+## 相关项目
+
+1. [MaaFramework](https://github.com/MaaXYZ/MaaFramework)2025年的寒假，命运的齿轮开始转动，没有maafw就没有MDNA
+2. [M9A](https://github.com/MAA1999/M9A)默佬的实力毋庸置疑，最佳实践实至名归
+3. [MFAAvalonia](https://github.com/SweetSmellFox/MFAAvalonia/) — 模板项目钦点GUI，好看简洁富有高级感
+4. [Maa_bbb](https://github.com/miaojiuqing/Maa_bbb) - 三崩子同款打包程序，好喜欢e佬
+5. [maa-support-extension](https://github.com/neko-para/maa-support-extension) 最常用的测试、截图、去色、ocr工具
+6. [MaaPipelineEditor](https://github.com/kqcoxn/MaaPipelineEditor) -可视化pipeline工作流编辑器，k佬权威这一块
+7. [MaaDuDul](https://github.com/kqcoxn/MaaDuDuL) - 人坨坨k佬大作，欢迎来玩一下咱们的嘟嘟脸嘛~
+
 ## 鸣谢
 
 本项目由 **[MaaFramework](https://github.com/MaaXYZ/MaaFramework)** 强力驱动！
@@ -64,3 +74,4 @@ All issues and consequences arising from the use of this software are not relate
 <a href="https://github.com/BQOvO/MDNA/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=BQOvO/MDNA&max=1000" alt="Contributors to MDNA"/>
 </a>
+当然啦，群里的大佬们每个都非常友好且强大，非常感谢他们的帮助与支持，在此给群里的各位大佬们鞠躬啦
