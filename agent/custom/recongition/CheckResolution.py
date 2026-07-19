@@ -11,7 +11,7 @@ class CheckResolution(CustomRecognition):
         context: Context,
         argv: CustomRecognition.AnalyzeArg,
     ) -> CustomRecognition.AnalyzeResult | None:
-        logger = logger("CheckResolution", context)
+        logger = Logger("CheckResolution", context)
         param = json.loads(argv.custom_recognition_param)
         if not param:
             target_height = 720

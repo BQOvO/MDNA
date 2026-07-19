@@ -8,8 +8,10 @@ from agent.custom.action.VoyageClick import VoyageClick
 from agent.custom.action.outnoder import Outnoder
 from agent.custom.action.Timeout import TimeoutStart,TimeoutReset,CheckTimeout
 
+
+from agent.custom.sink.aspect_ratio import AspectRatioChecker
+
 from agent.custom.recongition.CheckResolution import CheckResolution
-from agent.custom.recongition.CheckResolution_16_9 import CheckResolution16_9
 
 
 @AgentServer.custom_action("Count")
@@ -25,12 +27,6 @@ class CheckResolution_Cls(CheckResolution):
         super().__init__()
         print(f"{self.__class__.__name__} 初始化")
 
-
-@AgentServer.custom_recognition("CheckResolution_16_9")
-class CheckResolution_Cls(CheckResolution16_9):
-    def __init__(self):
-        super().__init__()
-        print(f"{self.__class__.__name__} 初始化")
 
 @AgentServer.custom_action("MacroPlayer")     # 注册名
 class MacroPlayer_Cls(MacroPlayer):
