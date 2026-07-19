@@ -78,9 +78,7 @@ class AspectRatioChecker(TaskerEventSink):
             logger.info("收到 PostStop 事件，跳过分辨率检查")
             return
 
-        logger.info(
-            f"任务开始前检查分辨率 - task_id: {detail.task_id}, entry: {detail.entry}"
-        )
+        logger.info("任务开始前检查分辨率")
 
         controller = tasker.controller
         if controller is None:

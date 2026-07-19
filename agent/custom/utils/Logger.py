@@ -87,7 +87,7 @@ class Logger:
 
         Logger._stderr_handler_id = _loguru.add(
             sys.stderr,
-            format="<level>{extra[level_short]}</level>:<level>[{extra[name]}] {message}</level>",
+            format="<level>{extra[level_short]}</level>:<level>{message}</level>",
             colorize=True,
             level="INFO",
             filter=_format_level_short,
@@ -159,7 +159,7 @@ class Logger:
             _loguru.remove(Logger._stderr_handler_id)
         Logger._stderr_handler_id = _loguru.add(
             sys.stderr,
-            format="<level>{extra[level_short]}</level>:<level>[{extra[name]}] {message}</level>",
+            format="<level>{extra[level_short]}</level>:<level>{message}</level>",
             colorize=True,
             level=level.upper(),
             filter=_format_level_short,
