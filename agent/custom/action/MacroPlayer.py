@@ -1,9 +1,23 @@
 import json
+import os
 import time
 import sys
 import traceback
 from maa.context import Context
 from maa.custom_action import CustomAction
+
+
+def resolve_macro_path(file_path: str) -> str:
+    """
+    解析宏文件路径。
+    如果是纯文件名（如 "夜航手册60.json"），则自动添加 "../resource/macros/" 前缀。
+    如果是已有路径（包含分隔符），则保持原样。
+    """
+    if os.path.isabs(file_path):
+        return file_path
+    if os.sep in file_path or '/' in file_path:
+        return file_path
+    return os.path.join("..", "resource", "macros", file_path)
 
 # ========== 请根据你的游戏修改以下默认值 ==========
 DEFAULT_JOYSTICK_CENTER_X = 210   # 摇杆中心 X 坐标（像素）
@@ -42,8 +56,9 @@ class MacroPlayer(CustomAction):
             if steps is not None:
                 macro = {"steps": steps}
             elif macro_file:
-                print(f"[MacroPlayer] 从文件读取宏: {macro_file}", flush=True)
-                with open(macro_file, "r", encoding="utf-8") as f:
+                resolved_path = resolve_macro_path(macro_file)
+                print(f"[MacroPlayer] 从文件读取宏: {resolved_path}", flush=True)
+                with open(resolved_path, "r", encoding="utf-8") as f:
                     macro = json.load(f)
                     if isinstance(macro, list):
                         macro = {"steps": macro}
