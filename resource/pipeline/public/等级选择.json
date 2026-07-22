@@ -10,7 +10,10 @@
         "expected": [
             "100"
         ],
-        "action": "Click"
+        "action": "Click",
+        "focus": {
+            "Node.Action.Succeeded": "你选择了level.100"
+        }
     },
     "等级选择40": {
         "recognition": "OCR",
@@ -23,7 +26,10 @@
         "expected": [
             "40"
         ],
-        "action": "Click"
+        "action": "Click",
+        "focus": {
+            "Node.Action.Succeeded": "你选择了level.40"
+        }
     },
     "等级选择60": {
         "recognition": "OCR",
@@ -36,7 +42,10 @@
         "expected": [
             "60"
         ],
-        "action": "Click"
+        "action": "Click",
+        "focus": {
+            "Node.Action.Succeeded": "你选择了level.60"
+        }
     },
     "等级选择80": {
         "recognition": "OCR",
@@ -49,6 +58,9 @@
         "expected": [
             "80"
         ],
-        "action": "Click"
+        "action": "Click",
+        "focus": {
+            "Node.Action.Succeeded": "你选择了level.80"
+        }
     }
 }
