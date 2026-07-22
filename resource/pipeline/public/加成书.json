@@ -10,33 +10,10 @@
             392,
             35,
             27
-        ]
-    },
-    "绿书": {
-        "recognition": "TemplateMatch",
-        "template": [
-            "加成书/绿书.png"
         ],
-        "action": "Click",
-        "target": [
-            497,
-            394,
-            34,
-            27
-        ]
-    },
-    "蓝书": {
-        "recognition": "TemplateMatch",
-        "template": [
-            "加成书/蓝书.png"
-        ],
-        "action": "Click",
-        "target": [
-            623,
-            393,
-            35,
-            27
-        ]
+        "focus": {
+            "Node.Recognition.Succeeded": "你选择了不选加成书"
+        }
     },
     "紫书": {
         "recognition": "TemplateMatch",
@@ -49,7 +26,42 @@
             391,
             34,
             28
-        ]
+        ],
+        "focus": {
+            "Node.Recognition.Succeeded": "你选择了使用紫色加成书"
+        }
+    },
+    "绿书": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "加成书/绿书.png"
+        ],
+        "action": "Click",
+        "target": [
+            497,
+            394,
+            34,
+            27
+        ],
+        "focus": {
+            "Node.Recognition.Succeeded": "你选择了使用绿色加成书"
+        }
+    },
+    "蓝书": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "加成书/蓝书.png"
+        ],
+        "action": "Click",
+        "target": [
+            623,
+            393,
+            35,
+            27
+        ],
+        "focus": {
+            "Node.Recognition.Succeeded": "你选择了使用蓝色加成书"
+        }
     },
     "金书": {
         "recognition": "TemplateMatch",
@@ -62,6 +74,9 @@
             393,
             35,
             27
-        ]
+        ],
+        "focus": {
+            "Node.Recognition.Succeeded": "你选择了使用金色加成书"
+        }
     }
 }
