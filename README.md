@@ -45,12 +45,17 @@ All issues and consequences arising from the use of this software are not relate
 ## 功能列表
 
 - **夜航手册**
+    - [ ] 夜航手册说明
+    - [ ] 配置检查系统 
     - [ ] 夜航手册65
     - [ ] 夜航手册60
     - [ ] 夜航手册55
     - [ ] 夜航手册40
     - [ ] 夜航手册30
     - [ ] 夜航手册20
+- **历练-委托**
+    - [ ] 配置检查系统
+    - [ ] 魔之锲·驱离
 
 \* **更多新的副本与功能正在加急开发**
 \* **若有其他功能需求请提交 [issue](https://github.com/BQOvO/MDNA/issues)**
