@@ -1,150 +1,147 @@
 {
-   "设置检查系统-启动节点":{
-      "recognition": "DirectHit",
-      "action": "DoNothing",
-      "focus": {
-         "Node.Recognition.Succeeded": {
-            "content": "[color:green]让可爱的小菲比帮忙检测一下你的分辨率吧~[/color]",
-            "display": ["log"]
-        }
-      },
-      "timeout":1000,
-      "on_error": ["设置检查系统-检查分辨率-分辨率错误"],
-      "post_delay": 1500,
-      "next": ["设置检查系统-检查分辨率"]
-   },
-   "设置检查系统-检查分辨率":{
-      "recognition": "Custom",
-      "custom_recognition":"CheckResolution_16_9",
-      "action":"DoNothing",
-      "on_error": ["设置检查系统-检查分辨率-分辨率错误"],
-      "focus":{
-         "Node.Action.Succeeded": {
-            "content": "[color:green]真棒！分辨率对了呢~[/color]",
-            "display": ["log"]
-        }
-      },
-      "post_delay": 1000,
-      "next": ["设置检查系统-打开玩家主页"]
-   },
-   "设置检查系统-检查分辨率-分辨率错误":{
-      "recognition": "DirectHit",
-      "action": "DoNothing",
-      "focus": {
-        "Node.Recognition.Succeeded": {
-         "content": "MDNA只支持在16：9分辨率下运行哦~~~，推荐1600*900",
-         "display":["toast"]
-        },
-        "Node.Action.Succeeded": {
-         "content": "[color:red]MDNA只支持在16：9分辨率下运行哦~~~，推荐1600*900[/color]",
-         "display":["log"]
-        }
-      }
-   },
-   "设置检查系统-打开玩家主页":{
-      "recognition": "TemplateMatch",
-      "action": "Click",
-      "template": ["玩家主页.png"],
-      "focus": {
-         "Node.Recognition.Succeeded": {
-            "content": ">现在开始更改设置喵~",
-            "display": ["log"]
-         }
-      },
-      "post_delay": 1500,
-      "next": ["设置检查系统-点击设置"]
-   },
-   "设置检查系统-点击设置":{
-      "recognition": "TemplateMatch",
-      "action": "Click",
-      "template": ["设置.png"],
-      "focus": {
-         "Node.Recognition.Succeeded": {
-            "content": ">打开设置界面喵~",
-            "display": ["log"]
-         }
-      },
-      "post_delay": 1500,
-      "next": ["设置检查系统-点击布局2"]
-   },
-   "设置检查系统-点击布局2":{
-      "recognition": "DirectHit",
-      "action": "Click",
-      "target":[443,101,143,56],
-      "focus": {
-         "Node.Recognition.Succeeded": {
-            "content": ">将按键布局设置为默认布局2喵~",
-            "display": ["log"]
-         }
-      },
-      "post_delay": 1500,
-      "next": ["设置检查系统-点击画面设置"]
-   },
-   "设置检查系统-点击画面设置":{
-      "recognition": "TemplateMatch",
-      "action": "Click",
-      "template": ["画面设置.png"],
-      "focus": {
-         "Node.Recognition.Succeeded": {
-            "content": ">打开画面设置界面喵~",
-            "display": ["log"]
-         }
-      },
-      "post_delay": 1500,
-      "next": ["设置检查系统-调整品质预设1"]
-   },
-   "设置检查系统-调整品质预设1":{
-      "recognition": "DirectHit",
-      "action": "Click",
-      "target":[528,81,40,12],
-      "post_delay": 1500,
-      "next": ["设置检查系统-调整品质预设2"]
-   },
-   "设置检查系统-调整品质预设2":{
-      "recognition": "OCR",
-      "action": "Click",
-      "roi": [454,97,75,156],
-      "expected": ["极低"],
-      "focus": {
-         "Node.Recognition.Succeeded": {
-            "content": ">将品质预设改为极低喵~",
-            "display": ["log"]
-         }
-      },
-      "post_delay": 1500,
-      "next": ["设置检查系统-界面往下滑"]
-   },
-   "设置检查系统-界面往下滑":{
-      "recognition": "DirectHit",
-      "action": "Swipe",
-      "begin":[285,301,9,4],
-      "end": [280,87,9,3],
-      "repeat": 2,
-      "focus": {
-         "Node.Action.Succeeded": {
-            "content": ">正在寻找人群密度喵~",
-            "display": ["log"]
-         }
-      },
-      "post_delay": 1500,
-      "next": ["设置检查系统-调整人物密度1"]
-   },
-   "设置检查系统-调整人物密度1":{
-      "recognition": "DirectHit",
-      "action": "Click",
-      "target":[534,111,28,14],
-      "post_delay": 1500,
-      "next": ["设置检查系统-调整人物密度2"]
-   },
-   "设置检查系统-调整人物密度2":{
-      "recognition": "OCR",
-      "action": "Click",
-      "expected": ["极高"],
-      "focus": {
-         "Node.Recognition.Succeeded": {
-            "content": ">将人物密度改为极高喵~",
-            "display": ["log"]
-         }
-       }
-   }
+    "设置检查系统-启动节点": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 1500,
+        "timeout": 1000,
+        "next": [
+            "设置检查系统-打开玩家主页"
+        ]
+    },
+    "设置检查系统-打开玩家主页": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "玩家主页.png"
+        ],
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "设置检查系统-点击设置"
+        ]
+    },
+    "设置检查系统-点击布局2": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            1024,
+            287
+        ],
+        "post_delay": 1500,
+        "next": [
+            "设置检查系统-点击画面设置"
+        ]
+    },
+    "设置检查系统-点击画面设置": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            41,
+            181
+        ],
+        "post_delay": 1500,
+        "next": [
+            "设置检查系统-恢复默认画质"
+        ]
+    },
+    "设置检查系统-点击设置": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            50,
+            574
+        ],
+        "post_delay": 1500,
+        "next": [
+            "设置检查系统-点击布局2"
+        ]
+    },
+    "设置检查系统-界面往下滑": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            520,
+            650
+        ],
+        "end": [
+            [
+                520,
+                150
+            ]
+        ],
+        "repeat": 2,
+        "post_delay": 1500,
+        "next": [
+            "设置检查系统-调整人物密度1"
+        ]
+    },
+    "设置检查系统-调整人物密度1": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            1075,
+            229,
+            50,
+            18
+        ],
+        "post_delay": 1500,
+        "next": [
+            "设置检查系统-调整人物密度2"
+        ]
+    },
+    "设置检查系统-调整人物密度2": {
+        "recognition": "OCR",
+        "expected": [
+            "极高"
+        ],
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "设置检查系统-退出设置"
+        ]
+    },
+    "设置检查系统-恢复默认画质": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            49,
+            666
+        ],
+        "post_delay": 1500,
+        "next": [
+            "设置检查系统-点击确定"
+        ]
+    },
+    "设置检查系统-点击确定": {
+        "recognition": "OCR",
+        "expected": [
+            "确定"
+        ],
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "设置检查系统-界面往下滑"
+        ]
+    },
+    "设置检查系统-退出设置": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            45,
+            33
+        ],
+        "post_delay": 1500,
+        "next": [
+            "设置检查系统-退出玩家主页"
+        ]
+    },
+    "设置检查系统-退出玩家主页": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            667,
+            208,
+            423,
+            383
+        ]
+    }
 }
