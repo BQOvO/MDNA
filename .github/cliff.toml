@@ -77,6 +77,7 @@ commit_parsers = [
     { message = "^fix", group = "<!-- 1 -->问题修复 | Bug Fixes" },
     { message = "^(refactor|rft)", group = "<!-- 2 -->代码重构 | Refactoring" },
     { message = "^improve", group = "<!-- 3 -->代码优化 | Code Optimization" },
+    { message = "^reorg", group = "<!-- 14 -->结构优化 | Project Structure" },
     { message = "^perf", group = "<!-- 4 -->性能优化 | Performance" },
     { message = "^docs", group = "<!-- 5 -->文档 | Documentation" },
     { message = "^(style|styles)", group = "<!-- 6 -->样式 | Style" },
