@@ -112,7 +112,7 @@
         "action": "Custom",
         "custom_action": "MacroPlayer",
         "custom_action_param": {
-            "file": "macros/夜航手册60.json"
+            "file": "夜航手册60.json"
         },
         "post_delay": 0,
         "next": [
