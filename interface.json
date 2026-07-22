@@ -7,7 +7,7 @@
         ]
     },
     "name": "MDNA",
-    //"title": "二重螺旋小助手 Oᴗoಣ 旅途愉快~ | 版本号:1.1.14 | 如果出现了bug,请在群里或github的issue中上传日志",
+    "title":"",
     "description": "使用前请将模拟器分辨率设置为16：9哦~~",
     "icon": "./resource/image/logo.ico",
     "contact": "QQ群:1002051753",
@@ -36,13 +36,17 @@
         }
     ],
     "import": [
+        "tasks/魔之锲·驱离.json",
         "tasks/夜航手册65.json",
         "tasks/夜航手册60.json",
         "tasks/夜航手册30.json",
         "tasks/夜航手册20.json",
         "tasks/夜航手册55.json",
         "tasks/夜航手册40.json",
-        "tasks/preset/夜航手册.json"
+        "tasks/设置检查系统.json",
+        "tasks/夜航手册任务说明.json",
+        "tasks/preset/夜航手册.json",
+        "tasks/preset/历练-委托.json"
     ],
     "task": [],
     "option": {}
