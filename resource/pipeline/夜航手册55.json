@@ -73,6 +73,20 @@
             "夜航55-回到主界面"
         ]
     },
+    "夜航55-回到主界面": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "回到主界面",
+        "post_delay": 0,
+        "focus": {
+            "Node.Recognition.Starting": "正在回到主界面·······"
+        },
+        "next": [
+            "夜航55-进入夜航手册"
+        ]
+    },
     "夜航55-失败后等待节点": {
         "recognition": "DirectHit",
         "action": "DoNothing",
@@ -115,7 +129,7 @@
         "action": "Custom",
         "custom_action": "MacroPlayer",
         "custom_action_param": {
-            "file": "夜航手册60.json"
+            "file": "夜航手册55.json"
         },
         "post_delay": 0,
         "focus": {
@@ -395,20 +409,6 @@
         "post_delay": 0,
         "next": [
             "夜航55-确认选择"
-        ]
-    },
-    "夜航55-回到主界面": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "回到主界面",
-        "post_delay": 0,
-        "focus": {
-            "Node.Recognition.Starting": "正在回到主界面·······"
-        },
-        "next": [
-            "夜航55-进入夜航手册"
         ]
     }
 }
