@@ -58,6 +58,20 @@
             "魔之锲·驱离-回到主界面"
         ]
     },
+    "魔之锲·驱离-回到主界面": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "回到主界面",
+        "post_delay": 0,
+        "focus": {
+            "Node.Recognition.Starting": "正在回到主界面·······"
+        },
+        "next": [
+            "魔之锲·驱离-进入历练界面"
+        ]
+    },
     "魔之锲·驱离-失败后等待节点": {
         "recognition": "DirectHit",
         "action": "DoNothing",
@@ -89,7 +103,7 @@
         "action": "Custom",
         "custom_action": "MacroPlayer",
         "custom_action_param": {
-            "file": "夜航手册60.json"
+            "file": "魔之锲·驱离.json"
         },
         "post_delay": 0,
         "focus": {
@@ -258,7 +272,11 @@
         "action": "Click",
         "post_delay": 1500,
         "next": [
-            "魔之锲·驱离-滑动寻找驱离副本"
+            {
+                "name": "魔之锲·驱离-深境委托界面",
+                "jump_back": true
+            },
+            "魔之锲·驱离-委托界面"
         ]
     },
     "魔之锲·驱离-确定退出": {
@@ -451,18 +469,33 @@
             "魔之锲·驱离-检测是否成功进入驱离"
         ]
     },
-    "魔之锲·驱离-回到主界面": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "回到主界面",
-        "post_delay": 0,
-        "focus": {
-            "Node.Recognition.Starting": "正在回到主界面·······"
-        },
+    "魔之锲·驱离-委托界面": {
+        "recognition": "OCR",
+        "roi": [
+            951,
+            614,
+            319,
+            73
+        ],
+        "expected": [
+            "委托"
+        ],
+        "action": "DoNothing",
         "next": [
-            "魔之锲·驱离-进入历练界面"
+            "魔之锲·驱离-滑动寻找驱离副本"
         ]
+    },
+    "魔之锲·驱离-深境委托界面": {
+        "recognition": "OCR",
+        "roi": [
+            951,
+            614,
+            319,
+            73
+        ],
+        "expected": [
+            "深境委托"
+        ],
+        "action": "Click"
     }
 }
