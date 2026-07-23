@@ -55,6 +55,9 @@
         "recognition": "DirectHit",
         "action": "DoNothing",
         "post_delay": 1000,
+        "focus": {
+            "Node.Recognition.Succeeded": "等待进入副本中······"
+        },
         "next": [
             {
                 "name": "夜航40-加载中",
@@ -115,6 +118,9 @@
             "file": "夜航手册60.json"
         },
         "post_delay": 0,
+        "focus": {
+            "Node.Recognition.Starting": "自动寻路中······"
+        },
         "next": [
             "夜航40-角色主控"
         ]
@@ -168,6 +174,9 @@
         "custom_action": "outnoder",
         "custom_action_param": "放弃挑战",
         "post_delay": 0,
+        "focus": {
+            "Node.Recognition.Starting": "自动进行超时退出流程"
+        },
         "next": [
             "夜航40-确定退出"
         ]
@@ -277,6 +286,9 @@
         "action": "Custom",
         "custom_action": "TimeoutReset",
         "post_delay": 0,
+        "focus": {
+            "Node.Recognition.Succeeded": "超时倒计时结束计时"
+        },
         "next": [
             "夜航40-成功计数"
         ]
@@ -299,6 +311,9 @@
         "custom_action": "outnoder",
         "custom_action_param": "退出委托门",
         "post_delay": 0,
+        "focus": {
+            "Node.Recognition.Succeeded": "啊？居然超时了"
+        },
         "next": [
             "夜航40-放弃挑战"
         ]
@@ -312,6 +327,9 @@
             "duration": 40
         },
         "post_delay": 1000,
+        "focus": {
+            "Node.Recognition.Starting": "超时倒计时开始"
+        },
         "next": [
             "夜航40-寻路"
         ]
@@ -353,6 +371,9 @@
         "custom_action": "outnoder",
         "custom_action_param": "进入历练夜航界面流程",
         "post_delay": 1000,
+        "focus": {
+            "Node.Recognition.Succeeded": "正在进入夜航手册界面······"
+        },
         "next": [
             "夜航40-寻找40"
         ]

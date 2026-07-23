@@ -55,6 +55,9 @@
         "recognition": "DirectHit",
         "action": "DoNothing",
         "post_delay": 1000,
+        "focus": {
+            "Node.Recognition.Succeeded": "等待进入副本中······"
+        },
         "next": [
             {
                 "name": "夜航65-加载中",
@@ -69,6 +72,11 @@
         "next": [
             "夜航65-进入夜航手册"
         ]
+    },
+    "夜航65-失败后等待节点": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 1000
     },
     "夜航65-失败计数": {
         "recognition": "DirectHit",
@@ -110,6 +118,9 @@
             "file": "夜航手册65.json"
         },
         "post_delay": 0,
+        "focus": {
+            "Node.Recognition.Starting": "自动寻路中······"
+        },
         "next": [
             "夜航65-角色主控"
         ]
@@ -163,6 +174,9 @@
         "custom_action": "outnoder",
         "custom_action_param": "放弃挑战",
         "post_delay": 0,
+        "focus": {
+            "Node.Recognition.Starting": "自动进行超时退出流程"
+        },
         "next": [
             "夜航65-确定退出"
         ]
@@ -253,12 +267,28 @@
             "夜航65-加成书选择"
         ]
     },
+    "夜航65-等待退出节点": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 1000,
+        "timeout": 100,
+        "next": [
+            "夜航65-再接再厉",
+            {
+                "name": "夜航65-失败后等待节点",
+                "jump_back": true
+            }
+        ]
+    },
     "夜航65-结束计时": {
         "recognition": "DirectHit",
         "pre_delay": 0,
         "action": "Custom",
         "custom_action": "TimeoutReset",
         "post_delay": 0,
+        "focus": {
+            "Node.Recognition.Succeeded": "超时倒计时结束计时"
+        },
         "next": [
             "夜航65-成功计数"
         ]
@@ -281,6 +311,9 @@
         "custom_action": "outnoder",
         "custom_action_param": "退出委托门",
         "post_delay": 0,
+        "focus": {
+            "Node.Recognition.Succeeded": "啊？居然超时了"
+        },
         "next": [
             "夜航65-放弃挑战"
         ]
@@ -294,6 +327,9 @@
             "duration": 60
         },
         "post_delay": 1000,
+        "focus": {
+            "Node.Recognition.Starting": "超时倒计时开始"
+        },
         "next": [
             "夜航65-寻路"
         ]
@@ -305,8 +341,8 @@
         "custom_action": "CountPrint",
         "custom_action_param": {
             "all": "夜航手册65已全部完成",
-            "success": "成功{total}次",
-            "failed": "失败{total}次"
+            "failed": "失败{total}次",
+            "success": "成功{total}次"
         },
         "post_delay": 0,
         "next": [
@@ -320,8 +356,8 @@
         "custom_action": "CountPrint",
         "custom_action_param": {
             "all": "夜航手册65已完成{total}/{target}次",
-            "success": "成功{total}次",
-            "failed": "失败{total}次"
+            "failed": "失败{total}次",
+            "success": "成功{total}次"
         },
         "post_delay": 0,
         "next": [
@@ -335,6 +371,9 @@
         "custom_action": "outnoder",
         "custom_action_param": "进入历练夜航界面流程",
         "post_delay": 1000,
+        "focus": {
+            "Node.Recognition.Succeeded": "正在进入夜航手册界面······"
+        },
         "next": [
             "夜航65-寻找65"
         ]
@@ -357,23 +396,5 @@
         "next": [
             "夜航65-确认选择"
         ]
-    },
-    "夜航65-等待退出节点": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
-        "post_delay": 1000,
-        "timeout": 100,
-        "next": [
-            "夜航65-再接再厉",
-            {
-                "name": "夜航65-失败后等待节点",
-                "jump_back": true
-            }
-        ]
-    },
-    "夜航65-失败后等待节点": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
-        "post_delay": 1000
     }
 }
