@@ -1,86 +1,66 @@
 {
     "夜航-80-1": {
-        "action": {
-            "param": {
-                "custom_action": "VoyageClick"
-            },
-            "type": "Custom"
-        },
-        "post_delay": 0,
+        "recognition": "OCR",
+        "expected": [
+            "侵蚀钢拳铁卫"
+        ],
+        "replace": [
+            [
+                "\\s+",
+                ""
+            ]
+        ],
         "pre_delay": 0,
-        "recognition": {
-            "param": {
-                "expected": [
-                    "侵蚀钢拳铁卫"
-                ],
-                 "replace": [
-            ["\\s+", ""]
-        ]
-            },
-            "type": "OCR"
-        }
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
     },
     "夜航-80-2": {
-        "action": {
-            "param": {
-                "custom_action": "VoyageClick"
-            },
-            "type": "Custom"
-        },
-        "post_delay": 0,
+        "recognition": "OCR",
+        "expected": [
+            "侵蚀红衫铁卫"
+        ],
+        "replace": [
+            [
+                "\\s+",
+                ""
+            ]
+        ],
         "pre_delay": 0,
-        "recognition": {
-            "param": {
-                "expected": [
-                    "侵蚀红衫铁卫"
-                ],
-                 "replace": [
-            ["\\s+", ""]
-        ]
-            },
-            "type": "OCR"
-        }
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
     },
     "夜航-80-3": {
-        "action": {
-            "param": {
-                "custom_action": "VoyageClick"
-            },
-            "type": "Custom"
-        },
-        "post_delay": 0,
+        "recognition": "OCR",
+        "expected": [
+            "守护失序的应天侍"
+        ],
+        "replace": [
+            [
+                "\\s+",
+                ""
+            ]
+        ],
         "pre_delay": 0,
-        "recognition": {
-            "param": {
-                "expected": [
-                    "守护失序的应天侍"
-                ],
-                 "replace": [
-            ["\\s+", ""]
-        ]
-            },
-            "type": "OCR"
-        }
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
     },
     "夜航-80-4": {
-        "action": {
-            "param": {
-                "custom_action": "VoyageClick"
-            },
-            "type": "Custom"
-        },
-        "post_delay": 0,
+        "recognition": "OCR",
+        "expected": [
+            "复仇萼蚀秽兽"
+        ],
+        "replace": [
+            [
+                "\\s+",
+                ""
+            ]
+        ],
         "pre_delay": 0,
-        "recognition": {
-            "param": {
-                "expected": [
-                    "复仇萼蚀秽兽"
-                ],
-                 "replace": [
-            ["\\s+", ""]
-        ]
-            },
-            "type": "OCR"
-        }
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
     }
 }

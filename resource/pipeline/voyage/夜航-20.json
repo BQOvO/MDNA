@@ -5,7 +5,10 @@
             "爆破疾冲秽兽"
         ],
         "replace": [
-            ["\\s+", ""]
+            [
+                "\\s+",
+                ""
+            ]
         ],
         "pre_delay": 0,
         "action": "Custom",
@@ -18,7 +21,10 @@
             "猩红游击秽兽"
         ],
         "replace": [
-            ["\\s+", ""]
+            [
+                "\\s+",
+                ""
+            ]
         ],
         "pre_delay": 0,
         "action": "Custom",
@@ -31,7 +37,10 @@
             "守护飘浮秽兽"
         ],
         "replace": [
-            ["\\s+", ""]
+            [
+                "\\s+",
+                ""
+            ]
         ],
         "pre_delay": 0,
         "action": "Custom",
@@ -44,7 +53,10 @@
             "凛霜灼心秽兽"
         ],
         "replace": [
-            ["\\s+", ""]
+            [
+                "\\s+",
+                ""
+            ]
         ],
         "pre_delay": 0,
         "action": "Custom",
@@ -57,20 +69,10 @@
             "复仇蒙恩的先锋"
         ],
         "replace": [
-            ["\\s+", ""]
-        ],
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "VoyageClick",
-        "post_delay": 0
-    },
-    "夜航-20-6-1": {
-        "recognition": "OCR",
-        "expected": [
-            "霜狱蒙恩的执事"
-        ],
-        "replace": [
-            ["\\s+", ""]
+            [
+                "\\s+",
+                ""
+            ]
         ],
         "pre_delay": 0,
         "action": "Custom",
@@ -97,5 +99,21 @@
         "next": [
             "夜航-20-6-1"
         ]
+    },
+    "夜航-20-6-1": {
+        "recognition": "OCR",
+        "expected": [
+            "霜狱蒙恩的执事"
+        ],
+        "replace": [
+            [
+                "\\s+",
+                ""
+            ]
+        ],
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
     }
 }

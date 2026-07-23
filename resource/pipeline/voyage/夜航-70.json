@@ -1,170 +1,130 @@
 {
     "夜航-70-1": {
-        "action": {
-            "param": {
-                "custom_action": "VoyageClick"
-            },
-            "type": "Custom"
-        },
-        "post_delay": 0,
+        "recognition": "OCR",
+        "expected": [
+            "霹雳钢拳铁卫"
+        ],
+        "replace": [
+            [
+                "\\s+",
+                ""
+            ]
+        ],
         "pre_delay": 0,
-        "recognition": {
-            "param": {
-                "expected": [
-                    "霹雳钢拳铁卫"
-                ],
-                "replace": [
-            ["\\s+", ""]
-        ]
-            },
-            "type": "OCR"
-        }
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
     },
     "夜航-70-2": {
-        "action": {
-            "param": {
-                "custom_action": "VoyageClick"
-            },
-            "type": "Custom"
-        },
-        "post_delay": 0,
+        "recognition": "OCR",
+        "expected": [
+            "凛霜失序的应天侍"
+        ],
+        "replace": [
+            [
+                "\\s+",
+                ""
+            ]
+        ],
         "pre_delay": 0,
-        "recognition": {
-            "param": {
-                "expected": [
-                    "凛霜失序的应天侍"
-                ],
-                "replace": [
-            ["\\s+", ""]
-        ]
-            },
-            "type": "OCR"
-        }
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
     },
     "夜航-70-3": {
-        "action": {
-            "param": {
-                "custom_action": "VoyageClick"
-            },
-            "type": "Custom"
-        },
-        "post_delay": 0,
+        "recognition": "OCR",
+        "expected": [
+            "残火帝皇之仁"
+        ],
+        "replace": [
+            [
+                "\\s+",
+                ""
+            ]
+        ],
         "pre_delay": 0,
-        "recognition": {
-            "param": {
-                "expected": [
-                    "残火帝皇之仁"
-                ],
-                "replace": [
-            ["\\s+", ""]
-        ]
-            },
-            "type": "OCR"
-        }
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
     },
     "夜航-70-4": {
-        "action": {
-            "param": {
-                "custom_action": "VoyageClick"
-            },
-            "type": "Custom"
-        },
-        "post_delay": 0,
+        "recognition": "OCR",
+        "expected": [
+            "浴血精锐士官"
+        ],
+        "replace": [
+            [
+                "\\s+",
+                ""
+            ]
+        ],
         "pre_delay": 0,
-        "recognition": {
-            "param": {
-                "expected": [
-                    "浴血精锐士官"
-                ],
-                "replace": [
-            ["\\s+", ""]
-        ]
-            },
-            "type": "OCR"
-        }
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
     },
     "夜航-70-5": {
-        "action": {
-            "param": {
-                "custom_action": "VoyageClick"
-            },
-            "type": "Custom"
-        },
-        "post_delay": 0,
+        "recognition": "OCR",
+        "expected": [
+            "掠影狙击列兵"
+        ],
+        "replace": [
+            [
+                "\\s+",
+                ""
+            ]
+        ],
         "pre_delay": 0,
-        "recognition": {
-            "param": {
-                "expected": [
-                    "掠影狙击列兵"
-                ],
-                "replace": [
-            ["\\s+", ""]
-        ]
-            },
-            "type": "OCR"
-        }
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
     },
     "夜航-70-6": {
-        "action": {
-            "param": {
-                "custom_action": "VoyageClick"
-            },
-            "type": "Custom"
-        },
-        "post_delay": 0,
+        "recognition": "OCR",
+        "expected": [
+            "霜狱劈斩列兵"
+        ],
+        "replace": [
+            [
+                "\\s+",
+                ""
+            ]
+        ],
         "pre_delay": 0,
-        "recognition": {
-            "param": {
-                "expected": [
-                    "霜狱劈斩列兵"
-                ],
-                "replace": [
-            ["\\s+", ""]
-        ]
-            },
-            "type": "OCR"
-        }
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
     },
     "夜航-70-7": {
-        "action": {
-            "param": {
-                "custom_action": "VoyageClick"
-            },
-            "type": "Custom"
-        },
-        "post_delay": 0,
+        "recognition": "OCR",
+        "expected": [
+            "转雷远征列兵"
+        ],
+        "replace": [
+            [
+                "\\s+",
+                ""
+            ]
+        ],
         "pre_delay": 0,
-        "recognition": {
-            "param": {
-                "expected": [
-                    "转雷远征列兵"
-                ],
-                "replace": [
-            ["\\s+", ""]
-        ]
-            },
-            "type": "OCR"
-        }
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
     },
     "夜航-70-8": {
-        "action": {
-            "param": {
-                "custom_action": "VoyageClick"
-            },
-            "type": "Custom"
-        },
-        "post_delay": 0,
+        "recognition": "OCR",
+        "expected": [
+            "守护突击列兵"
+        ],
+        "replace": [
+            [
+                "\\s+",
+                ""
+            ]
+        ],
         "pre_delay": 0,
-        "recognition": {
-            "param": {
-                "expected": [
-                    "守护突击列兵"
-                ],
-                "replace": [
-            ["\\s+", ""]
-        ]
-            },
-            "type": "OCR"
-        }
+        "action": "Custom",
+        "custom_action": "VoyageClick",
+        "post_delay": 0
     }
 }
