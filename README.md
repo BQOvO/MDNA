@@ -47,6 +47,8 @@ All issues and consequences arising from the use of this software are not relate
 - **夜航手册**
     - [ ] 夜航手册说明
     - [ ] 自动-调整设置 （自动设置好所需游戏内设置）
+    - [ ] 夜航手册80
+    - [ ] 夜航手册70
     - [ ] 夜航手册65
     - [ ] 夜航手册60
     - [ ] 夜航手册55
