@@ -1,0 +1,477 @@
+{
+    "角色经验·避险-再接再厉": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "再接再厉",
+        "post_delay": 0,
+        "next": [
+            "角色经验·避险-失败计数"
+        ]
+    },
+    "角色经验·避险-再次进行": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "再次进行",
+        "anchor": {
+            "角色经验·避险-回到选择加成书": "角色经验·避险-加成书选择"
+        },
+        "post_delay": 0,
+        "next": [
+            {
+                "name": "角色经验·避险-回到选择加成书",
+                "anchor": true
+            }
+        ]
+    },
+    "角色经验·避险-加成书选择": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "不选书",
+        "post_delay": 0,
+        "next": [
+            "角色经验·避险-选书-开始挑战"
+        ]
+    },
+    "角色经验·避险-加载中": {
+        "recognition": "TemplateMatch",
+        "roi": [
+            1198,
+            643,
+            49,
+            38
+        ],
+        "template": [
+            "加载过程中百分号.png"
+        ],
+        "action": "DoNothing"
+    },
+    "角色经验·避险-启动节点": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "角色经验·避险-回到主界面"
+        ]
+    },
+    "角色经验·避险-回到主界面": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "回到主界面",
+        "post_delay": 0,
+        "focus": {
+            "Node.Recognition.Starting": "正在回到主界面·······"
+        },
+        "next": [
+            "角色经验·避险-进入历练界面"
+        ]
+    },
+    "角色经验·避险-失败后等待节点": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 1000
+    },
+    "角色经验·避险-失败计数": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "Count",
+        "custom_action_param": {
+            "id": "failed",
+            "target_total": 0
+        },
+        "anchor": {
+            "角色经验·避险-回到计数": "角色经验·避险-总计数"
+        },
+        "post_delay": 0,
+        "on_error": [
+            {
+                "name": "角色经验·避险-回到计数",
+                "anchor": true
+            }
+        ]
+    },
+    "角色经验·避险-寻路": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "MacroPlayer",
+        "custom_action_param": {
+            "file": "角色经验·避险.json"
+        },
+        "post_delay": 0,
+        "focus": {
+            "Node.Recognition.Starting": "开始进行自动寻路"
+        },
+        "next": [
+            "角色经验·避险-角色主控"
+        ]
+    },
+    "角色经验·避险-开始挑战": {
+        "recognition": "OCR",
+        "expected": [
+            "开始挑战"
+        ],
+        "action": "Click",
+        "next": [
+            "角色经验·避险-加成书选择"
+        ]
+    },
+    "角色经验·避险-总计数": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "Count",
+        "custom_action_param": {
+            "id": "all",
+            "target_total": 10
+        },
+        "post_delay": 0,
+        "next": [
+            "角色经验·避险-输出信息节点1"
+        ],
+        "on_error": [
+            "角色经验·避险-输出信息节点2"
+        ]
+    },
+    "角色经验·避险-成功计数": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "Count",
+        "custom_action_param": {
+            "id": "success",
+            "target_total": 0
+        },
+        "post_delay": 0,
+        "on_error": [
+            "角色经验·避险-总计数"
+        ]
+    },
+    "角色经验·避险-放弃挑战": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "放弃挑战",
+        "post_delay": 0,
+        "next": [
+            "角色经验·避险-确定退出"
+        ]
+    },
+    "角色经验·避险-检查超时": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "CheckTimeout",
+        "post_delay": 0,
+        "next": [
+            "角色经验·避险-角色主控"
+        ],
+        "on_error": [
+            "角色经验·避险-超时处理"
+        ]
+    },
+    "角色经验·避险-检测是否完成委托": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "Looper",
+        "custom_action_param": {
+            "count": 3,
+            "nodes": [
+                "委托完成"
+            ]
+        },
+        "post_delay": 0,
+        "next": [
+            "角色经验·避险-结束计时"
+        ],
+        "on_error": [
+            "角色经验·避险-检查超时"
+        ]
+    },
+    "角色经验·避险-检测是否成功进入避险": {
+        "recognition": "OCR",
+        "roi": [
+            15,
+            251,
+            190,
+            32
+        ],
+        "expected": [
+            "制作血清"
+        ],
+        "action": "DoNothing",
+        "focus": {
+            "Node.Recognition.Succeeded": "成功进入驱离副本"
+        },
+        "next": [
+            "角色经验·避险-超时计时开始"
+        ]
+    },
+    "角色经验·避险-点击历练": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            1157,
+            21,
+            24,
+            24
+        ],
+        "post_delay": 2000,
+        "focus": {
+            "Node.Action.Succeeded": "成功进入历练界面"
+        },
+        "next": [
+            "角色经验·避险-点击历练委托"
+        ]
+    },
+    "角色经验·避险-点击历练委托": {
+        "recognition": "TemplateMatch",
+        "roi": [
+            22,
+            157,
+            59,
+            53
+        ],
+        "template": [
+            "历练委托.png"
+        ],
+        "method": 3,
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            {
+                "name": "角色经验·避险-深境委托界面",
+                "jump_back": true
+            },
+            "角色经验·避险-委托界面"
+        ]
+    },
+    "角色经验·避险-确定退出": {
+        "recognition": "OCR",
+        "roi": [
+            737,
+            382,
+            87,
+            57
+        ],
+        "expected": [
+            "确定"
+        ],
+        "action": "Click",
+        "next": [
+            "角色经验·避险-等待退出节点"
+        ]
+    },
+    "角色经验·避险-等待退出节点": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 1000,
+        "timeout": 100,
+        "next": [
+            "角色经验·避险-再接再厉",
+            {
+                "name": "角色经验·避险-失败后等待节点",
+                "jump_back": true
+            }
+        ]
+    },
+    "角色经验·避险-等级选择": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "等级选择40",
+        "post_delay": 0,
+        "next": [
+            "角色经验·避险-开始挑战"
+        ]
+    },
+    "角色经验·避险-结束计时": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "TimeoutReset",
+        "post_delay": 0,
+        "next": [
+            "角色经验·避险-成功计数"
+        ]
+    },
+    "角色经验·避险-角色主控": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "黎瑟",
+        "post_delay": 0,
+        "next": [
+            "角色经验·避险-检测是否完成委托"
+        ]
+    },
+    "角色经验·避险-超时处理": {
+        "recognition": "DirectHit",
+        "pre_delay": 500,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "退出委托门",
+        "post_delay": 0,
+        "focus": {
+            "Node.Action.Starting": "开始进行超时处理",
+            "Node.Recognition.Starting": "啊？居然超时了"
+        },
+        "next": [
+            "角色经验·避险-放弃挑战"
+        ]
+    },
+    "角色经验·避险-超时计时开始": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "TimeoutStart",
+        "custom_action_param": {
+            "duration": 60
+        },
+        "post_delay": 1000,
+        "focus": {
+            "Node.Recognition.Succeeded": "开始超时计时（防卡怪）"
+        },
+        "next": [
+            "角色经验·避险-寻路"
+        ]
+    },
+    "角色经验·避险-输出信息节点1": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "CountPrint",
+        "custom_action_param": {
+            "all": "角色经验·避险已全部完成",
+            "failed": "失败{total}次",
+            "success": "成功{total}次"
+        },
+        "post_delay": 0,
+        "next": [
+            "角色经验·避险-退出委托流程"
+        ]
+    },
+    "角色经验·避险-输出信息节点2": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "CountPrint",
+        "custom_action_param": {
+            "all": "角色经验·避险已完成{total}/{target}次",
+            "failed": "失败{total}次",
+            "success": "成功{total}次"
+        },
+        "post_delay": 0,
+        "next": [
+            "角色经验·避险-再次进行"
+        ]
+    },
+    "角色经验·避险-进入历练界面": {
+        "recognition": "TemplateMatch",
+        "roi": [
+            11,
+            9,
+            82,
+            60
+        ],
+        "template": [
+            "玩家主页.png"
+        ],
+        "threshold": [
+            0.5
+        ],
+        "action": "DoNothing",
+        "post_delay": 1500,
+        "focus": {
+            "Node.Recognition.Succeeded": "正在进入历练界面·······"
+        },
+        "next": [
+            "角色经验·避险-点击历练"
+        ]
+    },
+    "角色经验·避险-进入避险委托": {
+        "recognition": "OCR",
+        "expected": [
+            "避险"
+        ],
+        "action": "Click",
+        "post_delay": 1500,
+        "focus": {
+            "Node.Action.Succeeded": "成功进入驱离副本"
+        },
+        "next": [
+            "角色经验·避险-等级选择"
+        ]
+    },
+    "角色经验·避险-退出委托流程": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "退出委托",
+        "post_delay": 0
+    },
+    "角色经验·避险-选书-开始挑战": {
+        "recognition": "OCR",
+        "roi": [
+            635,
+            470,
+            296,
+            58
+        ],
+        "expected": [
+            "开始挑战"
+        ],
+        "action": "Click",
+        "focus": {
+            "Node.Action.Succeeded": "正在加载中······"
+        },
+        "next": [
+            {
+                "name": "角色经验·避险-加载中",
+                "jump_back": true
+            },
+            "角色经验·避险-检测是否成功进入避险"
+        ]
+    },
+    "角色经验·避险-委托界面": {
+        "recognition": "OCR",
+        "roi": [
+            951,
+            614,
+            319,
+            73
+        ],
+        "expected": [
+            "委托"
+        ],
+        "action": "DoNothing",
+        "next": [
+            "角色经验·避险-进入避险委托"
+        ]
+    },
+    "角色经验·避险-深境委托界面": {
+        "recognition": "OCR",
+        "roi": [
+            951,
+            614,
+            319,
+            73
+        ],
+        "expected": [
+            "深境委托"
+        ],
+        "action": "Click"
+    }
+}
