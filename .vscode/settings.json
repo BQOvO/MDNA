@@ -54,5 +54,7 @@
         "MD041": false,
         "MD022": false,
         "MD026": false
-    }
+    },
+    "git.pullRebase": true,
+    "git.rebaseWhenSync": true
 }
