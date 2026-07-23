@@ -46,7 +46,7 @@ All issues and consequences arising from the use of this software are not relate
 
 - **夜航手册**
     - [ ] 夜航手册说明
-    - [ ] 配置检查系统 
+    - [ ] 自动-调整设置 （自动设置好所需游戏内设置）
     - [ ] 夜航手册65
     - [ ] 夜航手册60
     - [ ] 夜航手册55
@@ -54,7 +54,7 @@ All issues and consequences arising from the use of this software are not relate
     - [ ] 夜航手册30
     - [ ] 夜航手册20
 - **历练-委托**
-    - [ ] 配置检查系统
+    - [ ] 自动-调整设置 （自动设置好所需游戏内设置）
     - [ ] 魔之锲·驱离
 
 \* **更多新的副本与功能正在加急开发**
