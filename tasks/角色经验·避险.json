@@ -111,7 +111,6 @@
         "角色经验避险-超时计时": {
             "label": "超时时间",
             "type": "input",
-            "description": "单位为秒，请合理配置",
             "inputs": [
                 {
                     "name": "超时时间",
@@ -132,7 +131,6 @@
         "角色经验避险-刷取次数": {
             "label": "刷取次数",
             "type": "input",
-            "description": "配置为0即为无限刷取",
             "inputs": [
                 {
                     "name": "刷取次数",
