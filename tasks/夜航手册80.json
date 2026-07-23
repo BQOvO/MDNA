@@ -1,0 +1,187 @@
+{
+    "task": [
+        {
+            "name": "夜航手册80",
+            "entry": "夜航80-启动",
+            "description": "resource/descs/nightguide/80.md",
+            "option": ["夜航80副本选择","夜航80加成书选择","夜航80刷取次数","夜航80主控","夜航80技能释放间隔","夜航80超时时间"]
+        }
+    ],
+    "option": {
+        "夜航80副本选择":{
+            "label": "副本选择",
+            "type":"select",
+            "default_case": "第一个",
+            "description": "选择第几个副本进行刷取",
+            "cases": [
+                {
+                    "name":"第一个",
+                    "pipeline_override": {
+                        "夜航80-选择副本":{
+                            "custom_action_param": "夜航-80-1"
+                        }
+                    }
+                },
+                {
+                    "name":"第二个",
+                    "pipeline_override": {
+                        "夜航80-选择副本":{
+                            "custom_action_param": "夜航-80-2"
+                        }
+                    }
+                },
+                {
+                    "name":"第三个",
+                    "pipeline_override": {
+                        "夜航80-选择副本":{
+                            "custom_action_param": "夜航-80-3"
+                        }
+                    }
+                },
+                {
+                    "name":"第四个",
+                    "pipeline_override": {
+                        "夜航80-选择副本":{
+                            "custom_action_param": "夜航-80-4"
+                        }
+                    }
+                }
+            ]
+        },
+        "夜航80加成书选择":{
+            "label": "加成书选择",
+            "type":"select",
+            "description": "选择加成书",
+            "default_case": "不加成",
+            "cases": [
+                {
+                    "name":"不加成",
+                    "icon":"./resource/image/加成书/不加成.png",
+                    "pipeline_override": {
+                        "夜航80-加成书选择":{
+                            "custom_action_param":"不选书"
+                        }
+                    }
+                },
+                {
+                    "name":"绿书（1倍）",
+                    "icon":"./resource/image/加成书/绿书.png",
+                    "pipeline_override": {
+                        "夜航80-加成书选择":{
+                            "custom_action_param":"绿书"
+                        }
+                    }
+                },
+                {
+                    "name":"蓝书（2倍）",
+                    "icon":"./resource/image/加成书/蓝书.png",
+                    "pipeline_override": {
+                        "夜航80-加成书选择":{
+                            "custom_action_param":"蓝书"
+                        }
+                    }
+                },
+                {
+                    "name":"紫书（8倍）",
+                    "icon":"./resource/image/加成书/紫书.png",
+                    "pipeline_override": {
+                        "夜航80-加成书选择":{
+                            "custom_action_param":"紫书"
+                        }
+                    }
+                },
+                {
+                    "name":"金书（20倍）",
+                    "icon":"./resource/image/加成书/金书.png",
+                    "pipeline_override": {
+                        "夜航80-加成书选择":{
+                            "custom_action_param":"金书"
+                        }
+                    }
+                }
+            ]
+        },
+        "夜航80超时时间":{
+            "type":"input",
+            "inputs": [
+                {
+                    "name":"超时时间",
+                    "description": "单位为秒，请合理配置",
+                    "default": "180",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$"
+                }
+            ],
+            "pipeline_override": {
+                "夜航80-超时计时开始":{
+                    "custom_action_param":{
+                        "duration": "{超时时间}"
+                    }
+                }
+            }
+        },
+        "夜航80刷取次数":{
+            "type": "input",
+            "inputs": [
+                {
+                    "name":"刷取次数",
+                    "description": "配置为0即为无限刷取（或者你可以配置一个很大的数）",
+                    "default": "0",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$"
+                }
+            ],
+            "pipeline_override": {
+                "夜航80-总计数":{
+                    "custom_action_param":{
+                        "id":"all",
+                        "target_total":"{刷取次数}"
+                    }
+                }
+            }
+        },
+        "夜航80主控":{
+            "label": "主控",
+            "type": "select",
+            "default_case": "黎瑟",
+            "cases": [
+                {
+                    "name":"黎瑟",
+                    "pipeline_override": {
+                        "夜航80-角色主控":{
+                            "custom_action_param":"黎瑟"
+                        }
+                    }
+                },
+                {
+                    "name":"水母",
+                    "pipeline_override": {
+                        "夜航80-角色主控":{
+                            "custom_action_param":"水母"
+                        }
+                    }
+                }
+            ]
+        },
+        "夜航80技能释放间隔":{
+            "type": "input",
+            "inputs": [
+                {
+                    "name":"角色技能释放间隔",
+                    "description": "单位为秒，请合理配置",
+                    "default": "20",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$"
+                }
+            ],
+            "pipeline_override": {
+                "夜航80-检测是否完成委托":{
+                    "custom_action_param":{
+                        "count": "{角色技能释放间隔}",
+                        "nodes":["委托完成"]
+                    }
+                }
+            }
+        }
+   }
+}
