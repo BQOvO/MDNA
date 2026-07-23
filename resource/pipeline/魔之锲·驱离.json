@@ -55,7 +55,7 @@
         "recognition": "DirectHit",
         "action": "DoNothing",
         "next": [
-            "魔之锲·驱离-进入历练界面"
+            "魔之锲·驱离-回到主界面"
         ]
     },
     "魔之锲·驱离-失败后等待节点": {
@@ -449,6 +449,20 @@
                 "jump_back": true
             },
             "魔之锲·驱离-检测是否成功进入驱离"
+        ]
+    },
+    "魔之锲·驱离-回到主界面": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "回到主界面",
+        "post_delay": 0,
+        "focus": {
+            "Node.Recognition.Starting": "正在回到主界面·······"
+        },
+        "next": [
+            "魔之锲·驱离-进入历练界面"
         ]
     }
 }
