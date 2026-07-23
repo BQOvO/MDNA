@@ -1,0 +1,77 @@
+{
+    "处于玩家主页": {
+        "recognition": "OCR",
+        "roi": [
+            8,
+            8,
+            82,
+            48
+        ],
+        "expected": [
+            "UID"
+        ],
+        "action": "Click",
+        "target": [
+            642,
+            148,
+            432,
+            422
+        ],
+        "timeout": 100,
+        "next": [
+            "主界面"
+        ],
+        "on_error": [
+            "回到主界面"
+        ]
+    },
+    "主界面": {
+        "recognition": "TemplateMatch",
+        "roi": [
+            20,
+            8,
+            45,
+            49
+        ],
+        "template": [
+            "玩家主页.png"
+        ],
+        "action": "DoNothing"
+    },
+    "回到主界面": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            {
+                "name": "退出键",
+                "jump_back": true
+            },
+            {
+                "name": "处于玩家主页",
+                "jump_back": true
+            },
+            "主界面"
+        ]
+    },
+    "退出键": {
+        "recognition": "TemplateMatch",
+        "roi": [
+            8,
+            8,
+            82,
+            48
+        ],
+        "template": [
+            "界面退出键.png"
+        ],
+        "method": 10001,
+        "action": "Click",
+        "timeout": 100,
+        "next": [
+            "主界面"
+        ],
+        "on_error": [
+            "回到主界面"
+        ]
+    }
+}

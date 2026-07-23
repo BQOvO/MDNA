@@ -70,7 +70,7 @@
         "recognition": "DirectHit",
         "action": "DoNothing",
         "next": [
-            "夜航20-进入夜航手册"
+            "夜航20-回到主界面"
         ]
     },
     "夜航20-失败后等待节点": {
@@ -395,6 +395,20 @@
         "post_delay": 0,
         "next": [
             "夜航20-确认选择"
+        ]
+    },
+    "夜航20-回到主界面": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "回到主界面",
+        "post_delay": 0,
+        "focus": {
+            "Node.Recognition.Starting": "正在回到主界面·······"
+        },
+        "next": [
+            "夜航20-进入夜航手册"
         ]
     }
 }
