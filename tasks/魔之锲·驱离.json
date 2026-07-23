@@ -3,7 +3,197 @@
         {
             "name": "魔之锲·驱离",
             "description": "该任务可以帮你全自动刷取魔之锲·驱离的材料",
-            "entry": "魔之锲·驱离-启动节点"
+            "entry": "魔之锲·驱离-启动节点",
+            "option": [
+                "魔之锲驱离-等级选择",
+                "魔之锲驱离-加成书选择",
+                "魔之锲驱离-角色主控",
+                "魔之锲驱离-技能释放间隔",
+                "魔之锲驱离-超时计时",
+                "魔之锲驱离-刷取次数"
+            ]
         }
-    ]
+    ],
+    "option": {
+        "魔之锲驱离-等级选择": {
+            "label": "等级选择",
+            "type": "select",
+            "description": "选择要刷取的等级",
+            "default_case": "Lv.40",
+            "cases": [
+                {
+                    "name": "Lv.40",
+                    "pipeline_override": {
+                        "魔之锲·驱离-等级选择": {
+                            "custom_action_param": "等级选择40"
+                        }
+                    }
+                },
+                {
+                    "name": "Lv.60",
+                    "pipeline_override": {
+                        "魔之锲·驱离-等级选择": {
+                            "custom_action_param": "等级选择60"
+                        }
+                    }
+                },
+                {
+                    "name": "Lv.80",
+                    "pipeline_override": {
+                        "魔之锲·驱离-等级选择": {
+                            "custom_action_param": "等级选择80"
+                        }
+                    }
+                },
+                {
+                    "name": "Lv.100",
+                    "pipeline_override": {
+                        "魔之锲·驱离-等级选择": {
+                            "custom_action_param": "等级选择100"
+                        }
+                    }
+                }
+            ]
+        },
+        "魔之锲驱离-加成书选择": {
+            "label": "加成书选择",
+            "type": "select",
+            "description": "选择加成书",
+            "default_case": "不加成",
+            "cases": [
+                {
+                    "name": "不加成",
+                    "icon": "./resource/image/加成书/不加成.png",
+                    "pipeline_override": {
+                        "魔之锲·驱离-加成书选择": {
+                            "custom_action_param": "不选书"
+                        }
+                    }
+                },
+                {
+                    "name": "绿书（1倍）",
+                    "icon": "./resource/image/加成书/绿书.png",
+                    "pipeline_override": {
+                        "魔之锲·驱离-加成书选择": {
+                            "custom_action_param": "绿书"
+                        }
+                    }
+                },
+                {
+                    "name": "蓝书（2倍）",
+                    "icon": "./resource/image/加成书/蓝书.png",
+                    "pipeline_override": {
+                        "魔之锲·驱离-加成书选择": {
+                            "custom_action_param": "蓝书"
+                        }
+                    }
+                },
+                {
+                    "name": "紫书（8倍）",
+                    "icon": "./resource/image/加成书/紫书.png",
+                    "pipeline_override": {
+                        "魔之锲·驱离-加成书选择": {
+                            "custom_action_param": "紫书"
+                        }
+                    }
+                },
+                {
+                    "name": "金书（20倍）",
+                    "icon": "./resource/image/加成书/金书.png",
+                    "pipeline_override": {
+                        "魔之锲·驱离-加成书选择": {
+                            "custom_action_param": "金书"
+                        }
+                    }
+                }
+            ]
+        },
+        "魔之锲驱离-角色主控": {
+            "label": "主控",
+            "type": "select",
+            "description": "选择主控角色",
+            "default_case": "黎瑟",
+            "cases": [
+                {
+                    "name": "黎瑟",
+                    "pipeline_override": {
+                        "魔之锲·驱离-角色主控": {
+                            "custom_action_param": "黎瑟"
+                        }
+                    }
+                },
+                {
+                    "name": "水母",
+                    "pipeline_override": {
+                        "魔之锲·驱离-角色主控": {
+                            "custom_action_param": "水母"
+                        }
+                    }
+                }
+            ]
+        },
+        "魔之锲驱离-超时计时": {
+            "label": "超时时间",
+            "type": "input",
+            "description": "单位为秒，请合理配置",
+            "inputs": [
+                {
+                    "name": "超时时间",
+                    "description": "单位为秒，请合理配置",
+                    "default": "180",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$"
+                }
+            ],
+            "pipeline_override": {
+                "魔之锲·驱离-超时计时开始": {
+                    "custom_action_param": {
+                        "duration": "{超时时间}"
+                    }
+                }
+            }
+        },
+        "魔之锲驱离-刷取次数": {
+            "label": "刷取次数",
+            "type": "input",
+            "description": "配置为0即为无限刷取",
+            "inputs": [
+                {
+                    "name": "刷取次数",
+                    "description": "配置为0即为无限刷取（或者你可以配置一个很大的数）",
+                    "default": "0",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$"
+                }
+            ],
+            "pipeline_override": {
+                "魔之锲·驱离-总计数": {
+                    "custom_action_param": {
+                        "id": "all",
+                        "target_total": "{刷取次数}"
+                    }
+                }
+            }
+        },
+        "魔之锲驱离-技能释放间隔":{
+            "type": "input",
+            "inputs": [
+                {
+                    "name":"角色技能释放间隔",
+                    "description": "单位为秒，请合理配置",
+                    "default": "20",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$"
+                }
+            ],
+            "pipeline_override": {
+                "魔之锲·驱离-检测是否完成委托":{
+                    "custom_action_param":{
+                        "count": "{角色技能释放间隔}",
+                        "nodes":["委托完成"]
+                    }
+                }
+            }
+        }
+    }
 }
