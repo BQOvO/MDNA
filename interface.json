@@ -37,6 +37,7 @@
     ],
     "import": [
         "tasks/魔之锲·驱离.json",
+        "tasks/角色经验·避险.json",
         "tasks/夜航手册80.json",
         "tasks/夜航手册70.json",
         "tasks/夜航手册65.json",
