@@ -51,6 +51,8 @@
         "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
     },
     "markdownlint.config": {
-        "MD041": false
+        "MD041": false,
+        "MD022": false,
+        "MD026": false
     }
 }
