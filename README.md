@@ -58,6 +58,7 @@ All issues and consequences arising from the use of this software are not relate
 - **历练-委托**
     - [ ] 自动-调整设置 （自动设置好所需游戏内设置）
     - [ ] 魔之锲·驱离
+    - [ ] 角色经验·避险
 
 \* **更多新的副本与功能正在加急开发**
 \* **若有其他功能需求请提交 [issue](https://github.com/BQOvO/MDNA/issues)**
