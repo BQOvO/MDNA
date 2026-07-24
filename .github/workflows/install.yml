@@ -3,7 +3,7 @@ name: install
 # 依赖版本号：留空使用最新版，或指定如 "v4.6.0" / "v0.6.0"
 env:
   MAAFRAMEWORK_VERSION: "v5.12.1"   # MaaXYZ/MaaFramework 版本
-  MFAAVALONIA_VERSION: "v2.13.0-beta.2"  # SweetSmellFox/MFAAvalonia 版本
+  MFAAVALONIA_VERSION: "v2.12.1"  # SweetSmellFox/MFAAvalonia 版本
 
 on:
   push:
