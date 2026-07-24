@@ -14,6 +14,7 @@ class Looper(CustomAction):
 
         total_duration = float(param.get("count", 1))
         nodes = param.get("nodes", [])
+        interval = float(param.get("interval", 1.0))
         if not nodes:
             print("[Looper] 未指定 nodes 列表")
             return CustomAction.RunResult(success=False)
@@ -32,14 +33,12 @@ class Looper(CustomAction):
             if elapsed >= total_duration:
                 break
 
-            # 每秒输出一次剩余时间
             if now - last_log_time >= 5.0:
                 remaining = total_duration - elapsed
                 print(f"[Looper] 剩余 {remaining:.1f} 秒")
                 last_log_time = now
 
             node_name = nodes[node_index]
-            # 获取当前截图
             try:
                 image = context.tasker.controller.post_screencap().wait().get()
             except Exception as e:
@@ -51,7 +50,6 @@ class Looper(CustomAction):
                 print("[Looper] 截图为空")
                 return CustomAction.RunResult(success=False)
 
-            # 仅执行识别，不执行动作
             try:
                 reco_detail = context.run_recognition(node_name, image)
             except Exception as e:
@@ -66,6 +64,7 @@ class Looper(CustomAction):
                 return CustomAction.RunResult(success=True)
 
             node_index = (node_index + 1) % len(nodes)
+            time.sleep(interval)
 
         print(f"[Looper] 超时 ({total_duration}s)，返回失败")
         return CustomAction.RunResult(success=False)

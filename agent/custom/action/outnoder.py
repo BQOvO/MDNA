@@ -1,4 +1,5 @@
 import json
+import traceback
 from maa.custom_action import CustomAction
 from maa.context import Context
 
@@ -22,9 +23,17 @@ class Outnoder(CustomAction):
 
         print(f"outnoder: executing external node '{target_node}'")
 
-        # 使用 run_task 同步执行（与 Looper 一致）
-        task_detail = context.run_task(target_node)
-        success = task_detail.status.succeeded if task_detail else False
+        try:
+            task_detail = context.run_task(target_node)
+            if task_detail is not None and task_detail.status is not None:
+                success = task_detail.status.succeeded
+            else:
+                success = False
+                print(f"outnoder: run_task returned None or status is None for node '{target_node}'")
+        except Exception as e:
+            print(f"outnoder: run_task failed for node '{target_node}': {e}")
+            traceback.print_exc()
+            success = False
 
         print(f"outnoder: external node finished, success={success}")
         return CustomAction.RunResult(success=success)
