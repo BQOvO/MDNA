@@ -5,14 +5,14 @@ import traceback
 
 
 class VoyageClick(CustomAction):
-    def run(self, context: Context, argv: CustomAction.RunArg) -> bool:
+    def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
         try:
             print("[VoyageClick] run() called", flush=True)
 
             box = argv.box
             if box is None:
                 print("[VoyageClick] box is None", flush=True)
-                return False
+                return CustomAction.RunResult(success=False)
 
             # 兼容 Rect 对象和 list/tuple
             if hasattr(box, 'x'):
@@ -21,7 +21,7 @@ class VoyageClick(CustomAction):
                 x, y, w, h = box[0], box[1], box[2], box[3]
             else:
                 print(f"[VoyageClick] unexpected box type: {type(box)}", flush=True)
-                return False
+                return CustomAction.RunResult(success=False)
 
             # 计算中心点 Y + 15
             center_y = y + h // 2
@@ -35,9 +35,9 @@ class VoyageClick(CustomAction):
             click_job.wait()
             print("[VoyageClick] click completed", flush=True)
 
-            return True
+            return CustomAction.RunResult(success=True)
 
         except Exception as e:
             print(f"[VoyageClick] EXCEPTION: {e}", flush=True)
             traceback.print_exc(file=sys.stdout)
-            return False
+            return CustomAction.RunResult(success=False)

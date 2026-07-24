@@ -10,7 +10,7 @@ class FishFight(CustomAction):
     def run(self, context: Context, argv: CustomAction.RunArg):
         try:
             param = json.loads(argv.custom_action_param) if argv.custom_action_param else {}
-        except:
+        except Exception:
             return CustomAction.RunResult(success=False)
  
         downtarget = param.get("downtarget")
@@ -67,7 +67,7 @@ class FishFight(CustomAction):
             }
             try:
                 reco = context.run_recognition(entry, img, pipeline)
-            except:
+            except Exception:
                 return None
             if reco and reco.hit and reco.box:
                 box = reco.box

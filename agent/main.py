@@ -1,6 +1,7 @@
 import io
 import os
 import sys
+import traceback
 
 # 强制 stdout/stderr 使用 UTF-8 编码，避免非 UTF-8 系统环境下中文输出报错
 if sys.stdout.encoding != "utf-8":
@@ -40,10 +41,15 @@ if __name__ == "__main__":
     elif not deploy():
         print("error: 部署检查失败，程序退出")
         sys.exit(1)
+
     from agent.CustomFile import *
 
     try:
         main()
+    except KeyboardInterrupt:
+        print("info: 收到中断信号，程序退出")
+        sys.exit(0)
     except Exception as e:
-        print(f"error: 程序运行错误: {e}")
+        print(f"error: 程序运行异常: {e}")
+        traceback.print_exc(file=sys.stderr)
         sys.exit(1)

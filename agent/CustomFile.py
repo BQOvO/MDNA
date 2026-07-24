@@ -1,6 +1,6 @@
 from maa.agent.agent_server import AgentServer
 from agent.custom.action.MacroPlayer import MacroPlayer
-from agent.custom.action.Count import Count,CountPrint
+from agent.custom.action.Count import Count,CountPrint,CountCleanup
 from agent.custom.action.Looper import Looper
 from agent.custom.action.randomr import randomr
 from agent.custom.action.FishFight import FishFight
@@ -10,6 +10,7 @@ from agent.custom.action.Timeout import TimeoutStart,TimeoutReset,CheckTimeout
 
 
 from agent.custom.sink.aspect_ratio import AspectRatioChecker
+from agent.custom.sink.count_cleanup import CountAutoCleanup
 
 from agent.custom.recongition.CheckResolution import CheckResolution
 
@@ -84,6 +85,12 @@ class CountPrint_Cls(CountPrint):
 
 @AgentServer.custom_action("CheckTimeout")
 class CheckTimeout_Cls(CheckTimeout):
+    def __init__(self):
+        super().__init__()
+        print(f"{self.__class__.__name__} 初始化")
+
+@AgentServer.custom_action("CountCleanup")
+class CountCleanup_Cls(CountCleanup):
     def __init__(self):
         super().__init__()
         print(f"{self.__class__.__name__} 初始化")

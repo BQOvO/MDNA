@@ -19,7 +19,7 @@ class Count(CustomAction):
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
         try:
             param = json.loads(argv.custom_action_param) if argv.custom_action_param else {}
-        except:
+        except Exception:
             param = argv.custom_action_param
 
         if isinstance(param, str):
@@ -93,7 +93,7 @@ class CountPrint(CustomAction):
 
         try:
             param = json.loads(argv.custom_action_param) if argv.custom_action_param else {}
-        except:
+        except Exception:
             param = argv.custom_action_param
 
         if isinstance(param, str):
@@ -150,5 +150,42 @@ class CountPrint(CustomAction):
             logger.ui(" | ".join(parts))
         else:
             logger.ui("[CountPrint] 没有可输出的统计信息", color="gray")
+
+        return CustomAction.RunResult(success=True)
+
+
+class CountCleanup(CustomAction):
+    """
+    清理当前任务的所有计数器数据，释放内存。
+    可在任务结束时调用，避免长期运行内存增长。
+    参数支持：
+    - 不传参数或空对象：清理当前 task_id 下所有计数器
+    - {"id": "xxx"}：仅清理指定 id 的计数器
+    """
+    def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
+        task_id = argv.task_detail.task_id
+
+        try:
+            param = json.loads(argv.custom_action_param) if argv.custom_action_param else {}
+        except Exception:
+            param = {}
+
+        cid = param.get("id") if isinstance(param, dict) else None
+
+        with _lock:
+            if cid:
+                total_key = (task_id, f"count_{cid}")
+                target_key = (task_id, f"target_{cid}")
+                _globals.pop(total_key, None)
+                _targets.pop(target_key, None)
+                print(f"[CountCleanup] 已清理计数器 '{cid}' (task={task_id})")
+            else:
+                keys_to_del = [k for k in _globals if k[0] == task_id]
+                for k in keys_to_del:
+                    del _globals[k]
+                keys_to_del = [k for k in _targets if k[0] == task_id]
+                for k in keys_to_del:
+                    del _targets[k]
+                print(f"[CountCleanup] 已清理 task={task_id} 的所有计数器")
 
         return CustomAction.RunResult(success=True)

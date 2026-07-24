@@ -25,7 +25,7 @@ class TimeoutStart(CustomAction):
                 duration = param.get("duration")
             else:
                 duration = float(param)
-        except:
+        except Exception:
             try:
                 duration = float(param_str)
             except ValueError:

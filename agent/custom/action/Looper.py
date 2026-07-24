@@ -1,5 +1,6 @@
 import json
 import time
+import traceback
 from maa.context import Context
 from maa.custom_action import CustomAction
 
@@ -39,9 +40,25 @@ class Looper(CustomAction):
 
             node_name = nodes[node_index]
             # 获取当前截图
-            image = context.tasker.controller.post_screencap().wait().get()
+            try:
+                image = context.tasker.controller.post_screencap().wait().get()
+            except Exception as e:
+                print(f"[Looper] 截图失败: {e}")
+                traceback.print_exc()
+                return CustomAction.RunResult(success=False)
+
+            if image is None:
+                print("[Looper] 截图为空")
+                return CustomAction.RunResult(success=False)
+
             # 仅执行识别，不执行动作
-            reco_detail = context.run_recognition(node_name, image)
+            try:
+                reco_detail = context.run_recognition(node_name, image)
+            except Exception as e:
+                print(f"[Looper] 识别节点 '{node_name}' 失败: {e}")
+                traceback.print_exc()
+                return CustomAction.RunResult(success=False)
+
             success = reco_detail.hit if reco_detail else False
 
             if success:
