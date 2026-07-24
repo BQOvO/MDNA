@@ -138,9 +138,24 @@ class Logger:
 
             return [f for f in log_files if datetime.fromtimestamp(f.stat().st_mtime) > cutoff]
 
+        last_rotation_date = datetime.now().date()
+
+        def rotation_func(message, file):
+            nonlocal last_rotation_date
+            today = datetime.now().date()
+            if today != last_rotation_date:
+                last_rotation_date = today
+                return True
+            try:
+                if os.path.getsize(str(log_file)) > 100 * 1024 * 1024:
+                    return True
+            except OSError:
+                pass
+            return False
+
         _loguru.add(
             str(log_file),
-            rotation="00:00 | 100 MB",
+            rotation=rotation_func,
             retention=retention_filter,
             compression="zip",
             level="DEBUG",

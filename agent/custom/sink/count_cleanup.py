@@ -19,7 +19,6 @@ class CountAutoCleanup(TaskerEventSink):
             NotificationType.Starting,
             NotificationType.Succeeded,
             NotificationType.Failed,
-            NotificationType.Stopped,
         ):
             return
 
