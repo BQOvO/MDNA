@@ -10,6 +10,8 @@ import html
 import os
 import re
 import sys
+import zipfile
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from loguru import logger as _loguru
@@ -65,18 +67,30 @@ class Logger:
 
     _initialized = False
     _stderr_handler_id = None
+    _compressed_old_logs = False
+    _retention_days = 5
+    _dir_size_limit_mb = 500
 
-    def __init__(self, name: str, context: Context | None = None, log_dir: str = "debug"):
+    def __init__(self, name: str, context: Context | None = None, log_dir: str = "debug", retention_days: int = 5, dir_size_limit_mb: int = 500):
         self.name = name
         self.context = context
-        self.log_dir = Path(log_dir)
+        _project_root = Path(__file__).resolve().parent.parent.parent.parent
+        self.log_dir = _project_root / log_dir
         self.log_dir.mkdir(parents=True, exist_ok=True)
+
+        if not Logger._initialized:
+            Logger._retention_days = retention_days
+            Logger._dir_size_limit_mb = dir_size_limit_mb
 
         client_name = os.environ.get("MAA_CLIENT_NAME", "").strip().upper()
         self._is_mfaa = client_name == "MFAAVALONIA"
         self._is_mxu = client_name == "MXU"
 
         self._logger = _loguru.bind(name=name)
+
+        if not Logger._compressed_old_logs:
+            self._compress_old_logs()
+            Logger._compressed_old_logs = True
 
         if not Logger._initialized:
             self._setup_handlers()
@@ -94,10 +108,40 @@ class Logger:
         )
 
         log_file = self.log_dir / "agent.log"
+        log_dir = self.log_dir
+        retention_days = Logger._retention_days
+        dir_size_limit_mb = Logger._dir_size_limit_mb
+
+        def retention_filter(log_files):
+            cutoff = datetime.now() - timedelta(days=retention_days)
+            for f in log_dir.glob("*.zip"):
+                try:
+                    if datetime.fromtimestamp(f.stat().st_mtime) < cutoff:
+                        f.unlink()
+                except Exception:
+                    pass
+
+            active = {"agent.log", "maafw.log", "deploy.log"}
+            files = sorted(
+                [f for f in log_dir.iterdir() if f.is_file() and f.name not in active],
+                key=lambda f: f.stat().st_mtime,
+            )
+            total = sum(f.stat().st_size for f in files)
+            limit_bytes = dir_size_limit_mb * 1024 * 1024
+            while total > limit_bytes and files:
+                oldest = files.pop(0)
+                total -= oldest.stat().st_size
+                try:
+                    oldest.unlink()
+                except Exception:
+                    pass
+
+            return [f for f in log_files if datetime.fromtimestamp(f.stat().st_mtime) > cutoff]
+
         _loguru.add(
             str(log_file),
-            rotation="00:00",
-            retention="5 days",
+            rotation="00:00 | 100 MB",
+            retention=retention_filter,
             compression="zip",
             level="DEBUG",
             format="{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <8} | {extra[name]}:{function}:{line} | {message}",
@@ -106,6 +150,24 @@ class Logger:
             backtrace=True,
             diagnose=True,
         )
+
+    def _compress_old_logs(self):
+        for log_file in self.log_dir.iterdir():
+            if log_file.is_dir():
+                continue
+            if log_file.suffix == ".zip":
+                continue
+            if log_file.name in ("agent.log", "maafw.log", "deploy.log"):
+                continue
+            zip_path = log_file.with_suffix(log_file.suffix + ".zip")
+            if zip_path.exists():
+                continue
+            try:
+                with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
+                    zf.write(log_file, log_file.name)
+                log_file.unlink()
+            except Exception:
+                pass
 
     def _normalize_color(self, color: str) -> str:
         color = color.strip().lower()
