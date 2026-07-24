@@ -13,6 +13,8 @@
         "template": [
             "玩家主页.png"
         ],
+        "roi":[2,1,97,81],
+        "threshold": 0.6,
         "action": "Click",
         "post_delay": 1500,
         "next": [
