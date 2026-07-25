@@ -140,6 +140,16 @@ class NodeScreenshotSink(ContextEventSink):
                     reco_detail = context.tasker.get_recognition_detail(reco_id)
                     if reco_detail:
                         img = getattr(reco_detail, "raw_image", None)
+                        if img is None or img.size == 0:
+                            draw_imgs = getattr(reco_detail, "draw_images", None)
+                            if draw_imgs:
+                                img = draw_imgs[0] if isinstance(draw_imgs, list) else draw_imgs
+            except Exception:
+                pass
+
+        if img is None or img.size == 0:
+            try:
+                img = context.tasker.controller.cached_image
             except Exception:
                 pass
 
