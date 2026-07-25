@@ -4,7 +4,7 @@ from maa.agent.agent_server import AgentServer
 from maa.event_sink import NotificationType
 from maa.tasker import Tasker, TaskerEventSink
 
-from ..action.Count import _globals, _targets, _lock
+from ..action.Count import _globals, _targets, _reached, _lock
 
 
 @AgentServer.tasker_sink()
@@ -24,12 +24,10 @@ class CountAutoCleanup(TaskerEventSink):
 
         task_id = detail.task_id
         with _lock:
-            glob_keys = [k for k in _globals if k[0] == task_id]
-            for k in glob_keys:
-                del _globals[k]
-            target_keys = [k for k in _targets if k[0] == task_id]
-            for k in target_keys:
-                del _targets[k]
+            g = _globals.pop(task_id, {})
+            t = _targets.pop(task_id, {})
+            r = _reached.pop(task_id, {})
 
-        if glob_keys or target_keys:
-            print(f"[CountAutoCleanup] 已清理 task={task_id} 的 {len(glob_keys)} 个计数 / {len(target_keys)} 个目标")
+        total = len(g) + len(t) + len(r)
+        if total > 0:
+            print(f"[CountAutoCleanup] 已清理 task={task_id} 的 {len(g)} 个计数 / {len(t)} 个目标 / {len(r)} 个标记")

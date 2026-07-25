@@ -24,6 +24,35 @@ def _format_elapsed(seconds: float) -> str:
         return f"{hours} 时 {minutes} 分 {secs:.1f} 秒"
 
 
+def _apply_elapsed_to_focus(context, node_name, elapsed, elapsed_str, prefix="Timeout"):
+    """将 {elapsed} / {elapsed_raw} 占位符替换到当前节点 focus 中。
+    返回 True=已处理，False=无需处理或失败。"""
+    try:
+        node_data = context.tasker.resource.get_node_data(node_name)
+        if not node_data:
+            return False
+        if isinstance(node_data, str):
+            node_data = json.loads(node_data)
+        focus = node_data.get("focus", {})
+        if not focus or not any(
+            isinstance(v, str) and ("{elapsed" in v) for v in focus.values()
+        ):
+            return False
+
+        new_focus = {}
+        for key, value in focus.items():
+            if isinstance(value, str):
+                new_focus[key] = value.format(elapsed=elapsed_str, elapsed_raw=elapsed)
+            else:
+                new_focus[key] = value
+        context.override_pipeline({node_name: {"focus": new_focus}})
+        print(f"[{prefix}] 已用 override_pipeline 更新节点 {node_name} 的 focus")
+        return True
+    except Exception as e:
+        print(f"[{prefix}] 读取/更新 focus 失败: {e}")
+        return False
+
+
 class TimeoutStart(CustomAction):
     """
     启动一个定时器，超时后设置标志。
@@ -116,33 +145,7 @@ class TimeoutReset(CustomAction):
             elapsed_str = _format_elapsed(elapsed)
             node_name = argv.node_name
 
-            # 尝试读取当前节点的 focus 配置，替换 {elapsed} 占位符
-            focus_handled = False
-            try:
-                node_data_json = context.tasker.resource.get_node_data(node_name)
-                if node_data_json:
-                    node_data = json.loads(node_data_json)
-                    focus = node_data.get("focus", {})
-                    if focus and any(
-                        isinstance(v, str) and ("{elapsed" in v)
-                        for v in focus.values()
-                    ):
-                        new_focus = {}
-                        for key, value in focus.items():
-                            if isinstance(value, str):
-                                new_focus[key] = value.format(
-                                    elapsed=elapsed_str, elapsed_raw=elapsed
-                                )
-                            else:
-                                new_focus[key] = value
-                        context.override_pipeline({node_name: {"focus": new_focus}})
-                        focus_handled = True
-                        print(f"[TimeoutReset] 已用 override_pipeline 更新节点 {node_name} 的 focus")
-            except Exception as e:
-                print(f"[TimeoutReset] 读取/更新 focus 失败: {e}")
-
-            # 若 focus 中没有 {elapsed} 占位符，使用 Logger.ui() 兜底输出
-            if not focus_handled:
+            if not _apply_elapsed_to_focus(context, node_name, elapsed, elapsed_str, prefix="TimeoutReset"):
                 logger = Logger("TimeoutReset", context)
                 logger.ui(f"计时结束，用时 {elapsed_str}")
 
@@ -183,31 +186,7 @@ class CheckTimeout(CustomAction):
             elapsed_str = _format_elapsed(elapsed)
             node_name = argv.node_name
 
-            focus_handled = False
-            try:
-                node_data_json = context.tasker.resource.get_node_data(node_name)
-                if node_data_json:
-                    node_data = json.loads(node_data_json)
-                    focus = node_data.get("focus", {})
-                    if focus and any(
-                        isinstance(v, str) and ("{elapsed" in v)
-                        for v in focus.values()
-                    ):
-                        new_focus = {}
-                        for key, value in focus.items():
-                            if isinstance(value, str):
-                                new_focus[key] = value.format(
-                                    elapsed=elapsed_str, elapsed_raw=elapsed
-                                )
-                            else:
-                                new_focus[key] = value
-                        context.override_pipeline({node_name: {"focus": new_focus}})
-                        focus_handled = True
-                        print(f"[CheckTimeout] 已用 override_pipeline 更新节点 {node_name} 的 focus")
-            except Exception as e:
-                print(f"[CheckTimeout] 读取/更新 focus 失败: {e}")
-
-            if not focus_handled:
+            if not _apply_elapsed_to_focus(context, node_name, elapsed, elapsed_str, prefix="CheckTimeout"):
                 logger = Logger("CheckTimeout", context)
                 logger.ui(f"超时！计时 {elapsed_str}，触发超时处理")
 
