@@ -122,11 +122,11 @@ def _save_bmp(img: np.ndarray, filepath: Path) -> bool:
 
 @AgentServer.context_sink()
 class NodeScreenshotSink(ContextEventSink):
-    def on_node_recognition(
+    def on_node_pipeline_node(
         self,
         context: Context,
         noti_type: NotificationType,
-        detail: ContextEventSink.NodeRecognitionDetail,
+        detail: ContextEventSink.NodePipelineNodeDetail,
     ):
         node_name = detail.name or "unknown"
 
