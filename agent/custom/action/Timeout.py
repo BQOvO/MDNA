@@ -24,35 +24,6 @@ def _format_elapsed(seconds: float) -> str:
         return f"{hours} 时 {minutes} 分 {secs:.1f} 秒"
 
 
-def _apply_elapsed_to_focus(context, node_name, elapsed, elapsed_str, prefix="Timeout"):
-    """将 {elapsed} / {elapsed_raw} 占位符替换到当前节点 focus 中。
-    返回 True=已处理，False=无需处理或失败。"""
-    try:
-        node_data = context.tasker.resource.get_node_data(node_name)
-        if not node_data:
-            return False
-        if isinstance(node_data, str):
-            node_data = json.loads(node_data)
-        focus = node_data.get("focus", {})
-        if not focus or not any(
-            isinstance(v, str) and ("{elapsed" in v) for v in focus.values()
-        ):
-            return False
-
-        new_focus = {}
-        for key, value in focus.items():
-            if isinstance(value, str):
-                new_focus[key] = value.format(elapsed=elapsed_str, elapsed_raw=elapsed)
-            else:
-                new_focus[key] = value
-        context.override_pipeline({node_name: {"focus": new_focus}})
-        print(f"[{prefix}] 已用 override_pipeline 更新节点 {node_name} 的 focus")
-        return True
-    except Exception as e:
-        print(f"[{prefix}] 读取/更新 focus 失败: {e}")
-        return False
-
-
 class TimeoutStart(CustomAction):
     """
     启动一个定时器，超时后设置标志。
@@ -118,8 +89,6 @@ class TimeoutStart(CustomAction):
 class TimeoutReset(CustomAction):
     """
     取消当前任务的计时器，清除超时标志，输出计时用时。
-    优先读取当前节点 focus 中的 {elapsed} / {elapsed_raw} 占位符并替换；
-    若 focus 中无占位符，则通过 Logger.ui() 输出默认消息。
     """
 
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
@@ -143,11 +112,8 @@ class TimeoutReset(CustomAction):
 
         if elapsed is not None:
             elapsed_str = _format_elapsed(elapsed)
-            node_name = argv.node_name
-
-            if not _apply_elapsed_to_focus(context, node_name, elapsed, elapsed_str, prefix="TimeoutReset"):
-                logger = Logger("TimeoutReset", context)
-                logger.ui(f"计时结束，用时 {elapsed_str}")
+            logger = Logger("TimeoutReset", context)
+            logger.ui(f"超时倒计时结束（本次副本用时 {elapsed_str}）")
 
         return CustomAction.RunResult(success=True)
 
@@ -157,7 +123,6 @@ class CheckTimeout(CustomAction):
     检查当前任务是否超时。
     - 未超时：返回 True（执行 next）
     - 超时：返回 False（执行 on_error），同时输出计时用时。
-    优先读取当前节点 focus 中的 {elapsed} / {elapsed_raw} 占位符并替换。
     """
 
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
@@ -184,10 +149,7 @@ class CheckTimeout(CustomAction):
 
         if elapsed is not None:
             elapsed_str = _format_elapsed(elapsed)
-            node_name = argv.node_name
-
-            if not _apply_elapsed_to_focus(context, node_name, elapsed, elapsed_str, prefix="CheckTimeout"):
-                logger = Logger("CheckTimeout", context)
-                logger.ui(f"超时！计时 {elapsed_str}，触发超时处理")
+            logger = Logger("CheckTimeout", context)
+            logger.ui(f"超时！计时 {elapsed_str}，触发超时处理")
 
         return CustomAction.RunResult(success=False)
