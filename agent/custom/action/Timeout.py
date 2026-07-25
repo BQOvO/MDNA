@@ -1,11 +1,27 @@
 import json
 import threading
+import time
 from maa.custom_action import CustomAction
 from maa.context import Context
+from ..utils.Logger import Logger
 
-# 全局字典：task_id -> {"triggered": bool, "timer": Timer}
+# 全局字典：task_id -> {"triggered": bool, "timer": Timer, "start_time": float}
 _timeout_data = {}
 _data_lock = threading.Lock()
+
+
+def _format_elapsed(seconds: float) -> str:
+    if seconds < 60:
+        return f"{seconds:.1f} 秒"
+    elif seconds < 3600:
+        minutes = int(seconds // 60)
+        secs = seconds % 60
+        return f"{minutes} 分 {secs:.1f} 秒"
+    else:
+        hours = int(seconds // 3600)
+        minutes = int((seconds % 3600) // 60)
+        secs = seconds % 60
+        return f"{hours} 时 {minutes} 分 {secs:.1f} 秒"
 
 
 class TimeoutStart(CustomAction):
@@ -57,10 +73,12 @@ class TimeoutStart(CustomAction):
                     print(f"[TimeoutStart] 任务 {task_id} 超时标志已设置")
 
         timer = threading.Timer(duration, timeout_callback)
+        start_time = time.time()
         with _data_lock:
             _timeout_data[task_id] = {
                 "triggered": False,
-                "timer": timer
+                "timer": timer,
+                "start_time": start_time
             }
         timer.start()
 
@@ -69,7 +87,11 @@ class TimeoutStart(CustomAction):
 
 
 class TimeoutReset(CustomAction):
-    """取消当前任务的计时器，清除超时标志"""
+    """
+    取消当前任务的计时器，清除超时标志，输出计时用时。
+    优先读取当前节点 focus 中的 {elapsed} / {elapsed_raw} 占位符并替换；
+    若 focus 中无占位符，则通过 Logger.ui() 输出默认消息。
+    """
 
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
         try:
@@ -78,13 +100,52 @@ class TimeoutReset(CustomAction):
             print(f"[TimeoutReset] 获取 task_id 失败: {e}")
             return CustomAction.RunResult(success=False)
 
+        elapsed = None
         with _data_lock:
             if task_id in _timeout_data:
-                _timeout_data[task_id]["timer"].cancel()
+                data = _timeout_data[task_id]
+                data["timer"].cancel()
+                if "start_time" in data:
+                    elapsed = time.time() - data["start_time"]
                 del _timeout_data[task_id]
                 print(f"[TimeoutReset] 任务 {task_id} 计时器已取消")
             else:
                 print(f"[TimeoutReset] 任务 {task_id} 没有活跃的计时器")
+
+        if elapsed is not None:
+            elapsed_str = _format_elapsed(elapsed)
+            node_name = argv.node_name
+
+            # 尝试读取当前节点的 focus 配置，替换 {elapsed} 占位符
+            focus_handled = False
+            try:
+                node_data_json = context.tasker.resource.get_node_data(node_name)
+                if node_data_json:
+                    node_data = json.loads(node_data_json)
+                    focus = node_data.get("focus", {})
+                    if focus and any(
+                        isinstance(v, str) and ("{elapsed" in v)
+                        for v in focus.values()
+                    ):
+                        new_focus = {}
+                        for key, value in focus.items():
+                            if isinstance(value, str):
+                                new_focus[key] = value.format(
+                                    elapsed=elapsed_str, elapsed_raw=elapsed
+                                )
+                            else:
+                                new_focus[key] = value
+                        context.override_pipeline({node_name: {"focus": new_focus}})
+                        focus_handled = True
+                        print(f"[TimeoutReset] 已用 override_pipeline 更新节点 {node_name} 的 focus")
+            except Exception as e:
+                print(f"[TimeoutReset] 读取/更新 focus 失败: {e}")
+
+            # 若 focus 中没有 {elapsed} 占位符，使用 Logger.ui() 兜底输出
+            if not focus_handled:
+                logger = Logger("TimeoutReset", context)
+                logger.ui(f"计时结束，用时 {elapsed_str}")
+
         return CustomAction.RunResult(success=True)
 
 
@@ -92,7 +153,8 @@ class CheckTimeout(CustomAction):
     """
     检查当前任务是否超时。
     - 未超时：返回 True（执行 next）
-    - 超时：返回 False（执行 on_error）
+    - 超时：返回 False（执行 on_error），同时输出计时用时。
+    优先读取当前节点 focus 中的 {elapsed} / {elapsed_raw} 占位符并替换。
     """
 
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
@@ -110,8 +172,43 @@ class CheckTimeout(CustomAction):
             if not data["triggered"]:
                 return CustomAction.RunResult(success=True)
 
-            # 超时触发，清除数据（避免重复触发）
+            # 超时触发，计算耗时并清除数据
+            elapsed = None
+            if "start_time" in data:
+                elapsed = time.time() - data["start_time"]
             del _timeout_data[task_id]
             print(f"[CheckTimeout] 任务 {task_id} 超时")
+
+        if elapsed is not None:
+            elapsed_str = _format_elapsed(elapsed)
+            node_name = argv.node_name
+
+            focus_handled = False
+            try:
+                node_data_json = context.tasker.resource.get_node_data(node_name)
+                if node_data_json:
+                    node_data = json.loads(node_data_json)
+                    focus = node_data.get("focus", {})
+                    if focus and any(
+                        isinstance(v, str) and ("{elapsed" in v)
+                        for v in focus.values()
+                    ):
+                        new_focus = {}
+                        for key, value in focus.items():
+                            if isinstance(value, str):
+                                new_focus[key] = value.format(
+                                    elapsed=elapsed_str, elapsed_raw=elapsed
+                                )
+                            else:
+                                new_focus[key] = value
+                        context.override_pipeline({node_name: {"focus": new_focus}})
+                        focus_handled = True
+                        print(f"[CheckTimeout] 已用 override_pipeline 更新节点 {node_name} 的 focus")
+            except Exception as e:
+                print(f"[CheckTimeout] 读取/更新 focus 失败: {e}")
+
+            if not focus_handled:
+                logger = Logger("CheckTimeout", context)
+                logger.ui(f"超时！计时 {elapsed_str}，触发超时处理")
 
         return CustomAction.RunResult(success=False)
