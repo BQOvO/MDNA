@@ -1,96 +1,38 @@
 from maa.agent.agent_server import AgentServer
 from agent.custom.action.MacroPlayer import MacroPlayer
-from agent.custom.action.Count import Count,CountPrint,CountCleanup
+from agent.custom.action.Count import Count, CountReset, CountPrint, CountCleanup
 from agent.custom.action.Looper import Looper
 from agent.custom.action.randomr import randomr
 from agent.custom.action.FishFight import FishFight
 from agent.custom.action.VoyageClick import VoyageClick
 from agent.custom.action.outnoder import Outnoder
-from agent.custom.action.Timeout import TimeoutStart,TimeoutReset,CheckTimeout
-
+from agent.custom.action.Timeout import TimeoutStart, TimeoutReset, CheckTimeout
 
 from agent.custom.sink.aspect_ratio import AspectRatioChecker
 from agent.custom.sink.count_cleanup import CountAutoCleanup
+from agent.custom.sink.screenshot_on_fail import NodeScreenshotSink
 
 from agent.custom.recongition.CheckResolution import CheckResolution
 
 
-@AgentServer.custom_action("Count")
-class Count_Cls(Count):
-    def __init__(self):
-        super().__init__()
-        print(f"{self.__class__.__name__} 初始化")
+def _register(name, base_cls, decorator):
+    """注册自定义组件的工厂函数，消除重复样板代码"""
+    wrapper_cls = type(f"{base_cls.__name__}_Registered", (base_cls,), {})
+    decorator(name)(wrapper_cls)
+    print(f"[CustomFile] {name} 已注册")
 
 
-@AgentServer.custom_recognition("CheckResolution")
-class CheckResolution_Cls(CheckResolution):
-    def __init__(self):
-        super().__init__()
-        print(f"{self.__class__.__name__} 初始化")
-
-
-@AgentServer.custom_action("MacroPlayer")     # 注册名
-class MacroPlayer_Cls(MacroPlayer):
-    def __init__(self):
-        super().__init__()
-        print(f"{self.__class__.__name__} 初始化")
-
-@AgentServer.custom_action("Looper")
-class Looper_Cls(Looper):
-    def __init__(self):
-        super().__init__()
-        print(f"{self.__class__.__name__} 初始化")
-
-@AgentServer.custom_action("randomr")
-class randomr_Cls(randomr):
-    def __init__(self):
-        super().__init__()
-        print(f"{self.__class__.__name__} 初始化")
-
-@AgentServer.custom_action("FishFight")
-class FishFight_Cls(FishFight):
-    def __init__(self):
-        super().__init__()
-        print(f"{self.__class__.__name__} 初始化")
-
-@AgentServer.custom_action("VoyageClick")
-class VoyageClick_Cls(VoyageClick):
-    def __init__(self):
-        super().__init__()
-        print(f"{self.__class__.__name__} 初始化")
-
-@AgentServer.custom_action("outnoder")
-class Outnoder_Cls(Outnoder):
-    def __init__(self):
-        super().__init__()
-        print(f"{self.__class__.__name__} 初始化")
-
-@AgentServer.custom_action("TimeoutStart")
-class TimeoutStart_Cls(TimeoutStart):
-    def __init__(self):
-        super().__init__()
-        print(f"{self.__class__.__name__} 初始化")
-
-@AgentServer.custom_action("TimeoutReset")
-class TimeoutReset_Cls(TimeoutReset):
-    def __init__(self):
-        super().__init__()
-        print(f"{self.__class__.__name__} 初始化")
-
-@AgentServer.custom_action("CountPrint")
-class CountPrint_Cls(CountPrint):
-    def __init__(self):
-        super().__init__()
-        print(f"{self.__class__.__name__} 初始化")
-
-@AgentServer.custom_action("CheckTimeout")
-class CheckTimeout_Cls(CheckTimeout):
-    def __init__(self):
-        super().__init__()
-        print(f"{self.__class__.__name__} 初始化")
-
-@AgentServer.custom_action("CountCleanup")
-class CountCleanup_Cls(CountCleanup):
-    def __init__(self):
-        super().__init__()
-        print(f"{self.__class__.__name__} 初始化")
+_register("Count", Count, AgentServer.custom_action)
+_register("CountReset", CountReset, AgentServer.custom_action)
+_register("CountPrint", CountPrint, AgentServer.custom_action)
+_register("CountCleanup", CountCleanup, AgentServer.custom_action)
+_register("MacroPlayer", MacroPlayer, AgentServer.custom_action)
+_register("Looper", Looper, AgentServer.custom_action)
+_register("randomr", randomr, AgentServer.custom_action)
+_register("FishFight", FishFight, AgentServer.custom_action)
+_register("VoyageClick", VoyageClick, AgentServer.custom_action)
+_register("outnoder", Outnoder, AgentServer.custom_action)
+_register("TimeoutStart", TimeoutStart, AgentServer.custom_action)
+_register("TimeoutReset", TimeoutReset, AgentServer.custom_action)
+_register("CheckTimeout", CheckTimeout, AgentServer.custom_action)
+_register("CheckResolution", CheckResolution, AgentServer.custom_recognition)

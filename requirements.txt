@@ -1,3 +1,4 @@
 maafw == 5.12.1
 json-with-comments
 loguru
+opencv-python
