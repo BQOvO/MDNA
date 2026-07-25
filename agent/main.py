@@ -9,7 +9,7 @@ if sys.stdout.encoding != "utf-8":
 if sys.stderr.encoding != "utf-8":
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -19,9 +19,9 @@ from agent.deploy.deploy import deploy, get_main_py_path
 def main():
 
     from maa.agent.agent_server import AgentServer
-    from maa.toolkit import Toolkit
+    from maa.tasker import Tasker
 
-    Toolkit.init_option("./")
+    Tasker.set_log_dir("./debug")
 
     socket_id = sys.argv[-1]
     print(f"socket_id: {socket_id}")
