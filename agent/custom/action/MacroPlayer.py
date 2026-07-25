@@ -10,14 +10,15 @@ from maa.custom_action import CustomAction
 def resolve_macro_path(file_path: str) -> str:
     """
     解析宏文件路径。
-    如果是纯文件名（如 "夜航手册60.json"），则自动添加 "../resource/macros/" 前缀。
+    如果是纯文件名（如 "夜航手册60.json"），则自动添加 "resource/macros/" 前缀。
     如果是已有路径（包含分隔符），则保持原样。
     """
     if os.path.isabs(file_path):
         return file_path
     if os.sep in file_path or '/' in file_path:
         return file_path
-    return os.path.join("..", "resource", "macros", file_path)
+    _project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    return os.path.join(_project_root, "resource", "macros", file_path)
 
 # ========== 请根据你的游戏修改以下默认值 ==========
 DEFAULT_JOYSTICK_CENTER_X = 210   # 摇杆中心 X 坐标（像素）
