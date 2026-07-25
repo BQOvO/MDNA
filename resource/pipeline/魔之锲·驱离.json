@@ -326,9 +326,7 @@
         "action": "Custom",
         "custom_action": "TimeoutReset",
         "post_delay": 0,
-        "focus": {
-            "Node.Recognition.Succeeded": "超时倒计时结束计时，本次副本用时{elapsed}"
-        },
+        
         "next": [
             "魔之锲·驱离-成功计数"
         ]

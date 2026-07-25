@@ -301,9 +301,7 @@
         "action": "Custom",
         "custom_action": "TimeoutReset",
         "post_delay": 0,
-        "focus": {
-            "Node.Recognition.Succeeded": "超时倒计时结束计时"
-        },
+        
         "next": [
             "夜航20-成功计数"
         ]
