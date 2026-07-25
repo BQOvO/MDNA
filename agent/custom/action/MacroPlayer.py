@@ -17,7 +17,7 @@ def resolve_macro_path(file_path: str) -> str:
         return file_path
     if os.sep in file_path or '/' in file_path:
         return file_path
-    _project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    _project_root = os.getcwd()
     return os.path.join(_project_root, "resource", "macros", file_path)
 
 # ========== 请根据你的游戏修改以下默认值 ==========

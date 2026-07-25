@@ -74,7 +74,7 @@ class Logger:
     def __init__(self, name: str, context: Context | None = None, log_dir: str = "debug", retention_days: int = 5, dir_size_limit_mb: int = 500):
         self.name = name
         self.context = context
-        _project_root = Path(__file__).resolve().parent.parent.parent.parent
+        _project_root = Path.cwd()
         self.log_dir = _project_root / log_dir
         self.log_dir.mkdir(parents=True, exist_ok=True)
 

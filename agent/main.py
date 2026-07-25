@@ -2,6 +2,7 @@ import io
 import os
 import sys
 import traceback
+from pathlib import Path
 
 # 强制 stdout/stderr 使用 UTF-8 编码，避免非 UTF-8 系统环境下中文输出报错
 if sys.stdout.encoding != "utf-8":
@@ -21,7 +22,7 @@ def main():
     from maa.agent.agent_server import AgentServer
     from maa.tasker import Tasker
 
-    Tasker.set_log_dir("./debug")
+    Tasker.set_log_dir(str(Path(__file__).resolve().parent.parent / "debug"))
 
     socket_id = sys.argv[-1]
     print(f"socket_id: {socket_id}")

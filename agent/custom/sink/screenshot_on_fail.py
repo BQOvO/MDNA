@@ -22,7 +22,7 @@ from agent.custom.utils.Logger import Logger
 
 _SCREENSHOT_DIR = os.environ.get(
     "MDNA_DEBUG_DIR",
-    str(Path(__file__).resolve().parents[3] / "debug"),
+    str(Path.cwd() / "debug"),
 )
 _SCREENSHOT_DIR = str(Path(_SCREENSHOT_DIR) / "screenshots")
 _MAX_SCREENSHOTS = 300    # 最多保留 300 张截图
