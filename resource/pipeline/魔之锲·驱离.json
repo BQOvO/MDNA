@@ -107,7 +107,8 @@
         },
         "post_delay": 0,
         "focus": {
-            "Node.Recognition.Starting": "开始进行自动寻路"
+            "Node.Recognition.Starting": "自动寻路中······",
+            "Node.Action.Succeeded": "到达挂机位置，开始挂机！"
         },
         "next": [
             "魔之锲·驱离-角色主控"

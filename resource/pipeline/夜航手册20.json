@@ -133,7 +133,8 @@
         },
         "post_delay": 0,
         "focus": {
-            "Node.Recognition.Starting": "自动寻路中······"
+            "Node.Recognition.Starting": "自动寻路中······",
+            "Node.Action.Succeeded": "到达挂机位置，开始挂机！"
         },
         "next": [
             "夜航20-角色主控"
@@ -301,7 +302,7 @@
         "custom_action": "TimeoutReset",
         "post_delay": 0,
         "focus": {
-            "Node.Recognition.Succeeded": "超时倒计时结束计时，本次副本用时{elapsed}"
+            "Node.Recognition.Succeeded": "超时倒计时结束计时"
         },
         "next": [
             "夜航20-成功计数"
