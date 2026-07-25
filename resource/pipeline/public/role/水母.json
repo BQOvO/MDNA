@@ -1,0 +1,12 @@
+{
+    "水母": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            870,
+            628,
+            34,
+            33
+        ]
+    }
+}
