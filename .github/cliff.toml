@@ -1,5 +1,5 @@
 [remote.github]
-owner = "BQmaaDNA"
+owner = "MDNA"
 repo = "MDNA"
 #自用时换成自己的仓库owner和repo
 #注意，本地git user需与github一致才能实现成功@
