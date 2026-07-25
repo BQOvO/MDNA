@@ -69,7 +69,7 @@ class Count(CustomAction):
 
     auto_reset=true（默认）：达标后标记 reached，下次调用自动归零再+1
     auto_reset=false：达标后保持值，需手动 CountReset/CountCleanup
-    quiet=true：不输出日志
+    quiet=false：输出日志（默认静默）
     success=True 表示达标 → Pipeline 走 next；未达标 → on_error
     """
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
@@ -83,13 +83,13 @@ class Count(CustomAction):
             target_total = 0
             auto_reset = True
             msg = None
-            quiet = False
+            quiet = True
         elif isinstance(param, dict):
             cid = param.get("id")
             target_total = param.get("target_total", 0)
             auto_reset = param.get("auto_reset", True)
             msg = param.get("msg")
-            quiet = param.get("quiet", False)
+            quiet = param.get("quiet", True)
         else:
             print("[Count] 参数格式错误，应为字符串或对象")
             return CustomAction.RunResult(success=False)
