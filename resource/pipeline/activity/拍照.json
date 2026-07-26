@@ -1,0 +1,149 @@
+{
+    "一键日常-取消保存截图": {
+        "recognition": "OCR",
+        "roi": [
+            769,
+            664,
+            61,
+            28
+        ],
+        "expected": [
+            "取消"
+        ],
+        "action": "Click",
+        "post_delay": 1500,
+        "focus": {
+            "Node.Recognition.Succeeded": "这照片谁要啊这？"
+        },
+        "next": [
+            "一键日常-退出相机"
+        ]
+    },
+    "一键日常-拍照": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "一键日常-点击玩家主页"
+        ]
+    },
+    "一键日常-检测是否在玩家主页": {
+        "recognition": "OCR",
+        "roi": [
+            29,
+            142,
+            75,
+            22
+        ],
+        "expected": [
+            "历练经验"
+        ],
+        "action": "DoNothing",
+        "post_delay": 1500,
+        "focus": {
+            "Node.Recognition.Succeeded": "进入玩家主页"
+        },
+        "next": [
+            "一键日常-点击相机"
+        ]
+    },
+    "一键日常-检测是否在玩家主页2": {
+        "recognition": "OCR",
+        "roi": [
+            29,
+            142,
+            75,
+            22
+        ],
+        "expected": [
+            "历练经验"
+        ],
+        "action": "DoNothing",
+        "post_delay": 1500,
+        "next": [
+            "一键日常-退出玩家主页"
+        ]
+    },
+    "一键日常-点击拍照": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            1226,
+            345,
+            29,
+            30
+        ],
+        "post_delay": 2000,
+        "focus": {
+            "Node.Recognition.Succeeded": "美美桑内，拍个照"
+        },
+        "next": [
+            "一键日常-取消保存截图"
+        ]
+    },
+    "一键日常-点击玩家主页": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            32,
+            26,
+            19,
+            18
+        ],
+        "post_delay": 1000,
+        "next": [
+            "一键日常-检测是否在玩家主页",
+            {
+                "name": "一键日常-等待空节点",
+                "jump_back": true
+            }
+        ]
+    },
+    "一键日常-点击相机": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            43,
+            519,
+            14,
+            14
+        ],
+        "post_delay": 3000,
+        "focus": {
+            "Node.Recognition.Succeeded": "点击相机"
+        },
+        "next": [
+            "一键日常-点击拍照"
+        ]
+    },
+    "一键日常-等待空节点": {
+        "recognition": "DirectHit",
+        "action": "DoNothing"
+    },
+    "一键日常-退出玩家主页": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            598,
+            150,
+            506,
+            444
+        ]
+    },
+    "一键日常-退出相机": {
+        "recognition": "DirectHit",
+        "action": "Click",
+        "target": [
+            1232,
+            53,
+            23,
+            30
+        ],
+        "post_delay": 2000,
+        "focus": {
+            "Node.Recognition.Succeeded": "退出相机"
+        },
+        "next": [
+            "一键日常-检测是否在玩家主页2"
+        ]
+    }
+}
