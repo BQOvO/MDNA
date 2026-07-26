@@ -147,7 +147,7 @@
         "template": [
             "加载过程中百分号.png"
         ],
-        "action": "Click"
+        "action": "DoNothing"
     },
     "退出委托门": {
         "recognition": "TemplateMatch",
