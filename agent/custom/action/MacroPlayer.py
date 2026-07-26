@@ -21,9 +21,9 @@ def resolve_macro_path(file_path: str) -> str:
     return os.path.join(_project_root, "resource", "macros", file_path)
 
 # ========== 请根据你的游戏修改以下默认值 ==========
-DEFAULT_JOYSTICK_CENTER_X = 210   # 摇杆中心 X 坐标（像素）
-DEFAULT_JOYSTICK_CENTER_Y = 540   # 摇杆中心 Y 坐标（像素）
-DEFAULT_MOVE_DISTANCE = 60        # 摇杆滑动距离（像素）
+DEFAULT_JOYSTICK_CENTER_X = 205   # 摇杆中心 X 坐标（像素）
+DEFAULT_JOYSTICK_CENTER_Y = 535   # 摇杆中心 Y 坐标（像素）
+DEFAULT_MOVE_DISTANCE = 70        # 摇杆滑动距离（像素）
 DEFAULT_MOVE_DURATION = 50        # 摇杆滑动耗时（毫秒）
 # =================================================
 
