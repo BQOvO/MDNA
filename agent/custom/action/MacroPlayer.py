@@ -84,7 +84,12 @@ class MacroPlayer(CustomAction):
                 action = step["action"]
                 if action == "click":
                     x, y = step["x"], step["y"]
-                    controller.post_click(x, y).wait()
+                    repeat = step.get("repeat", 1)
+                    repeat_interval = step.get("repeat_interval", 0)
+                    for _ in range(repeat):
+                        controller.post_click(x, y).wait()
+                        if repeat_interval > 0:
+                            time.sleep(repeat_interval / 1000.0)
                 elif action == "fly":
                     controller.post_click(1107, 360).wait()
                 elif action == "jump":
