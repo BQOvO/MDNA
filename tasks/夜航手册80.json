@@ -19,6 +19,9 @@
                     "pipeline_override": {
                         "夜航80-选择副本":{
                             "custom_action_param": "夜航-80-1"
+                        },
+                        "夜航80-检测是否成功进入副本":{
+                            "expected": ["避险"]
                         }
                     }
                 },
@@ -27,6 +30,9 @@
                     "pipeline_override": {
                         "夜航80-选择副本":{
                             "custom_action_param": "夜航-80-2"
+                        },
+                        "夜航80-检测是否成功进入副本":{
+                            "expected": ["避险"]
                         }
                     }
                 },
@@ -35,6 +41,9 @@
                     "pipeline_override": {
                         "夜航80-选择副本":{
                             "custom_action_param": "夜航-80-3"
+                        },
+                        "夜航80-检测是否成功进入副本":{
+                            "expected": ["扼守"]
                         }
                     }
                 },
@@ -43,6 +52,9 @@
                     "pipeline_override": {
                         "夜航80-选择副本":{
                             "custom_action_param": "夜航-80-4"
+                        },
+                        "夜航80-检测是否成功进入副本":{
+                            "expected": ["扼守"]
                         }
                     }
                 }

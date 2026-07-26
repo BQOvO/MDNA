@@ -24,6 +24,9 @@
                             "custom_action_param":{
                                 "file": "夜航手册75·驱离.json"
                             }
+                        },
+                        "夜航75-检测是否成功进入副本":{
+                            "expected": ["驱离"]
                         }
                     }
                 },
@@ -37,6 +40,9 @@
                             "custom_action_param":{
                                 "file": "夜航手册75·避险.json"
                             }
+                        },
+                        "夜航75-检测是否成功进入副本":{
+                            "expected": ["避险"]
                         }
                     }
                 },
@@ -50,6 +56,9 @@
                             "custom_action_param":{
                                 "file": "夜航手册75·避险.json"
                             }
+                        },
+                        "夜航75-检测是否成功进入副本":{
+                            "expected": ["避险"]
                         }
                     }
                 },
@@ -63,6 +72,9 @@
                             "custom_action_param":{
                                 "file": "夜航手册75·扼守.json"
                             }
+                        },
+                        "夜航75-检测是否成功进入副本":{
+                            "expected": ["扼守"]
                         }
                     }
                 },
@@ -76,6 +88,9 @@
                             "custom_action_param":{
                                 "file": "夜航手册75·扼守.json"
                             }
+                        },
+                        "夜航75-检测是否成功进入副本":{
+                            "expected": ["扼守"]
                         }
                     }
                 },
@@ -89,6 +104,9 @@
                             "custom_action_param":{
                                 "file": "夜航手册75·避险.json"
                             }
+                        },
+                        "夜航75-检测是否成功进入副本":{
+                            "expected": ["避险"]
                         }
                     }
                 },
@@ -102,6 +120,9 @@
                             "custom_action_param":{
                                 "file": "夜航手册75·避险.json"
                             }
+                        },
+                        "夜航75-检测是否成功进入副本":{
+                            "expected": ["避险"]
                         }
                     }
                 },
@@ -115,6 +136,9 @@
                             "custom_action_param":{
                                 "file": "夜航手册75·扼守.json"
                             }
+                        },
+                        "夜航75-检测是否成功进入副本":{
+                            "expected": ["扼守"]
                         }
                     }
                 },
@@ -128,6 +152,9 @@
                             "custom_action_param":{
                                 "file": "夜航手册75·扼守.json"
                             }
+                        },
+                        "夜航75-检测是否成功进入副本":{
+                            "expected": ["扼守"]
                         }
                     }
                 },
@@ -141,6 +168,9 @@
                             "custom_action_param":{
                                 "file": "夜航手册75·避险.json"
                             }
+                        },
+                        "夜航75-检测是否成功进入副本":{
+                            "expected": ["避险"]
                         }
                     }
                 },
@@ -154,6 +184,9 @@
                             "custom_action_param":{
                                 "file": "夜航手册75·避险.json"
                             }
+                        },
+                        "夜航75-检测是否成功进入副本":{
+                            "expected": ["避险"]
                         }
                     }
                 },
@@ -167,6 +200,9 @@
                             "custom_action_param":{
                                 "file": "夜航手册75·扼守.json"
                             }
+                        },
+                        "夜航75-检测是否成功进入副本":{
+                            "expected": ["扼守"]
                         }
                     }
                 },
@@ -180,6 +216,9 @@
                             "custom_action_param":{
                                 "file": "夜航手册75·扼守.json"
                             }
+                        },
+                        "夜航75-检测是否成功进入副本":{
+                            "expected": ["扼守"]
                         }
                     }
                 }
