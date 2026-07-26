@@ -44,6 +44,11 @@ All issues and consequences arising from the use of this software are not relate
 
 ## 功能列表
 
+- **一键-备忘手记**
+    - [ ] 展示动作（40完成度）
+    - [ ] 拍照（40完成度）
+    - [ ] 一键驱离（120完成度）
+    - [ ] 领取奖励
 - **夜航手册**
     - [ ] 夜航手册说明
     - [ ] 自动-调整设置 （自动设置好所需游戏内设置）
