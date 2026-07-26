@@ -83,17 +83,17 @@
         "recognition": "DirectHit",
         "action": "Swipe",
         "begin": [
-            600,
-            500
+            525,
+            550
         ],
         "end": [
             [
-                600,
-                135
+                525,
+                120
             ]
         ],
         "duration": [
-            1500
+            3000
         ],
         "post_delay": 1000,
         "next": [

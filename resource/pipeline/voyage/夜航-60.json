@@ -15,28 +15,6 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-60-10": {
-        "recognition": "DirectHit",
-        "action": "Swipe",
-        "begin": [
-            600,
-            500
-        ],
-        "end": [
-            [
-                600,
-                150
-            ]
-        ],
-        "duration": [
-            1500
-        ],
-        "repeat": 2,
-        "post_delay": 1000,
-        "next": [
-            "夜航-60-10-2"
-        ]
-    },
     "夜航-60-10-2": {
         "recognition": "OCR",
         "expected": [
@@ -52,28 +30,6 @@
         "action": "Custom",
         "custom_action": "VoyageClick",
         "post_delay": 0
-    },
-    "夜航-60-11": {
-        "recognition": "DirectHit",
-        "action": "Swipe",
-        "begin": [
-            600,
-            500
-        ],
-        "end": [
-            [
-                600,
-                150
-            ]
-        ],
-        "duration": [
-            1500
-        ],
-        "repeat": 2,
-        "post_delay": 1000,
-        "next": [
-            "夜航-60-11-2"
-        ]
     },
     "夜航-60-11-2": {
         "recognition": "OCR",
@@ -91,28 +47,6 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-60-12": {
-        "recognition": "DirectHit",
-        "action": "Swipe",
-        "begin": [
-            600,
-            500
-        ],
-        "end": [
-            [
-                600,
-                150
-            ]
-        ],
-        "duration": [
-            1500
-        ],
-        "repeat": 2,
-        "post_delay": 1000,
-        "next": [
-            "夜航-60-12-2"
-        ]
-    },
     "夜航-60-12-2": {
         "recognition": "OCR",
         "expected": [
@@ -129,28 +63,6 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-60-13": {
-        "recognition": "DirectHit",
-        "action": "Swipe",
-        "begin": [
-            600,
-            500
-        ],
-        "end": [
-            [
-                600,
-                150
-            ]
-        ],
-        "duration": [
-            1500
-        ],
-        "repeat": 2,
-        "post_delay": 1000,
-        "next": [
-            "夜航-60-13-2"
-        ]
-    },
     "夜航-60-13-2": {
         "recognition": "OCR",
         "expected": [
@@ -166,28 +78,6 @@
         "action": "Custom",
         "custom_action": "VoyageClick",
         "post_delay": 0
-    },
-    "夜航-60-14": {
-        "recognition": "DirectHit",
-        "action": "Swipe",
-        "begin": [
-            600,
-            500
-        ],
-        "end": [
-            [
-                600,
-                135
-            ]
-        ],
-        "duration": [
-            1500
-        ],
-        "repeat": 3,
-        "post_delay": 1000,
-        "next": [
-            "夜航-60-14-2"
-        ]
     },
     "夜航-60-14-2": {
         "recognition": "OCR",
@@ -253,27 +143,6 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-60-5": {
-        "recognition": "DirectHit",
-        "action": "Swipe",
-        "begin": [
-            600,
-            500
-        ],
-        "end": [
-            [
-                600,
-                135
-            ]
-        ],
-        "duration": [
-            1500
-        ],
-        "post_delay": 1000,
-        "next": [
-            "夜航-60-5-2"
-        ]
-    },
     "夜航-60-5-2": {
         "recognition": "OCR",
         "expected": [
@@ -289,27 +158,6 @@
         "action": "Custom",
         "custom_action": "VoyageClick",
         "post_delay": 0
-    },
-    "夜航-60-6": {
-        "recognition": "DirectHit",
-        "action": "Swipe",
-        "begin": [
-            600,
-            500
-        ],
-        "end": [
-            [
-                600,
-                135
-            ]
-        ],
-        "duration": [
-            1500
-        ],
-        "post_delay": 1000,
-        "next": [
-            "夜航-60-6-2"
-        ]
     },
     "夜航-60-6-2": {
         "recognition": "OCR",
@@ -327,27 +175,6 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-60-7": {
-        "recognition": "DirectHit",
-        "action": "Swipe",
-        "begin": [
-            600,
-            500
-        ],
-        "end": [
-            [
-                600,
-                135
-            ]
-        ],
-        "duration": [
-            1500
-        ],
-        "post_delay": 1000,
-        "next": [
-            "夜航-60-7-2"
-        ]
-    },
     "夜航-60-7-2": {
         "recognition": "OCR",
         "expected": [
@@ -363,27 +190,6 @@
         "action": "Custom",
         "custom_action": "VoyageClick",
         "post_delay": 0
-    },
-    "夜航-60-8": {
-        "recognition": "DirectHit",
-        "action": "Swipe",
-        "begin": [
-            600,
-            500
-        ],
-        "end": [
-            [
-                600,
-                135
-            ]
-        ],
-        "duration": [
-            1500
-        ],
-        "post_delay": 1000,
-        "next": [
-            "夜航-60-8-2"
-        ]
     },
     "夜航-60-8-2": {
         "recognition": "OCR",
@@ -401,28 +207,6 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-60-9": {
-        "recognition": "DirectHit",
-        "action": "Swipe",
-        "begin": [
-            600,
-            500
-        ],
-        "end": [
-            [
-                600,
-                150
-            ]
-        ],
-        "duration": [
-            1500
-        ],
-        "repeat": 2,
-        "post_delay": 1000,
-        "next": [
-            "夜航-60-9-2"
-        ]
-    },
     "夜航-60-9-2": {
         "recognition": "OCR",
         "expected": [
@@ -438,5 +222,223 @@
         "action": "Custom",
         "custom_action": "VoyageClick",
         "post_delay": 0
+    },
+    "夜航-60-5": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-60-5-2"
+        ]
+    },
+    "夜航-60-6": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-60-6-2"
+        ]
+    },
+    "夜航-60-7": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-60-7-2"
+        ]
+    },
+    "夜航-60-8": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-60-8-2"
+        ]
+    },
+    "夜航-60-10": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-60-10-2"
+        ]
+    },
+    "夜航-60-11": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "repeat": 2,
+        "repeat_delay": 500,
+        "post_delay": 1000,
+        "next": [
+            "夜航-60-11-2"
+        ]
+    },
+    "夜航-60-12": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "repeat": 2,
+        "repeat_delay": 500,
+        "post_delay": 1000,
+        "next": [
+            "夜航-60-12-2"
+        ]
+    },
+    "夜航-60-13": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "repeat": 2,
+        "repeat_delay": 500,
+        "post_delay": 1000,
+        "next": [
+            "夜航-60-13-2"
+        ]
+    },
+    "夜航-60-14": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "repeat": 2,
+        "repeat_delay": 500,
+        "post_delay": 1000,
+        "next": [
+            "夜航-60-14-2"
+        ]
+    },
+    "夜航-60-9": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-60-9-2"
+        ]
     }
 }

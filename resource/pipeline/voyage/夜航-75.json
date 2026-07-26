@@ -15,7 +15,7 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-75-10": {
+    "夜航-75-10-2": {
         "recognition": "OCR",
         "expected": [
             "侵蚀芳烬秽兽"
@@ -31,7 +31,7 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-75-11": {
+    "夜航-75-11-2": {
         "recognition": "OCR",
         "expected": [
             "侵蚀萼蚀秽兽"
@@ -47,7 +47,7 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-75-12": {
+    "夜航-75-12-2": {
         "recognition": "OCR",
         "expected": [
             "复仇魁蕊秽兽"
@@ -63,7 +63,7 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-75-13": {
+    "夜航-75-13-2": {
         "recognition": "OCR",
         "expected": [
             "爆破失序的应天侍"
@@ -143,7 +143,7 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-75-6": {
+    "夜航-75-6-2": {
         "recognition": "OCR",
         "expected": [
             "侵蚀魁蕊秽兽"
@@ -159,7 +159,7 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-75-7": {
+    "夜航-75-7-2": {
         "recognition": "OCR",
         "expected": [
             "侵蚀失序的应天侍"
@@ -175,7 +175,7 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-75-8": {
+    "夜航-75-8-2": {
         "recognition": "OCR",
         "expected": [
             "复仇芳烬秽兽"
@@ -191,7 +191,7 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-75-9": {
+    "夜航-75-9-2": {
         "recognition": "OCR",
         "expected": [
             "猩红萼蚀秽兽"
@@ -206,5 +206,179 @@
         "action": "Custom",
         "custom_action": "VoyageClick",
         "post_delay": 0
+    },
+    "夜航-75-7": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-75-7-2"
+        ]
+    },
+    "夜航-75-6": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-75-6-2"
+        ]
+    },
+    "夜航-75-9": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-75-9-2"
+        ]
+    },
+    "夜航-75-10": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-75-10-2"
+        ]
+    },
+    "夜航-75-8": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-75-8-2"
+        ]
+    },
+    "夜航-75-13": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "repeat": 2,
+        "repeat_delay": 500,
+        "post_delay": 1000,
+        "next": [
+            "夜航-75-13-2"
+        ]
+    },
+    "夜航-75-12": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "repeat": 2,
+        "repeat_delay": 500,
+        "post_delay": 1000,
+        "next": [
+            "夜航-75-12-2"
+        ]
+    },
+    "夜航-75-11": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "repeat": 2,
+        "repeat_delay": 500,
+        "post_delay": 1000,
+        "next": [
+            "夜航-75-11-2"
+        ]
     }
 }

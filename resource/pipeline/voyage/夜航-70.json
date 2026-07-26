@@ -79,7 +79,7 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-70-6": {
+    "夜航-70-6-2": {
         "recognition": "OCR",
         "expected": [
             "霜狱劈斩列兵"
@@ -95,7 +95,7 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-70-7": {
+    "夜航-70-7-2": {
         "recognition": "OCR",
         "expected": [
             "转雷远征列兵"
@@ -111,7 +111,7 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-70-8": {
+    "夜航-70-8-2": {
         "recognition": "OCR",
         "expected": [
             "守护突击列兵"
@@ -126,5 +126,68 @@
         "action": "Custom",
         "custom_action": "VoyageClick",
         "post_delay": 0
+    },
+    "夜航-70-7": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-70-7-2"
+        ]
+    },
+    "夜航-70-8": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-70-8-2"
+        ]
+    },
+    "夜航-70-6": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-70-6-2"
+        ]
     }
 }

@@ -79,27 +79,6 @@
         "custom_action": "VoyageClick",
         "post_delay": 0
     },
-    "夜航-55-6": {
-        "recognition": "DirectHit",
-        "action": "Swipe",
-        "begin": [
-            600,
-            500
-        ],
-        "end": [
-            [
-                600,
-                135
-            ]
-        ],
-        "duration": [
-            1500
-        ],
-        "post_delay": 1000,
-        "next": [
-            "夜航-55-6-2"
-        ]
-    },
     "夜航-55-6-2": {
         "recognition": "OCR",
         "expected": [
@@ -115,5 +94,26 @@
         "action": "Custom",
         "custom_action": "VoyageClick",
         "post_delay": 0
+    },
+    "夜航-55-6": {
+        "recognition": "DirectHit",
+        "action": "Swipe",
+        "begin": [
+            525,
+            550
+        ],
+        "end": [
+            [
+                525,
+                120
+            ]
+        ],
+        "duration": [
+            3000
+        ],
+        "post_delay": 1000,
+        "next": [
+            "夜航-55-6-2"
+        ]
     }
 }
