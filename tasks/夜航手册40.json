@@ -177,7 +177,7 @@
                 {
                     "name":"角色技能释放间隔",
                     "description": "单位为秒，请合理配置",
-                    "default": "40",
+                    "default": "20",
                     "pipeline_type": "int",
                     "verify": "^\\d+$"
                 }
