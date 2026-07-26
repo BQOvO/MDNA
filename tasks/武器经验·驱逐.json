@@ -1,0 +1,110 @@
+{
+    "task": [
+        {
+            "name": "武器经验·驱逐",
+            "description": "该任务可以帮你全自动刷取武器经验·驱逐的材料。副本等级固定为Lv.50，主控角色固定为黎瑟。注意：刷取此副本需要一定练度，请确保角色和装备达标后再使用。",
+            "entry": "武器经验·驱逐-启动节点",
+            "option": [
+                "武器经验驱逐-加成书选择",
+                "武器经验驱逐-超时计时",
+                "武器经验驱逐-刷取次数"
+            ]
+        }
+    ],
+    "option": {
+        "武器经验驱逐-加成书选择": {
+            "label": "加成书选择",
+            "type": "select",
+            "description": "选择加成书",
+            "default_case": "不加成",
+            "cases": [
+                {
+                    "name": "不加成",
+                    "icon": "./resource/image/加成书/不加成.png",
+                    "pipeline_override": {
+                        "武器经验·驱逐-加成书选择": {
+                            "custom_action_param": "不选书"
+                        }
+                    }
+                },
+                {
+                    "name": "绿书（1倍）",
+                    "icon": "./resource/image/加成书/绿书.png",
+                    "pipeline_override": {
+                        "武器经验·驱逐-加成书选择": {
+                            "custom_action_param": "绿书"
+                        }
+                    }
+                },
+                {
+                    "name": "蓝书（2倍）",
+                    "icon": "./resource/image/加成书/蓝书.png",
+                    "pipeline_override": {
+                        "武器经验·驱逐-加成书选择": {
+                            "custom_action_param": "蓝书"
+                        }
+                    }
+                },
+                {
+                    "name": "紫书（8倍）",
+                    "icon": "./resource/image/加成书/紫书.png",
+                    "pipeline_override": {
+                        "武器经验·驱逐-加成书选择": {
+                            "custom_action_param": "紫书"
+                        }
+                    }
+                },
+                {
+                    "name": "金书（20倍）",
+                    "icon": "./resource/image/加成书/金书.png",
+                    "pipeline_override": {
+                        "武器经验·驱逐-加成书选择": {
+                            "custom_action_param": "金书"
+                        }
+                    }
+                }
+            ]
+        },
+        "武器经验驱逐-超时计时": {
+            "label": "超时时间",
+            "type": "input",
+            "inputs": [
+                {
+                    "name": "超时时间",
+                    "description": "单位为秒，请合理配置",
+                    "default": "180",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$"
+                }
+            ],
+            "pipeline_override": {
+                "武器经验·驱逐-超时计时开始": {
+                    "custom_action_param": {
+                        "duration": "{超时时间}"
+                    }
+                }
+            }
+        },
+        "武器经验驱逐-刷取次数": {
+            "label": "刷取次数",
+            "type": "input",
+            "inputs": [
+                {
+                    "name": "刷取次数",
+                    "description": "配置为0即为无限刷取（或者你可以配置一个很大的数）",
+                    "default": "0",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$"
+                }
+            ],
+            "pipeline_override": {
+                "武器经验·驱逐-总计数": {
+                    "custom_action_param": {
+                        "id": "all",
+                        "target_total": "{刷取次数}"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -62,5 +62,21 @@
         "focus": {
             "Node.Action.Succeeded": "你选择了level.80"
         }
+    },
+    "等级选择50": {
+        "recognition": "OCR",
+        "roi": [
+            146,
+            130,
+            98,
+            420
+        ],
+        "expected": [
+            "50"
+        ],
+        "action": "Click",
+        "focus": {
+            "Node.Action.Succeeded": "你选择了level.40"
+        }
     }
 }
