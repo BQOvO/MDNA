@@ -71,10 +71,18 @@
                     }
                 },
                 {
-                    "name": "第八个",
+                    "name": "第八个（主控只能选黎瑟）",
                     "pipeline_override": {
                         "夜航60-选择副本":{
                             "custom_action_param": "夜航-60-8"
+                        },
+                        "夜航60-寻路":{
+                            "custom_action_param":{
+                                "file": "夜航手册60·驱逐.json"
+                            }
+                        },
+                        "夜航60-检测是否成功进入副本":{
+                            "expected": ["驱逐"]
                         }
                     }
                 },
