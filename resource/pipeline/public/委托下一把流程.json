@@ -1,0 +1,76 @@
+{
+    "委托下一把流程": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "下一把-委托完成",
+            "下一把-选书界面"
+        ]
+    },
+    "下一把-委托完成": {
+        "recognition": "OCR",
+        "roi": [
+            22,
+            439,
+            139,
+            47
+        ],
+        "expected": [
+            "委托完成"
+        ],
+        "action": "DoNothing",
+        "next": [
+            "下一把-再次进行"
+        ]
+    },
+    "下一把-选书界面": {
+        "recognition": "OCR",
+        "roi": [
+            241,
+            164,
+            800,
+            391
+        ],
+        "expected": [
+            "确认选择"
+        ],
+        "action": "DoNothing",
+        "next": [
+            "再次进行选书"
+        ]
+    },
+    "再次进行选书": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "",
+        "post_delay": 0,
+        "next": [
+            "下一把-开始挑战"
+        ]
+    },
+    "下一把-开始挑战": {
+        "recognition": "OCR",
+        "roi": [
+            246,
+            481,
+            794,
+            71
+        ],
+        "expected": [
+            "开始挑战"
+        ],
+        "action": "Click"
+    },
+    "下一把-再次进行": {
+        "recognition": "OCR",
+        "expected": [
+            "再次进行"
+        ],
+        "action": "Click",
+        "next": [
+            "下一把-选书界面"
+        ]
+    }
+}
