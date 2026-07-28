@@ -10,19 +10,19 @@
             "夜航80-失败计数"
         ]
     },
-    "夜航80-再次进行": {
+    "夜航80-下一把": {
         "recognition": "DirectHit",
         "pre_delay": 0,
         "action": "Custom",
         "custom_action": "outnoder",
-        "custom_action_param": "再次进行",
+        "custom_action_param": "委托下一把流程",
         "anchor": {
-            "夜航80-回到选择加成书": "夜航80-加成书选择"
+            "夜航80-回到加载": "夜航80-加载中间过渡节点"
         },
         "post_delay": 0,
         "next": [
             {
-                "name": "夜航80-回到选择加成书",
+                "name": "夜航80-回到加载",
                 "anchor": true
             }
         ]
@@ -373,7 +373,7 @@
         },
         "post_delay": 0,
         "next": [
-            "夜航80-再次进行"
+            "夜航80-下一把"
         ]
     },
     "夜航80-进入夜航手册": {
