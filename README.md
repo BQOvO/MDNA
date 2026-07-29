@@ -61,7 +61,7 @@ All issues and consequences arising from the use of this software are not relate
     - [ ] 夜航手册55
     - [ ] 夜航手册40
     - [ ] 夜航手册30
-    - [ ] 夜航手册20
+    - [ ] 夜航手册20  
  注：扼守，避险等由于加了无尽机制，正在适配，暂时无法刷取
 - **历练-委托**
     - [ ] 自动-调整设置 （自动设置好所需游戏内设置）
