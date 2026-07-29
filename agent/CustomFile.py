@@ -6,6 +6,7 @@ from agent.custom.action.randomr import randomr
 from agent.custom.action.FishFight import FishFight
 from agent.custom.action.VoyageClick import VoyageClick
 from agent.custom.action.outnoder import Outnoder
+from agent.custom.action.NumberComparator import NumberComparator
 from agent.custom.action.Timeout import TimeoutStart, TimeoutReset, CheckTimeout
 
 from agent.custom.sink.aspect_ratio import AspectRatioChecker
@@ -32,6 +33,7 @@ _register("randomr", randomr, AgentServer.custom_action)
 _register("FishFight", FishFight, AgentServer.custom_action)
 _register("VoyageClick", VoyageClick, AgentServer.custom_action)
 _register("outnoder", Outnoder, AgentServer.custom_action)
+_register("NumberComparator", NumberComparator, AgentServer.custom_action)
 _register("TimeoutStart", TimeoutStart, AgentServer.custom_action)
 _register("TimeoutReset", TimeoutReset, AgentServer.custom_action)
 _register("CheckTimeout", CheckTimeout, AgentServer.custom_action)
