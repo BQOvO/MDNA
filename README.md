@@ -123,3 +123,9 @@ All issues and consequences arising from the use of this software are not relate
 - **分发：** 允许任何人自由分发本软件，但必须保留原有版权声明，不得删除或隐瞒原作者信息。
 - **传播：** 原则上允许自由传播，但不希望在游戏官方媒体或官方社群下提及本软件，以免引起不必要的麻烦，希望各位理解。
 - **图像：** `MDNA 图标` 及相关游戏截图素材著作权归原作者及游戏厂商所有，仅限非商业用途使用。
+
+## 赞助
+
+<a href="https://ifdian.net/a/BQQvQ">
+  <img width="200" src="https://pic1.afdiancdn.com/static/img/welcome/button-sponsorme.png">
+</a>
