@@ -1,23 +1,4 @@
 {
-    "副本中": {
-        "recognition": "TemplateMatch",
-        "template": [
-            "复位/副本内退出.png"
-        ],
-        "action": "Click",
-        "post_delay": 1000,
-        "next": [
-            "退出委托流程"
-        ]
-    },
-    "退出委托流程": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "退出委托",
-        "post_delay": 0
-    },
     "主界面": {
         "recognition": "OCR",
         "roi": [
@@ -30,6 +11,18 @@
             "UID"
         ],
         "action": "DoNothing"
+    },
+    "副本中": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "复位/副本内退出.png"
+        ],
+        "method": 10001,
+        "action": "Click",
+        "post_delay": 1000,
+        "next": [
+            "退出委托流程"
+        ]
     },
     "回到主界面": {
         "recognition": "DirectHit",
@@ -53,21 +46,15 @@
     "处于玩家主页": {
         "recognition": "OCR",
         "roi": [
-            8,
-            8,
-            82,
-            48
+            126,
+            187,
+            84,
+            26
         ],
         "expected": [
-            "UID"
+            "历练经验"
         ],
-        "action": "Click",
-        "target": [
-            642,
-            148,
-            432,
-            422
-        ],
+        "action": "DoNothing",
         "timeout": 100,
         "next": [
             "主界面"
@@ -75,6 +62,14 @@
         "on_error": [
             "回到主界面"
         ]
+    },
+    "退出委托流程": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "退出委托",
+        "post_delay": 0
     },
     "退出键": {
         "recognition": "TemplateMatch",
