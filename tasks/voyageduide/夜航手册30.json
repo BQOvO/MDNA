@@ -58,7 +58,10 @@
                     "name":"不加成",
                     "icon":"./resource/image/加成书/不加成.png",
                     "pipeline_override": {
-                        "夜航30-加成书选择":{
+                        "夜航-加成书选择":{
+                            "custom_action_param":"不选书"
+                        },
+                        "再次进行选书":{
                             "custom_action_param":"不选书"
                         }
                     }
@@ -67,7 +70,10 @@
                     "name":"绿书（1倍）",
                     "icon":"./resource/image/加成书/绿书.png",
                     "pipeline_override": {
-                        "夜航30-加成书选择":{
+                        "夜航-加成书选择":{
+                            "custom_action_param":"绿书"
+                        },
+                        "再次进行选书":{
                             "custom_action_param":"绿书"
                         }
                     }
@@ -76,7 +82,10 @@
                     "name":"蓝书（2倍）",
                     "icon":"./resource/image/加成书/蓝书.png",
                     "pipeline_override": {
-                        "夜航30-加成书选择":{
+                        "夜航-加成书选择":{
+                            "custom_action_param":"蓝书"
+                        },
+                        "再次进行选书":{
                             "custom_action_param":"蓝书"
                         }
                     }
@@ -85,7 +94,10 @@
                     "name":"紫书（8倍）",
                     "icon":"./resource/image/加成书/紫书.png",
                     "pipeline_override": {
-                        "夜航30-加成书选择":{
+                        "夜航-加成书选择":{
+                            "custom_action_param":"紫书"
+                        },
+                        "再次进行选书":{
                             "custom_action_param":"紫书"
                         }
                     }
@@ -94,7 +106,10 @@
                     "name":"金书（20倍）",
                     "icon":"./resource/image/加成书/金书.png",
                     "pipeline_override": {
-                        "夜航30-加成书选择":{
+                        "夜航-加成书选择":{
+                            "custom_action_param":"金书"
+                        },
+                        "再次进行选书":{
                             "custom_action_param":"金书"
                         }
                     }

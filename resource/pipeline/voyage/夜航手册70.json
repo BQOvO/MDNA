@@ -27,17 +27,6 @@
             }
         ]
     },
-    "夜航70-加成书选择": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "不选书",
-        "post_delay": 0,
-        "next": [
-            "夜航70-开始挑战"
-        ]
-    },
     "夜航70-加载中": {
         "recognition": "TemplateMatch",
         "roi": [
@@ -138,17 +127,6 @@
         },
         "next": [
             "夜航70-角色主控"
-        ]
-    },
-    "夜航70-开始挑战": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "开始挑战",
-        "post_delay": 0,
-        "next": [
-            "夜航70-加载中间过渡节点"
         ]
     },
     "夜航70-总计数": {
@@ -271,15 +249,15 @@
             "夜航70-等待退出节点"
         ]
     },
-    "夜航70-确认选择": {
+    "夜航70-进入副本": {
         "recognition": "DirectHit",
         "pre_delay": 0,
         "action": "Custom",
         "custom_action": "outnoder",
-        "custom_action_param": "确认选择",
+        "custom_action_param": "夜航手册进入副本流程",
         "post_delay": 0,
         "next": [
-            "夜航70-加成书选择"
+            "夜航70-加载中间过渡节点"
         ]
     },
     "夜航70-等待退出节点": {
@@ -406,7 +384,7 @@
         "custom_action_param": "夜航-70-1",
         "post_delay": 0,
         "next": [
-            "夜航70-确认选择"
+            "夜航70-进入副本"
         ]
     }
 }
