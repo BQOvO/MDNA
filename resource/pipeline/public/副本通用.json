@@ -145,7 +145,7 @@
             61
         ],
         "template": [
-            "加载过程中百分号.png"
+            "退出委托的加载中.png"
         ],
         "action": "DoNothing"
     },
@@ -161,5 +161,18 @@
             "复位/副本内退出.png"
         ],
         "action": "Click"
+    },
+    "行动抉择": {
+        "recognition": "OCR",
+        "roi": [
+            588,
+            2,
+            105,
+            39
+        ],
+        "expected": [
+            "行动抉择"
+        ],
+        "action": "DoNothing"
     }
 }
