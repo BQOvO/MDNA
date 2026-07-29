@@ -18,7 +18,7 @@
         "custom_action_param": "开始挑战",
         "post_delay": 0
     },
-    "夜航手册进入副本流程": {
+    "夜航-确认选择": {
         "recognition": "DirectHit",
         "pre_delay": 0,
         "action": "Custom",
@@ -27,6 +27,13 @@
         "post_delay": 0,
         "next": [
             "夜航-加成书选择"
+        ]
+    },
+    "夜航手册进入副本流程": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "夜航-确认选择"
         ]
     }
 }
