@@ -1,15 +1,4 @@
 {
-    "夜航80-再接再厉": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "再接再厉",
-        "post_delay": 0,
-        "next": [
-            "夜航80-失败计数"
-        ]
-    },
     "夜航80-下一把": {
         "recognition": "DirectHit",
         "pre_delay": 0,
@@ -25,6 +14,17 @@
                 "name": "夜航80-回到加载",
                 "anchor": true
             }
+        ]
+    },
+    "夜航80-再接再厉": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "再接再厉",
+        "post_delay": 0,
+        "next": [
+            "夜航80-失败计数"
         ]
     },
     "夜航80-加载中": {
@@ -249,17 +249,6 @@
             "夜航80-等待退出节点"
         ]
     },
-    "夜航80-进入副本": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "夜航手册进入副本流程",
-        "post_delay": 0,
-        "next": [
-            "夜航80-加载中间过渡节点"
-        ]
-    },
     "夜航80-等待退出节点": {
         "recognition": "DirectHit",
         "action": "DoNothing",
@@ -352,6 +341,17 @@
         "post_delay": 0,
         "next": [
             "夜航80-下一把"
+        ]
+    },
+    "夜航80-进入副本": {
+        "recognition": "DirectHit",
+        "pre_delay": 0,
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "夜航手册进入副本流程",
+        "post_delay": 0,
+        "next": [
+            "夜航80-加载中间过渡节点"
         ]
     },
     "夜航80-进入夜航手册": {
