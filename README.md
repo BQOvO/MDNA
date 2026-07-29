@@ -42,6 +42,13 @@ This software is an open-source, free external tool intended for learning and ex
 All issues and consequences arising from the use of this software are not related to this project or its development team. The development team reserves the final right of interpretation for this project. If you encounter vendors using this software for services and charging a fee, this may cover their costs for equipment and time; any resulting problems or consequences are not associated with this software.
 </details>
 
+## 使用之前
+
+1. 在 [Release页面](https://github.com/BQOvO/MDNA/releases) 下载最新版本。
+2. 在模拟器设置里将分辨率调整为平板 **720p(1280×720)** 或 **1080p(1920×1080)**，并**锁定屏幕旋转**为横屏以达到最佳运行效果。
+3. 运行其他任务前可先执行自动调设置任务，以求规范游戏内设置。
+4.本项目目前仅支持官服本地游戏（模拟器），暂不支持云游戏（部分任务可以运行，以后应该会做适配（这是一个新的大饼？！））
+
 ## 功能列表
 
 - **一键-备忘手记**
