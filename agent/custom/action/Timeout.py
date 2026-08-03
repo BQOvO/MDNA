@@ -153,3 +153,61 @@ class CheckTimeout(CustomAction):
             logger.ui(f"超时！计时 {elapsed_str}，触发超时处理")
 
         return CustomAction.RunResult(success=False)
+
+
+"""
+===== Timeout 功能说明 =====
+
+超时计时器套件，包含三个 action：
+
+TimeoutStart  - 启动计时器，超时后自动设置标志
+TimeoutReset  - 取消计时器，清除标志，输出计时用时
+CheckTimeout  - 检查是否超时：未超时→next，超时→on_error
+
+===== 核心实现 =====
+
+1. 全局字典 _timeout_data：{task_id: {"triggered":bool, "timer":Timer, "start_time":float}}
+2. TimeoutStart：创建 threading.Timer，超时后设置 triggered=True。
+3. TimeoutReset：取消 Timer，输出 elapsed 时间到 UI。
+4. CheckTimeout：检查 triggered 标志，超时则输出耗时并走 on_error。
+
+===== 使用教程 =====
+
+TimeoutStart 参数：
+  {"duration": 180}   // 超时秒数（必填），也支持纯数字 "180"
+
+TimeoutReset 参数：
+  无需参数，自动取消当前 task 的计时器
+
+CheckTimeout 参数：
+  无需参数，自动检查当前 task 的超时状态
+
+===== Pipeline JSON 示例 =====
+
+{
+    "超时计时开始": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TimeoutStart",
+        "custom_action_param": {"duration": 180},
+        "next": ["主循环"]
+    },
+    "检查超时": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "CheckTimeout",
+        "next": ["继续执行"],
+        "on_error": ["超时处理"]
+    },
+    "超时计时结束": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TimeoutReset"
+    }
+}
+
+===== 典型流程 =====
+
+TimeoutStart → [主循环] → CheckTimeout → 未超时(next) → 继续循环
+                                     → 超时(on_error) → 超时处理 → TimeoutReset
+"""

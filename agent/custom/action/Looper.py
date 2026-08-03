@@ -68,3 +68,49 @@ class Looper(CustomAction):
 
         print(f"[Looper] 超时 ({total_duration}s)，返回失败")
         return CustomAction.RunResult(success=False)
+
+
+"""
+===== Looper 功能说明 =====
+
+通用轮询器：在指定时间内循环检测 pipeline 节点是否识别成功。
+任意节点识别成功 → success=True → Pipeline 走 next
+超时全部未识别 → success=False → Pipeline 走 on_error
+
+===== 核心实现 =====
+
+1. 时间循环：在 count 秒内，每隔 interval 秒截图一次。
+2. 节点轮询：按 nodes 列表顺序循环检测，每次检测一个节点。
+3. 识别方式：调用 context.run_recognition(node_name, image)，使用 pipeline 中已定义的识别配置。
+4. 命中即停：任意节点识别成功立即返回 True。
+
+===== 使用教程 =====
+
+参数格式：
+{
+    "count": 3.0,           // 总时长（秒），超时后返回失败
+    "nodes": ["委托完成"],   // 要轮询的 pipeline 节点名列表
+    "interval": 1.0         // 每次检测间隔（秒），默认 1.0
+}
+
+===== Pipeline JSON 示例 =====
+
+{
+    "检测是否完成委托": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "Looper",
+        "custom_action_param": {
+            "count": 3,
+            "nodes": ["委托完成"]
+        },
+        "next": ["结束计时"],
+        "on_error": ["超时处理"]
+    }
+}
+
+===== 注意 =====
+
+Looper 依赖 pipeline JSON 中已定义的节点（如 "委托完成" 需在 副本通用.json 中定义）。
+如果只需检测单一文本，推荐使用 TextWatcher（更简洁，不依赖外部 pipeline 节点定义）。
+"""

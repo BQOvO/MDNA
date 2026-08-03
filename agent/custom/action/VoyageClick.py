@@ -41,3 +41,39 @@ class VoyageClick(CustomAction):
             print(f"[VoyageClick] EXCEPTION: {e}", flush=True)
             traceback.print_exc(file=sys.stdout)
             return CustomAction.RunResult(success=False)
+
+
+"""
+===== VoyageClick 功能说明 =====
+
+夜航点击器：根据识别到的目标 box 计算点击位置并执行点击。
+专用于夜航手册场景，固定 X 坐标，Y 坐标根据 box 中心偏移。
+
+===== 核心实现 =====
+
+1. 从 argv.box 获取识别结果的位置信息。
+2. 兼容 Rect 对象和 list/tuple 两种 box 格式。
+3. 计算点击位置：fixed_x=1183, click_y=box_center_y+15。
+4. 执行点击。
+
+===== 使用教程 =====
+
+无需额外参数，直接从 pipeline 节点的识别结果中获取 box。
+该 action 通常配合 TemplateMatch 或 OCR 识别节点使用。
+
+===== Pipeline JSON 示例 =====
+
+{
+    "夜航点击": {
+        "recognition": "TemplateMatch",
+        "template": ["目标图片.png"],
+        "action": "Custom",
+        "custom_action": "VoyageClick"
+    }
+}
+
+===== 类常量配置 =====
+
+fixed_x = 1183    // 固定 X 坐标
+Y 偏移 = +15       // 在 box 中心 Y 的基础上加 15 像素
+"""

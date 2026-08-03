@@ -142,3 +142,64 @@ class MacroPlayer(CustomAction):
             print(f"[MacroPlayer] 未捕获的异常: {e}", flush=True)
             traceback.print_exc()
             return CustomAction.RunResult(success=False)
+
+
+"""
+===== MacroPlayer 功能说明 =====
+
+宏播放器：执行预定义的宏操作序列，支持多种动作类型。
+可从 JSON 文件读取宏定义，也可直接在 pipeline 参数中传入 steps 数组。
+
+===== 核心实现 =====
+
+1. 参数解析：支持三种格式 —— 文件路径字符串、{"file": "xxx.json"}、{"steps": [...]}。
+2. 文件路径解析：纯文件名自动补全为 resource/macros/ 目录下的路径。
+3. 时间轴执行：每个 step 有 delay(ms)，按绝对时间轴顺序执行，保证时序精确。
+4. 支持的动作类型见下方。
+
+===== 支持的动作类型 =====
+
+click        - 点击指定坐标           {"action":"click","x":100,"y":200,"repeat":1,"repeat_interval":0}
+long_press   - 长按指定坐标           {"action":"long_press","x":100,"y":200,"duration":1000}
+swipe        - 滑动                   {"action":"swipe","x1":0,"y1":0,"x2":100,"y2":100,"move_duration":200,"hold_duration":0}
+fly          - 点击飞行(1107,360)      {"action":"fly"}
+jump         - 点击跳跃(997,404)       {"action":"jump"}
+up/down/left/right - 摇杆移动         {"action":"up","distance":70,"duration":50,"endhold":0}
+wait         - 等待                   {"action":"wait","duration":1000}
+loop         - 循环子步骤             {"action":"loop","count":3,"steps":[...]}
+
+===== 使用教程 =====
+
+用法1：从文件读取
+  custom_action_param: "夜航手册60.json"
+  自动从 resource/macros/夜航手册60.json 加载。
+
+用法2：内联 steps
+  custom_action_param: {
+      "steps": [
+          {"delay":0,"action":"click","x":500,"y":300},
+          {"delay":1000,"action":"swipe","x1":0,"y1":0,"x2":100,"y2":0}
+      ]
+  }
+
+用法3：指定文件路径
+  custom_action_param: {"file": "夜航手册60.json"}
+
+===== Pipeline JSON 示例 =====
+
+{
+    "执行宏": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MacroPlayer",
+        "custom_action_param": "夜航手册60.json"
+    }
+}
+
+===== 类常量配置 =====
+
+DEFAULT_JOYSTICK_CENTER_X = 205    // 摇杆中心 X
+DEFAULT_JOYSTICK_CENTER_Y = 535    // 摇杆中心 Y
+DEFAULT_MOVE_DISTANCE     = 70     // 摇杆滑动距离（像素）
+DEFAULT_MOVE_DURATION     = 50     // 摇杆滑动耗时（毫秒）
+"""

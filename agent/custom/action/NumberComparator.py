@@ -113,3 +113,47 @@ class NumberComparator(CustomAction):
                         print(f"[NumberComparator] 扫描定位到数字: {n}")
                         return n
         return None
+
+
+"""
+===== NumberComparator 功能说明 =====
+
+轮次数字比较器：OCR 识别画面中 "N/M" 格式的轮次数字，通过点击按钮调整到目标值。
+常用于自动轮次设置场景。
+
+===== 核心实现 =====
+
+1. OCR 识别：在 ROI=[1030,428,86,28] 区域内检测 "\\d+/\\d+" 格式的文字。
+2. target=1 特殊处理：检测到文字则点击取消自动轮次；未检测到则跳过（说明已经是手动模式）。
+3. 数字扫描：从 target-1 开始向两侧扩展扫描，找到匹配的数字后比较大小。
+4. 逐次逼近：recognized+1 > target → 点击调小；recognized+1 < target → 点击调大。
+5. 最多重试 MAX_RETRIES=200 次，每次间隔 0.3s。
+
+===== 使用教程 =====
+
+参数格式：
+{
+    "target": 5    // 目标轮次，如 target=5 表示要调到第 4 轮
+}
+
+===== Pipeline JSON 示例 =====
+
+{
+    "轮次比较": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "NumberComparator",
+        "custom_action_param": {"target": 5},
+        "next": ["下一步"]
+    }
+}
+
+===== 类常量配置 =====
+
+ROI          = [1030, 428, 86, 28]   // 数字显示区域
+CLICK_LESS   = [1180, 475]           // 调小按钮
+CLICK_GREATER = [965, 475]           // 调大按钮
+CLICK_WHEN_ONE = [1210, 416]         // target=1 时的取消按钮
+CLICK_OPEN   = [1200, 480]           // 开启自动轮次按钮
+MAX_RETRIES  = 200                   // 最大重试次数
+"""

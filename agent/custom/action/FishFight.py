@@ -156,3 +156,55 @@ class FishFight(CustomAction):
  
         print("[FishFight] 博弈结束")
         return CustomAction.RunResult(success=has_detected)
+
+
+"""
+===== FishFight 功能说明 =====
+
+钓鱼博弈控制器：通过颜色匹配追踪光标和目标鱼的位置，自动控制按压时长进行博弈。
+用于游戏中钓鱼/拉扯小游戏的自动化。
+
+===== 核心实现 =====
+
+1. 等待就绪：在 wait_time 秒内轮询检测光标色块和目标色块是否同时出现。
+2. 颜色匹配：使用 ColorMatch 识别，分别追踪 cursor（光标）和 target（目标）的 Y 坐标。
+3. 博弈逻辑：
+   - 光标在上方(offset < -threshold_y) → 按压拉回，距离越大按越久。
+   - 光标在下方(offset > threshold_y) → 等待重力下拉，距离大时轻点辅助。
+   - 趋势修正：正在远离时加大力度，正在靠近时减小力度。
+4. 重合判定：abs(offset) <= threshold_y 时认为重合，不操作。
+5. 超时保护：max_time 秒后强制结束。
+
+===== 使用教程 =====
+
+参数格式：
+{
+    "downtarget": [x, y],       // 按压目标坐标（必填）
+    "roi": [x,y,w,h],           // 颜色匹配区域（可选，默认全屏）
+    "max_time": 60.0,           // 最大博弈时间（秒），默认 60
+    "wait_time": 20.0,          // 等待界面就绪时间（秒），默认 20
+    "threshold_y": 3,           // 重合判定阈值（像素），默认 3
+    "duration_scale": 14,       // 按压时长缩放系数，默认 14
+    "duration_min": 75,         // 最短按压（毫秒），默认 75
+    "duration_max": 700,        // 最长按压（毫秒），默认 700
+    "cursor_lower": [[H,S,V]],  // 光标颜色下限（HSV），默认蓝色
+    "cursor_upper": [[H,S,V]],  // 光标颜色上限（HSV）
+    "target_lower": [[H,S,V]],  // 目标颜色下限（HSV），默认橙色
+    "target_upper": [[H,S,V]]   // 目标颜色上限（HSV）
+}
+
+===== Pipeline JSON 示例 =====
+
+{
+    "钓鱼博弈": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "FishFight",
+        "custom_action_param": {
+            "downtarget": [500, 400],
+            "max_time": 60
+        },
+        "next": ["钓鱼完成"]
+    }
+}
+"""

@@ -329,3 +329,61 @@ class CountCleanup(CustomAction):
                     logger.ui(f"已清理全部 {glob_count} 个计数器", color="gray")
 
         return CustomAction.RunResult(success=True)
+
+
+"""
+===== Count 功能说明 =====
+
+计数器套件，包含四个 action：
+
+Count        - 计数器+1，达标后返回 success=True（走 next），未达标返回 success=False（走 on_error）
+CountReset   - 重置指定计数器归零
+CountPrint   - 输出计数器当前值到 UI（只读）
+CountCleanup - 清理计数器数据
+
+===== 核心实现 =====
+
+1. 全局字典 _globals / _targets / _reached：按 task_id 隔离，支持多任务并行。
+2. 模板变量：{id} {total} {target} {reached} 快捷变量，{xxx_total} 等全量变量。
+3. 达标判断：target_total > 0 且 total >= target_total 时达标。
+4. auto_reset=true：达标后下次调用自动归零再+1；false：达标后保持值。
+
+===== 使用教程 =====
+
+Count 参数：
+  字符串: "all"                                     // id=all, 无限计数
+  对象:   {"id":"all","target_total":10,"auto_reset":true,"msg":"{id}:{total}/{target}","quiet":false}
+
+CountReset 参数：
+  字符串: "all"                    // 重置 id=all 的计数器
+  对象:   {"id":"all","quiet":true}
+
+CountPrint 参数：
+  字符串: "all"                          // 输出 "all: 3/10"
+  列表:   ["all","failed","success"]     // 输出 "all:3/10 | failed:2 | success:3"
+  字典:   {"ids":["all","failed"],"msg":"{all_total}/{all_target}","sep":" | "}
+
+CountCleanup 参数：
+  {}                     // 清理当前 task 全部计数器
+  {"id":"all"}           // 清理指定 id
+  {"id":"all","keep_target":true}  // 仅归零，保留 target 配置
+
+===== Pipeline JSON 示例 =====
+
+{
+    "计数": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "Count",
+        "custom_action_param": {"id":"all","target_total":10},
+        "next": ["达标处理"],
+        "on_error": ["继续循环"]
+    },
+    "打印计数": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "CountPrint",
+        "custom_action_param": ["all"]
+    }
+}
+"""

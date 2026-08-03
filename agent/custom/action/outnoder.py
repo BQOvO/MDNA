@@ -37,3 +37,41 @@ class Outnoder(CustomAction):
 
         print(f"outnoder: external node finished, success={success}")
         return CustomAction.RunResult(success=success)
+
+
+"""
+===== outnoder 功能说明 =====
+
+外部节点执行器：在当前 pipeline 流程中调用另一个 pipeline 节点（支持跨文件引用）。
+执行成功后返回该节点的成功/失败状态。
+
+===== 核心实现 =====
+
+1. 参数解析：支持字符串（直接作为节点名）或 {"node": "xxx"} 格式。
+2. 节点执行：调用 context.run_task(target_node) 同步执行目标节点。
+3. 状态传递：目标节点执行成功 → success=True；失败或异常 → success=False。
+
+===== 使用教程 =====
+
+参数格式：
+  字符串: "退出委托门"
+  对象:   {"node": "退出委托门"}
+
+===== Pipeline JSON 示例 =====
+
+{
+    "退出委托": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "outnoder",
+        "custom_action_param": "退出委托门",
+        "next": ["后续步骤"]
+    }
+}
+
+===== 典型用途 =====
+
+- 调用在其他 pipeline 文件中定义的公共节点（如 副本通用.json 中的节点）
+- 将复杂流程拆分为可复用的子节点
+- 作为流程跳转的桥梁
+"""

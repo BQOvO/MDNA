@@ -38,3 +38,43 @@ class randomr(CustomAction):
         context.override_next(node_name, [])
 
         return CustomAction.RunResult(success=True)
+
+
+"""
+===== randomr 功能说明 =====
+
+随机节点选择器：从当前 pipeline 节点的 next 列表中随机选择一个节点执行。
+覆盖当前节点的 next 为空，防止 MAA 执行静态 next 列表。
+
+===== 核心实现 =====
+
+1. 获取当前节点定义：通过 context.tasker.resource.get_node_data(node_name) 读取 pipeline JSON。
+2. 随机选择：从 next 列表中 random.choice 一个节点。
+3. 执行选中节点：context.run_task(selected) 同步执行。
+4. 覆盖 next：context.override_next(node_name, []) 清空 next，防止 MAA 再执行原始列表。
+
+===== 使用教程 =====
+
+无需参数，直接在 pipeline 节点中配置多个 next 候选即可。
+
+===== Pipeline JSON 示例 =====
+
+{
+    "随机技能": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "randomr",
+        "next": [
+            "释放技能A",
+            "释放技能B",
+            "释放技能C"
+        ]
+    }
+}
+每次进入该节点时，从技能A/B/C中随机选一个执行。
+
+===== 注意 =====
+
+- next 列表中的节点必须在同一 pipeline 中可访问。
+- 每次调用都会重新随机选择，概率均匀分布。
+"""
