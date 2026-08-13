@@ -8,6 +8,8 @@ from agent.custom.action.VoyageClick import VoyageClick
 from agent.custom.action.outnoder import Outnoder
 from agent.custom.action.NumberComparator import NumberComparator
 from agent.custom.action.Timeout import TimeoutStart, TimeoutReset, CheckTimeout
+from agent.custom.action.RoundTracker import RoundTracker
+from agent.custom.action.TextWatcher import TextWatcher
 
 from agent.custom.sink.aspect_ratio import AspectRatioChecker
 from agent.custom.sink.count_cleanup import CountAutoCleanup
@@ -37,4 +39,6 @@ _register("NumberComparator", NumberComparator, AgentServer.custom_action)
 _register("TimeoutStart", TimeoutStart, AgentServer.custom_action)
 _register("TimeoutReset", TimeoutReset, AgentServer.custom_action)
 _register("CheckTimeout", CheckTimeout, AgentServer.custom_action)
+_register("RoundTracker", RoundTracker, AgentServer.custom_action)
+_register("TextWatcher", TextWatcher, AgentServer.custom_action)
 _register("CheckResolution", CheckResolution, AgentServer.custom_recognition)
