@@ -25,7 +25,7 @@
     "黎瑟-卡黑幕节点": {
         "recognition": "DirectHit",
         "action": "DoNothing",
-        "post_delay": 5000
+        "post_delay": 0
     },
     "黎瑟-检测q技能是否消失": {
         "recognition": "OCR",
