@@ -4,7 +4,7 @@
             "name": "夜航手册30",
             "entry": "夜航30-启动",
             "description": "resource/descs/nightguide/30.md",
-            "option": ["夜航30副本选择","夜航30加成书选择","夜航30刷取次数","夜航30主控","夜航30技能释放间隔","夜航30超时时间"]
+            "option": ["夜航30副本选择","夜航30加成书选择","夜航30主控","夜航30刷取次数","夜航30超时时间"]
         }
     ],
     "option": {
@@ -16,6 +16,7 @@
             "cases": [
                 {
                     "name":"第一个",
+                    "option": ["夜航30轮次选择"],
                     "pipeline_override": {
                         "夜航30-选择副本":{
                             "custom_action_param": "夜航-30-1"
@@ -24,6 +25,7 @@
                 },
                 {
                     "name":"第二个",
+                    "option": ["夜航30轮次选择"],
                     "pipeline_override": {
                         "夜航30-选择副本":{
                             "custom_action_param": "夜航-30-2"
@@ -32,6 +34,7 @@
                 },
                 {
                     "name":"第三个",
+                    "option": ["夜航30轮次选择"],
                     "pipeline_override": {
                         "夜航30-选择副本":{
                             "custom_action_param": "夜航-30-3"
@@ -40,6 +43,7 @@
                 },
                 {
                     "name":"第四个",
+                    "option": ["夜航30轮次选择"],
                     "pipeline_override": {
                         "夜航30-选择副本":{
                             "custom_action_param": "夜航-30-4"
@@ -162,6 +166,7 @@
             "cases": [
                 {
                     "name":"黎瑟",
+                    "option": ["夜航30黎瑟技能释放间隔"],
                     "pipeline_override": {
                         "夜航30-角色主控":{
                             "custom_action_param":"黎瑟"
@@ -170,6 +175,7 @@
                 },
                 {
                     "name":"水母",
+                    "option": ["夜航30水母技能释放间隔"],
                     "pipeline_override": {
                         "夜航30-角色主控":{
                             "custom_action_param":"水母"
@@ -178,11 +184,12 @@
                 }
             ]
         },
-        "夜航30技能释放间隔":{
+        "夜航30黎瑟技能释放间隔":{
+            "label": "黎瑟技能释放间隔（Q技能）",
             "type": "input",
             "inputs": [
                 {
-                    "name":"角色技能释放间隔",
+                    "name":"黎瑟技能释放间隔",
                     "description": "单位为秒，请合理配置",
                     "default": "20",
                     "pipeline_type": "int",
@@ -192,8 +199,50 @@
             "pipeline_override": {
                 "夜航30-检测是否完成委托":{
                     "custom_action_param":{
-                        "count": "{角色技能释放间隔}",
+                        "count": "{黎瑟技能释放间隔}",
                         "nodes":["委托完成"]
+                    }
+                }
+            }
+        },
+        "夜航30水母技能释放间隔":{
+            "label": "水母技能释放间隔（E技能）",
+            "type": "input",
+            "inputs": [
+                {
+                    "name":"水母技能释放间隔",
+                    "description": "单位为秒，请合理配置",
+                    "default": "6",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$"
+                }
+            ],
+            "pipeline_override": {
+                "夜航30-检测是否完成委托":{
+                    "custom_action_param":{
+                        "count": "{水母技能释放间隔}",
+                        "nodes":["委托完成"]
+                    }
+                }
+            }
+        },
+        "夜航30轮次选择":{
+            "label": "轮次选择",
+            "type": "input",
+            "description": "设置自动轮次功能的目标轮数",
+            "inputs": [
+                {
+                    "name":"轮次",
+                    "description": "输入目标轮次",
+                    "default": "1",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$"
+                }
+            ],
+            "pipeline_override": {
+                "轮次":{
+                    "custom_action_param":{
+                        "target": "{轮次}"
                     }
                 }
             }
