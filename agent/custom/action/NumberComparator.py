@@ -1,4 +1,5 @@
 import json
+import re
 import time
 import traceback
 from maa.context import Context
@@ -7,11 +8,11 @@ from maa.custom_action import CustomAction
 
 class NumberComparator(CustomAction):
     ROI = [1030,428,86,28]
-    CLICK_LESS = [1180, 475]
-    CLICK_GREATER = [965, 475]
+    BTN_DECREASE = [965, 475]
+    BTN_INCREASE = [1180, 475]
     CLICK_WHEN_ONE = [1210, 416]
     CLICK_OPEN = [1200, 480]
-    MAX_RETRIES = 200
+    MAX_RETRIES = 100
 
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
         try:
@@ -51,19 +52,19 @@ class NumberComparator(CustomAction):
                 self._click(context, self.CLICK_OPEN, "轮次文字消失, 点击开启自动轮次")
                 continue
 
-            recognized = self._find_number(context, image, target)
+            recognized = self._get_number(context, image)
             if recognized is None:
-                print("[NumberComparator] 未能识别轮次数字")
-                return CustomAction.RunResult(success=False)
+                print(f"[NumberComparator] 第{attempt}次 OCR 未能识别数字, 继续重试")
+                continue
 
             print(f"[NumberComparator] 第{attempt}次 识别={recognized}, 目标={target-1}, 比较: {recognized}+1 vs {target}")
             if recognized + 1 == target:
                 print(f"[NumberComparator] {recognized}+1 == {target}, 成功!")
                 return CustomAction.RunResult(success=True)
             elif recognized + 1 > target:
-                self._click(context, self.CLICK_GREATER, f"{recognized}+1 > {target}, 点击调小")
+                self._click(context, self.BTN_DECREASE, f"{recognized}+1 > {target}, 点击调小")
             else:
-                self._click(context, self.CLICK_LESS, f"{recognized}+1 < {target}, 点击调大")
+                self._click(context, self.BTN_INCREASE, f"{recognized}+1 < {target}, 点击调大")
 
         print(f"[NumberComparator] 已达最大重试次数 {self.MAX_RETRIES}, 返回失败")
         return CustomAction.RunResult(success=False)
@@ -100,19 +101,31 @@ class NumberComparator(CustomAction):
         except Exception:
             return False
 
-    def _find_number(self, context, image, target):
-        center = target - 1
-        if center < 1:
-            center = 1
-
-        max_n = 99
-        for offset in range(0, max(center, max_n - center) + 1):
-            for n in (center - offset, center + offset):
-                if 1 <= n <= max_n:
-                    if self._ocr_hit(context, image, self.ROI, f"{n}/"):
-                        print(f"[NumberComparator] 扫描定位到数字: {n}")
-                        return n
-        return None
+    def _get_number(self, context, image):
+        entry = "_nc_getnum"
+        pipeline = {
+            entry: {
+                "recognition": "OCR",
+                "roi": self.ROI,
+                "expected": ["\\d+/\\d+"],
+            }
+        }
+        try:
+            reco = context.run_recognition(entry, image, pipeline)
+            if reco and reco.hit and reco.detail:
+                detail = reco.detail
+                if isinstance(detail, list) and len(detail) > 0:
+                    text = str(detail[0])
+                elif isinstance(detail, str):
+                    text = detail
+                else:
+                    text = str(detail)
+                match = re.search(r"(\d+)/", text)
+                if match:
+                    return int(match.group(1))
+            return None
+        except Exception:
+            return None
 
 
 """
@@ -151,8 +164,8 @@ class NumberComparator(CustomAction):
 ===== 类常量配置 =====
 
 ROI          = [1030, 428, 86, 28]   // 数字显示区域
-CLICK_LESS   = [1180, 475]           // 调小按钮
-CLICK_GREATER = [965, 475]           // 调大按钮
+BTN_DECREASE = [965, 475]            // 调小按钮 (X=965, 坐标小)
+BTN_INCREASE = [1180, 475]           // 调大按钮 (X=1180, 坐标大)
 CLICK_WHEN_ONE = [1210, 416]         // target=1 时的取消按钮
 CLICK_OPEN   = [1200, 480]           // 开启自动轮次按钮
 MAX_RETRIES  = 200                   // 最大重试次数
