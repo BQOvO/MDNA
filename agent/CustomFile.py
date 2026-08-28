@@ -17,6 +17,7 @@ from agent.custom.sink.aspect_ratio import AspectRatioChecker
 from agent.custom.sink.count_cleanup import CountAutoCleanup
 from agent.custom.sink.screenshot_on_fail import NodeScreenshotSink
 from agent.custom.sink.focus_prefix import FocusPrefix
+from agent.custom.sink.option_validation import OptionValidationSink
 
 from agent.custom.recongition.CheckResolution import CheckResolution
 
