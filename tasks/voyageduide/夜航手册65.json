@@ -4,7 +4,7 @@
             "name": "夜航手册65",
             "entry": "夜航65-启动",
             "description": "resource/descs/nightguide/65.md",
-            "option": ["夜航65副本选择","夜航65加成书选择","夜航65刷取次数","夜航65主控","夜航65技能释放间隔","夜航65超时时间"]
+            "option": ["夜航65副本选择","夜航65加成书选择","夜航65主控","夜航65刷取次数","夜航65超时时间"]
         }
     ],
     "option": {
@@ -16,6 +16,7 @@
             "cases": [
                 {
                     "name":"第一个",
+                    "option": ["夜航65轮次选择"],
                     "pipeline_override": {
                         "夜航65-选择副本":{
                             "custom_action_param": "夜航-65-1"
@@ -24,6 +25,7 @@
                 },
                 {
                     "name":"第二个",
+                    "option": ["夜航65轮次选择"],
                     "pipeline_override": {
                         "夜航65-选择副本":{
                             "custom_action_param": "夜航-65-2"
@@ -32,6 +34,7 @@
                 },
                 {
                     "name":"第三个",
+                    "option": ["夜航65轮次选择"],
                     "pipeline_override": {
                         "夜航65-选择副本":{
                             "custom_action_param": "夜航-65-3"
@@ -40,6 +43,7 @@
                 },
                 {
                     "name":"第四个",
+                    "option": ["夜航65轮次选择"],
                     "pipeline_override": {
                         "夜航65-选择副本":{
                             "custom_action_param": "夜航-65-4"
@@ -48,6 +52,7 @@
                 },
                 {
                     "name":"第五个",
+                    "option": ["夜航65轮次选择"],
                     "pipeline_override": {
                         "夜航65-选择副本":{
                             "custom_action_param": "夜航-65-5"
@@ -56,6 +61,7 @@
                 },
                 {
                     "name":"第六个",
+                    "option": ["夜航65轮次选择"],
                     "pipeline_override": {
                         "夜航65-选择副本":{
                             "custom_action_param": "夜航-65-6"
@@ -64,6 +70,7 @@
                 },
                 {
                     "name": "第七个",
+                    "option": ["夜航65轮次选择"],
                     "pipeline_override": {
                         "夜航65-选择副本":{
                             "custom_action_param": "夜航-65-7"
@@ -72,6 +79,7 @@
                 },
                 {
                     "name": "第八个",
+                    "option": ["夜航65轮次选择"],
                     "pipeline_override": {
                         "夜航65-选择副本":{
                             "custom_action_param": "夜航-65-8"
@@ -80,6 +88,7 @@
                 },
                 {
                     "name": "第九个",
+                    "option": ["夜航65轮次选择"],
                     "pipeline_override": {
                         "夜航65-选择副本":{
                             "custom_action_param": "夜航-65-9"
@@ -202,6 +211,7 @@
             "cases": [
                 {
                     "name":"黎瑟",
+                    "option": ["夜航65黎瑟技能释放间隔"],
                     "pipeline_override": {
                         "夜航65-角色主控":{
                             "custom_action_param":"黎瑟"
@@ -210,6 +220,7 @@
                 },
                 {
                     "name":"水母",
+                    "option": ["夜航65水母技能释放间隔"],
                     "pipeline_override": {
                         "夜航65-角色主控":{
                             "custom_action_param":"水母"
@@ -218,11 +229,12 @@
                 }
             ]
         },
-        "夜航65技能释放间隔":{
+        "夜航65黎瑟技能释放间隔":{
+            "label": "黎瑟技能释放间隔（Q技能）",
             "type": "input",
             "inputs": [
                 {
-                    "name":"角色技能释放间隔",
+                    "name":"黎瑟技能释放间隔",
                     "description": "单位为秒，请合理配置",
                     "default": "20",
                     "pipeline_type": "int",
@@ -232,8 +244,50 @@
             "pipeline_override": {
                 "夜航65-检测是否完成委托":{
                     "custom_action_param":{
-                        "count": "{角色技能释放间隔}",
+                        "count": "{黎瑟技能释放间隔}",
                         "nodes":["委托完成"]
+                    }
+                }
+            }
+        },
+        "夜航65水母技能释放间隔":{
+            "label": "水母技能释放间隔（E技能）",
+            "type": "input",
+            "inputs": [
+                {
+                    "name":"水母技能释放间隔",
+                    "description": "单位为秒，请合理配置",
+                    "default": "20",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$"
+                }
+            ],
+            "pipeline_override": {
+                "夜航65-检测是否完成委托":{
+                    "custom_action_param":{
+                        "count": "{水母技能释放间隔}",
+                        "nodes":["委托完成"]
+                    }
+                }
+            }
+        },
+        "夜航65轮次选择":{
+            "label": "轮次选择",
+            "type": "input",
+            "description": "设置自动轮次功能的目标轮数",
+            "inputs": [
+                {
+                    "name":"轮次",
+                    "description": "输入目标轮次",
+                    "default": "1",
+                    "pipeline_type": "int",
+                    "verify": "^\\d+$"
+                }
+            ],
+            "pipeline_override": {
+                "轮次":{
+                    "custom_action_param":{
+                        "target": "{轮次}"
                     }
                 }
             }
