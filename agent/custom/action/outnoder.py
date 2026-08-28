@@ -18,10 +18,10 @@ class Outnoder(CustomAction):
             target_node = param_str
 
         if not target_node:
-            print("outnoder: missing node name")
+            print("[Outnoder] 缺少 node 名称")
             return CustomAction.RunResult(success=False)
 
-        print(f"outnoder: executing external node '{target_node}'")
+        print(f"[Outnoder] 执行外部节点: '{target_node}'")
 
         try:
             task_detail = context.run_task(target_node)
@@ -29,13 +29,13 @@ class Outnoder(CustomAction):
                 success = task_detail.status.succeeded
             else:
                 success = False
-                print(f"outnoder: run_task returned None or status is None for node '{target_node}'")
+                print(f"[Outnoder] run_task 返回 None, 节点: '{target_node}'")
         except Exception as e:
-            print(f"outnoder: run_task failed for node '{target_node}': {e}")
+            print(f"[Outnoder] run_task 失败, 节点: '{target_node}': {e}")
             traceback.print_exc()
             success = False
 
-        print(f"outnoder: external node finished, success={success}")
+        print(f"[Outnoder] 外部节点完成, success={success}")
         return CustomAction.RunResult(success=success)
 
 
