@@ -1,39 +1,67 @@
 {
     "夜航-加成书选择": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "不选书",
-        "post_delay": 0,
-        "next": [
-            "夜航-开始挑战"
-        ]
+      "pre_delay": 0,
+      "action": {
+        "type": "Custom",
+        "param": {
+          "custom_action": "outnoder",
+          "custom_action_param": "不选书"
+        }
+      },
+      "post_delay": 0,
+      "next": [
+        "夜航-开始挑战"
+      ]
     },
     "夜航-开始挑战": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "开始挑战",
-        "post_delay": 0
+      "pre_delay": 0,
+      "action": {
+        "type": "Custom",
+        "param": {
+          "custom_action": "outnoder",
+          "custom_action_param": "开始挑战"
+        }
+      },
+      "post_delay": 0
     },
     "夜航-确认选择": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "确认选择",
-        "post_delay": 0,
-        "next": [
-            "夜航-加成书选择"
-        ]
+      "pre_delay": 0,
+      "action": {
+        "type": "Custom",
+        "param": {
+          "custom_action": "outnoder",
+          "custom_action_param": "确认选择"
+        }
+      },
+      "post_delay": 0,
+      "next": [
+        "夜航-加成书选择"
+      ]
     },
     "夜航手册进入副本流程": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
-        "next": [
-            "夜航-确认选择"
-        ]
+      "next": [
+        "夜航-确认选择"
+      ]
+    },
+    "轮次": {
+      "pre_delay": 0,
+      "action": {
+        "type": "Custom",
+        "param": {
+          "custom_action": "NumberComparator",
+          "custom_action_param": {
+            "target": 1
+          }
+        }
+      },
+      "post_delay": 0,
+      "next": [
+        "夜航-确认选择"
+      ]
+    },
+    "夜航手册进入副本流程（无尽）": {
+      "next": [
+        "轮次"
+      ]
     }
 }
