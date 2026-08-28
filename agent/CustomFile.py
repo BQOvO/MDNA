@@ -4,6 +4,8 @@ from agent.custom.action.Count import Count, CountReset, CountPrint, CountCleanu
 from agent.custom.action.Looper import Looper
 from agent.custom.action.randomr import randomr
 from agent.custom.action.FishFight import FishFight
+from agent.custom.action.FishFightDebug import FishFightDebug
+from agent.custom.action.ColorSampler import ColorSampler
 from agent.custom.action.VoyageClick import VoyageClick
 from agent.custom.action.outnoder import Outnoder
 from agent.custom.action.NumberComparator import NumberComparator
@@ -14,6 +16,7 @@ from agent.custom.action.TextWatcher import TextWatcher
 from agent.custom.sink.aspect_ratio import AspectRatioChecker
 from agent.custom.sink.count_cleanup import CountAutoCleanup
 from agent.custom.sink.screenshot_on_fail import NodeScreenshotSink
+from agent.custom.sink.focus_prefix import FocusPrefix
 
 from agent.custom.recongition.CheckResolution import CheckResolution
 
@@ -33,6 +36,8 @@ _register("MacroPlayer", MacroPlayer, AgentServer.custom_action)
 _register("Looper", Looper, AgentServer.custom_action)
 _register("randomr", randomr, AgentServer.custom_action)
 _register("FishFight", FishFight, AgentServer.custom_action)
+_register("FishFightDebug", FishFightDebug, AgentServer.custom_action)
+_register("ColorSampler", ColorSampler, AgentServer.custom_action)
 _register("VoyageClick", VoyageClick, AgentServer.custom_action)
 _register("outnoder", Outnoder, AgentServer.custom_action)
 _register("NumberComparator", NumberComparator, AgentServer.custom_action)
