@@ -70,6 +70,7 @@ class Logger:
     _compressed_old_logs = False
     _retention_days = 5
     _dir_size_limit_mb = 500
+    _ui_prefix = None
 
     def __init__(self, name: str, context: Context | None = None, log_dir: str = "debug", retention_days: int = 5, dir_size_limit_mb: int = 500):
         self.name = name
@@ -197,9 +198,20 @@ class Logger:
     def _is_html(self, text: str) -> bool:
         return bool(re.search(r"<[^>]+>", text, re.IGNORECASE))
 
+    @classmethod
+    def set_ui_prefix(cls, prefix: str | None):
+        cls._ui_prefix = prefix
+
+    @classmethod
+    def clear_ui_prefix(cls):
+        cls._ui_prefix = None
+
     def ui(self, text: str, color: str = "black", level: str = "INFO") -> bool:
         if not self.context:
             return False
+
+        if self._ui_prefix:
+            text = self._ui_prefix + text
 
         if self._is_html(text):
             html_code = text
