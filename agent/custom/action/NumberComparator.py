@@ -112,14 +112,12 @@ class NumberComparator(CustomAction):
         }
         try:
             reco = context.run_recognition(entry, image, pipeline)
-            if reco and reco.hit and reco.detail:
-                detail = reco.detail
-                if isinstance(detail, list) and len(detail) > 0:
-                    text = str(detail[0])
-                elif isinstance(detail, str):
-                    text = detail
+            if reco and reco.hit and reco.best_result:
+                best = reco.best_result
+                if hasattr(best, "text"):
+                    text = best.text
                 else:
-                    text = str(detail)
+                    return None
                 match = re.search(r"(\d+)/", text)
                 if match:
                     return int(match.group(1))
