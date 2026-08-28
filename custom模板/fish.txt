@@ -3,8 +3,6 @@
 # import cv2
 # 
 # from ok import Logger, TaskDisabledException
-# from src.tasks.BaseDNATask import BaseDNATask
-# from src.tasks.DNAOneTimeTask import DNAOneTimeTask
 # 
 # logger = Logger.get_logger(__name__)
 # 
@@ -21,7 +19,7 @@
 #     def __init__(self, *args, **kwargs):
 #         super().__init__(*args, **kwargs)
 #         self.name = "自动钓鱼"
-#         self.description = "无悠闲全自动钓鱼 (原作者: B站无敌大蜜瓜)"
+#         self.description = "无悠闲全自动钓鱼"
 #         self.group_name = "全自动"
 #         self.group_icon = FluentIcon.CAFE
 # 
