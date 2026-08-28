@@ -15,6 +15,7 @@
         },
         {
             "fileMatch": [
+                "/interface.json",
                 "/assets/interface.json",
                 "/install/interface.json"
             ],
@@ -35,7 +36,8 @@
         }
     ],
     "files.associations": {
-        "**/assets/**/*.json": "jsonc"
+        "**/assets/**/*.json": "jsonc",
+        "interface.json": "jsonc"
     },
     "[json][jsonc]": {
         "editor.formatOnSave": true,
@@ -49,11 +51,6 @@
     "[markdown]": {
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
-    },
-    "markdownlint.config": {
-        "MD041": false,
-        "MD022": false,
-        "MD026": false
     },
     "git.pullRebase": true,
     "git.rebaseWhenSync": true
