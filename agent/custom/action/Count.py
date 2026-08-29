@@ -1,5 +1,6 @@
 import json
 import threading
+from collections import defaultdict
 from maa.custom_action import CustomAction
 from maa.context import Context
 from ..utils.Logger import Logger
@@ -156,10 +157,8 @@ class CountPrint(CustomAction):
             vars_dict = _build_vars(task_id)
 
         if msg:
-            try:
-                output = msg.format(**vars_dict)
-            except KeyError:
-                output = msg
+            safe_vars = defaultdict(lambda: 0, vars_dict)
+            output = msg.format_map(safe_vars)
         else:
             parts = []
             for key, val in vars_dict.items():
