@@ -10,67 +10,34 @@ _reached = {}   # {task_id: {"count_xxx": bool}}
 _lock = threading.RLock()
 
 
-def _make_format_vars(task_id, current_cid=None):
-    """构建模板变量字典。每个计数器生成 {id}_total / {id}_target / {id}_reached 三组变量，
-    当前计数器额外提供 {total} {target} {id} {reached} 快捷变量。
-
-    示例：有 all(5/10✓)、failed(2)、success(3) 三个计数器，current_cid="all"
-    → {all_total:5, all_target:10, all_reached:"✓",
-       failed_total:2, failed_target:"∞", failed_reached:"",
-       success_total:3, success_target:"∞", success_reached:"",
-       id:"all", total:5, target:10, reached:"✓"}
+def _build_vars(task_id):
+    """构建模板变量。每个计数器生成 {id} 和 {id_target} 两个变量。
+    无 target 时 {id_target} = "∞"。
     """
     vars_dict = {}
-
     with _lock:
-        task_globals = _globals.get(task_id, {})
-        for key, val in task_globals.items():
+        tid_globals = _globals.get(task_id, {})
+        for key, val in tid_globals.items():
             if key.startswith("count_"):
                 cid = key[6:]
-                vars_dict[f"{cid}_total"] = val
+                vars_dict[cid] = val
 
-        task_targets = _targets.get(task_id, {})
-        for key, val in task_targets.items():
+        tid_targets = _targets.get(task_id, {})
+        for key, val in tid_targets.items():
             if key.startswith("target_"):
                 cid = key[7:]
                 vars_dict[f"{cid}_target"] = val if val > 0 else "∞"
-
-        task_reached = _reached.get(task_id, {})
-        for key, val in task_reached.items():
-            if key.startswith("count_"):
-                cid = key[6:]
-                vars_dict[f"{cid}_reached"] = "✓" if val else ""
-
-    if current_cid:
-        vars_dict["id"] = current_cid
-        vars_dict["total"] = vars_dict.get(f"{current_cid}_total", 0)
-        vars_dict["target"] = vars_dict.get(f"{current_cid}_target", "∞")
-        vars_dict["reached"] = vars_dict.get(f"{current_cid}_reached", "")
 
     return vars_dict
 
 
 class Count(CustomAction):
-    """
-    计数器：根据 id 独立计数，每次调用 +1。
+    """计数器：每次调用 +1。配了 target 达标时 success=True 走 next，否则走 on_error。
 
     参数：
-    - {"id": "xxx", "target_total": 10, "auto_reset": true, "msg": "...", "quiet": false}
-    - 字符串：直接作为 id，target_total=0（无限计数）
-
-    模板变量（msg 中可用）：
-      快捷变量: {id} {total} {target} {reached}  ← 当前计数器
-      全量变量: {xxx_total} {xxx_target} {xxx_reached}  ← 任意计数器
-      {reached} / {xxx_reached} = "✓" 或 ""
-      {target} / {xxx_target} = 数字 或 "∞"（无限计数）
-
-    无 msg 时：默认格式 "{id}: {total}/{target}" + 达标自动追加 " ✓" + 提示
-    有 msg 时：完全由你控制格式，不做任何自动追加
-
-    auto_reset=true（默认）：达标后标记 reached，下次调用自动归零再+1
-    auto_reset=false：达标后保持值，需手动 CountReset/CountCleanup
-    quiet=false：输出日志（默认静默）
-    success=True 表示达标 → Pipeline 走 next；未达标 → on_error
+      字符串: "all"                   → 无限计数
+      字典:   {"id":"all","target":10} → 计数到10达标
+              {"id":"all","target":10,"auto_reset":false} → 达标后不自动归零
     """
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
         try:
@@ -80,16 +47,12 @@ class Count(CustomAction):
 
         if isinstance(param, str):
             cid = param
-            target_total = 0
+            target = 0
             auto_reset = True
-            msg = None
-            quiet = True
         elif isinstance(param, dict):
             cid = param.get("id")
-            target_total = param.get("target_total", 0)
+            target = param.get("target", 0)
             auto_reset = param.get("auto_reset", True)
-            msg = param.get("msg")
-            quiet = param.get("quiet", True)
         else:
             print("[Count] 参数格式错误，应为字符串或对象")
             return CustomAction.RunResult(success=False)
@@ -105,10 +68,7 @@ class Count(CustomAction):
         with _lock:
             tid_targets = _targets.setdefault(task_id, {})
             if target_key not in tid_targets:
-                tid_targets[target_key] = target_total
-            elif tid_targets[target_key] != target_total and target_total != 0:
-                if not quiet:
-                    print(f"[Count] 警告: '{cid}' 目标值已存在 ({tid_targets[target_key]})，忽略新值 {target_total}")
+                tid_targets[target_key] = target
 
             tid_globals = _globals.setdefault(task_id, {})
             tid_reached = _reached.setdefault(task_id, {})
@@ -120,42 +80,20 @@ class Count(CustomAction):
             total = tid_globals.get(count_key, 0) + 1
             tid_globals[count_key] = total
 
-        reached = (target_total > 0 and total >= target_total)
+        reached = (target > 0 and total >= target)
         if reached and auto_reset:
             with _lock:
                 _reached.setdefault(task_id, {})[count_key] = True
-
-        if not quiet:
-            logger = Logger("Count", context)
-
-            if msg:
-                vars_dict = _make_format_vars(task_id, current_cid=cid)
-                output = msg.format(**vars_dict)
-            else:
-                if target_total == 0:
-                    output = f"{cid}: {total}"
-                else:
-                    output = f"{cid}: {total}/{target_total}"
-
-                if reached:
-                    output += " ✓"
-                    if auto_reset:
-                        output += " 下次自动归零"
-                    else:
-                        output += " 达标"
-
-            if reached:
-                logger.ui(output, color="green")
-            else:
-                logger.ui(output, color="gray")
 
         return CustomAction.RunResult(success=reached)
 
 
 class CountReset(CustomAction):
-    """
-    重置指定计数器（归零），保留 target 设置。
-    参数：{"id": "xxx", "quiet": false} 或直接传 id 字符串。
+    """重置计数器归零，保留 target 设置。
+
+    参数：
+      字符串: "all"
+      字典:   {"id":"all"}
     """
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
         try:
@@ -165,10 +103,8 @@ class CountReset(CustomAction):
 
         if isinstance(param, str):
             cid = param
-            quiet = False
         elif isinstance(param, dict):
             cid = param.get("id")
-            quiet = param.get("quiet", False)
         else:
             print("[CountReset] 参数格式错误")
             return CustomAction.RunResult(success=False)
@@ -186,91 +122,54 @@ class CountReset(CustomAction):
             tid_reached = _reached.get(task_id, {})
             tid_reached.pop(count_key, None)
 
-        if not quiet:
-            logger = Logger("CountReset", context)
-            logger.ui(f"{cid} → 0", color="cyan")
+        logger = Logger("CountReset", context)
+        logger.ui(f"{cid} → 0", color="cyan")
 
         return CustomAction.RunResult(success=True)
 
 
 class CountPrint(CustomAction):
-    """
-    输出指定计数器的当前值（只读），合并为一行。
+    """输出计数器信息到 UI。
 
-    参数格式：
-    - 字符串: "all"                    → "all: 3/10"
-    - 列表: ["all","failed","success"] → "all: 3/10 | failed: 2 | success: 3"
-    - 字典(逐个): {"all": "模板", "failed": null, "success": "模板"}
-    - 字典(统一): {"ids":["all","failed"], "msg":"统一模板", "sep":" | "}
-      统一模板可用任意 {id}_total / {id}_target / {id}_reached
+    参数：
+      字符串: "第{all}次 成功{success} 失败{failed} 目标{all_target}"
+      字典:   {"msg":"第{all}次 成功{success} 失败{failed} 目标{all_target}"}
 
-    模板变量：
-      逐个模式: {id} {total} {target} {reached} + {xxx_total} {xxx_target} {xxx_reached}
-      统一模式: {xxx_total} {xxx_target} {xxx_reached}（无快捷变量，用全量名）
-
-    无模板时自动追加 " ✓"；有模板时完全由你控制。
+    模板变量：{id} 和 {id_target}（所有已注册的计数器）。
     """
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
-        logger = Logger("CountPrint", context)
-        parts = []
-
         try:
             param = json.loads(argv.custom_action_param) if argv.custom_action_param else {}
         except Exception:
             param = argv.custom_action_param
 
         if isinstance(param, str):
-            param = [param]
+            msg = param
+        elif isinstance(param, dict):
+            msg = param.get("msg", "")
+        else:
+            msg = ""
 
         task_id = argv.task_detail.task_id
 
-        def _format_one(cid, template=None):
-            tid_globals = _globals.get(task_id, {})
-            tid_targets = _targets.get(task_id, {})
-            tid_reached = _reached.get(task_id, {})
-            total = tid_globals.get(f"count_{cid}", 0)
-            target = tid_targets.get(f"target_{cid}")
-            is_reached = tid_reached.get(f"count_{cid}", False)
-            display_target = "∞" if (target is None or target == 0) else target
-
-            if template:
-                vars_dict = _make_format_vars(task_id, current_cid=cid)
-                text = template.format(**vars_dict)
-            elif target is None or target == 0:
-                text = f"{cid}: {total}"
-            else:
-                text = f"{cid}: {total}/{target}"
-
-            if not template and is_reached:
-                text += " ✓"
-            return text
-
         with _lock:
-            if isinstance(param, list):
-                for cid in param:
-                    parts.append(_format_one(cid))
-            elif isinstance(param, dict):
-                if "ids" in param or "msg" in param:
-                    ids = param.get("ids", [])
-                    msg_template = param.get("msg")
-                    if msg_template:
-                        vars_dict = _make_format_vars(task_id)
-                        parts.append(msg_template.format(**vars_dict))
-                    else:
-                        for cid in ids:
-                            parts.append(_format_one(cid))
-                else:
-                    for cid, template in param.items():
-                        if cid in ("sep", "quiet"):
-                            continue
-                        parts.append(_format_one(cid, template if template else None))
-            else:
-                parts.append("[CountPrint] 参数格式错误")
+            vars_dict = _build_vars(task_id)
 
-        sep = param.get("sep", " | ") if isinstance(param, dict) else " | "
+        if msg:
+            try:
+                output = msg.format(**vars_dict)
+            except KeyError:
+                output = msg
+        else:
+            parts = []
+            for key, val in vars_dict.items():
+                if not key.endswith("_target"):
+                    parts.append(f"{key}: {val}")
+            output = " | ".join(parts) if parts else ""
 
-        if parts:
-            logger.ui(sep.join(parts))
+        logger = Logger("CountPrint", context)
+        if output:
+            logger.ui(output)
         else:
             logger.ui("[CountPrint] 没有可输出的统计信息", color="gray")
 
@@ -278,13 +177,13 @@ class CountPrint(CustomAction):
 
 
 class CountCleanup(CustomAction):
-    """
-    清理计数器数据。
+    """清理计数器数据。
+
     参数：
-    - 不传参：清理当前 task_id 下所有计数器（含 target）
-    - {"id": "xxx"}：仅清理指定 id（含 target）
-    - {"id": "xxx", "keep_target": true}：仅归零计数+清除标记，保留 target
-    - {"quiet": true}：不输出日志
+      不传参: {}
+      字符串: "all"                     → 清理指定id
+      字典:   {"id":"all"}              → 清理指定id
+              {"id":"all","keep_target":true} → 仅归零，保留target
     """
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
         task_id = argv.task_detail.task_id
@@ -294,9 +193,15 @@ class CountCleanup(CustomAction):
         except Exception:
             param = {}
 
-        cid = param.get("id") if isinstance(param, dict) else None
-        keep_target = param.get("keep_target", False) if isinstance(param, dict) else False
-        quiet = param.get("quiet", False) if isinstance(param, dict) else False
+        if isinstance(param, str):
+            cid = param
+            keep_target = False
+        elif isinstance(param, dict):
+            cid = param.get("id")
+            keep_target = param.get("keep_target", False)
+        else:
+            cid = None
+            keep_target = False
 
         with _lock:
             if cid:
@@ -315,75 +220,16 @@ class CountCleanup(CustomAction):
                     tid_targets.pop(target_key, None)
                     if not tid_targets:
                         _targets.pop(task_id, None)
-                if not quiet:
-                    logger = Logger("CountCleanup", context)
-                    logger.ui(f"已清理 {cid}", color="gray")
+                logger = Logger("CountCleanup", context)
+                logger.ui(f"已清理 {cid}", color="gray")
             else:
                 tid_globals = _globals.pop(task_id, {})
                 glob_count = len(tid_globals)
                 _reached.pop(task_id, None)
                 if not keep_target:
                     _targets.pop(task_id, None)
-                if not quiet and glob_count > 0:
+                if glob_count > 0:
                     logger = Logger("CountCleanup", context)
                     logger.ui(f"已清理全部 {glob_count} 个计数器", color="gray")
 
         return CustomAction.RunResult(success=True)
-
-
-"""
-===== Count 功能说明 =====
-
-计数器套件，包含四个 action：
-
-Count        - 计数器+1，达标后返回 success=True（走 next），未达标返回 success=False（走 on_error）
-CountReset   - 重置指定计数器归零
-CountPrint   - 输出计数器当前值到 UI（只读）
-CountCleanup - 清理计数器数据
-
-===== 核心实现 =====
-
-1. 全局字典 _globals / _targets / _reached：按 task_id 隔离，支持多任务并行。
-2. 模板变量：{id} {total} {target} {reached} 快捷变量，{xxx_total} 等全量变量。
-3. 达标判断：target_total > 0 且 total >= target_total 时达标。
-4. auto_reset=true：达标后下次调用自动归零再+1；false：达标后保持值。
-
-===== 使用教程 =====
-
-Count 参数：
-  字符串: "all"                                     // id=all, 无限计数
-  对象:   {"id":"all","target_total":10,"auto_reset":true,"msg":"{id}:{total}/{target}","quiet":false}
-
-CountReset 参数：
-  字符串: "all"                    // 重置 id=all 的计数器
-  对象:   {"id":"all","quiet":true}
-
-CountPrint 参数：
-  字符串: "all"                          // 输出 "all: 3/10"
-  列表:   ["all","failed","success"]     // 输出 "all:3/10 | failed:2 | success:3"
-  字典:   {"ids":["all","failed"],"msg":"{all_total}/{all_target}","sep":" | "}
-
-CountCleanup 参数：
-  {}                     // 清理当前 task 全部计数器
-  {"id":"all"}           // 清理指定 id
-  {"id":"all","keep_target":true}  // 仅归零，保留 target 配置
-
-===== Pipeline JSON 示例 =====
-
-{
-    "计数": {
-        "recognition": "DirectHit",
-        "action": "Custom",
-        "custom_action": "Count",
-        "custom_action_param": {"id":"all","target_total":10},
-        "next": ["达标处理"],
-        "on_error": ["继续循环"]
-    },
-    "打印计数": {
-        "recognition": "DirectHit",
-        "action": "Custom",
-        "custom_action": "CountPrint",
-        "custom_action_param": ["all"]
-    }
-}
-"""
