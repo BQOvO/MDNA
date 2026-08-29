@@ -1,125 +1,125 @@
 {
-    "一键日常-展示动作": {
-      "next": [
-        "一键日常-点击普攻"
+  "一键日常-展示动作": {
+    "next": [
+      "一键日常-点击普攻"
+    ]
+  },
+  "一键日常-第一次展示": {
+    "action": "Swipe",
+    "begin": [
+      1225,
+      267
+    ],
+    "end": [
+      [
+        1191,
+        217
       ]
+    ],
+    "duration": [
+      1500
+    ],
+    "post_delay": 2000,
+    "focus": {
+      "Node.Recognition.Starting": "(๑•̀ㅂ•́)و✧ 展示动作中~"
     },
-    "一键日常-第一次展示": {
-      "action": "Swipe",
-      "begin": [
-        1225,
-        267
-      ],
-      "end": [
-        [
-          1191,
-          217
-        ]
-      ],
-      "duration": [
-        1500
-      ],
-      "post_delay": 2000,
-      "focus": {
-        "Node.Recognition.Starting": "第一次展示动作"
-      },
-      "next": [
-        "一键日常-跳跃打断第一次"
+    "next": [
+      "一键日常-跳跃打断第一次"
+    ]
+  },
+  "一键日常-第三次展示": {
+    "action": "Swipe",
+    "begin": [
+      1225,
+      267
+    ],
+    "end": [
+      [
+        1191,
+        217
       ]
+    ],
+    "duration": [
+      1500
+    ],
+    "post_delay": 2000,
+    "focus": {
+      "Node.Recognition.Succeeded": "(๑•̀ㅂ•́)و✧ 展示动作中~"
     },
-    "一键日常-第三次展示": {
-      "action": "Swipe",
-      "begin": [
-        1225,
-        267
-      ],
-      "end": [
-        [
-          1191,
-          217
-        ]
-      ],
-      "duration": [
-        1500
-      ],
-      "post_delay": 2000,
-      "focus": {
-        "Node.Recognition.Succeeded": "第三次展示动作"
-      },
-      "next": [
-        "一键日常-跳跃打断第三次"
+    "next": [
+      "一键日常-跳跃打断第三次"
+    ]
+  },
+  "一键日常-第二次展示": {
+    "action": "Swipe",
+    "begin": [
+      1225,
+      267
+    ],
+    "end": [
+      [
+        1191,
+        217
       ]
+    ],
+    "duration": [
+      1500
+    ],
+    "post_delay": 2000,
+    "focus": {
+      "Node.Recognition.Succeeded": "(๑•̀ㅂ•́)و✧ 展示动作中~"
     },
-    "一键日常-第二次展示": {
-      "action": "Swipe",
-      "begin": [
-        1225,
-        267
-      ],
-      "end": [
-        [
-          1191,
-          217
-        ]
-      ],
-      "duration": [
-        1500
-      ],
-      "post_delay": 2000,
-      "focus": {
-        "Node.Recognition.Succeeded": "第二次展示动作"
-      },
-      "next": [
-        "一键日常-跳跃打断第二次"
-      ]
-    },
-    "一键日常-跳跃打断第一次": {
-      "action": "Click",
-      "target": [
-        981,
-        390,
-        39,
-        40
-      ],
-      "post_delay": 2000,
-      "next": [
-        "一键日常-第二次展示"
-      ]
-    },
-    "一键日常-跳跃打断第三次": {
-      "action": "Click",
-      "target": [
-        981,
-        390,
-        39,
-        40
-      ],
-      "post_delay": 2000
-    },
-    "一键日常-跳跃打断第二次": {
-      "action": "Click",
-      "target": [
-        981,
-        390,
-        39,
-        40
-      ],
-      "post_delay": 2000,
-      "next": [
-        "一键日常-第三次展示"
-      ]
-    },
-    "一键日常-点击普攻": {
-      "action": "Click",
-      "target": [
-        1102,
-        492,
-        33,
-        29
-      ],
-      "post_delay": 1000,
-      "next": [
-        "一键日常-第一次展示"
-      ]
-    }
+    "next": [
+      "一键日常-跳跃打断第二次"
+    ]
+  },
+  "一键日常-跳跃打断第一次": {
+    "action": "Click",
+    "target": [
+      981,
+      390,
+      39,
+      40
+    ],
+    "post_delay": 2000,
+    "next": [
+      "一键日常-第二次展示"
+    ]
+  },
+  "一键日常-跳跃打断第三次": {
+    "action": "Click",
+    "target": [
+      981,
+      390,
+      39,
+      40
+    ],
+    "post_delay": 2000
+  },
+  "一键日常-跳跃打断第二次": {
+    "action": "Click",
+    "target": [
+      981,
+      390,
+      39,
+      40
+    ],
+    "post_delay": 2000,
+    "next": [
+      "一键日常-第三次展示"
+    ]
+  },
+  "一键日常-点击普攻": {
+    "action": "Click",
+    "target": [
+      1102,
+      492,
+      33,
+      29
+    ],
+    "post_delay": 1000,
+    "next": [
+      "一键日常-第一次展示"
+    ]
+  }
 }

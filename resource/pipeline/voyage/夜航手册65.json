@@ -49,7 +49,7 @@
   "夜航65-加载中间过渡节点": {
     "post_delay": 1000,
     "focus": {
-      "Node.Recognition.Succeeded": "等待进入副本中······"
+      "Node.Recognition.Succeeded": "(´-ω-`) 正在加载副本，稍等一下~"
     },
     "next": [
       "[JumpBack]夜航65-加载中",
@@ -72,7 +72,7 @@
     },
     "post_delay": 0,
     "focus": {
-      "Node.Recognition.Starting": "正在回到主界面·······"
+      "Node.Recognition.Starting": "正在返回主界面..."
     },
     "next": [
       "夜航65-进入夜航手册"
@@ -127,8 +127,8 @@
     },
     "post_delay": 0,
     "focus": {
-      "Node.Action.Succeeded": "到达挂机位置，开始挂机！",
-      "Node.Recognition.Starting": "自动寻路中······"
+      "Node.Action.Succeeded": "到达挂机点，开刷！",
+      "Node.Recognition.Starting": "(ง •̀_•́)ง 自动寻路中，马上就到！"
     },
     "next": [
       "夜航65-角色主控"
@@ -181,7 +181,7 @@
     },
     "post_delay": 0,
     "focus": {
-      "Node.Recognition.Starting": "自动进行超时退出流程"
+      "Node.Recognition.Starting": "正在退出当前副本..."
     },
     "next": [
       "夜航65-确定退出"
@@ -340,7 +340,7 @@
     },
     "post_delay": 0,
     "focus": {
-      "Node.Recognition.Succeeded": "啊？居然超时了"
+      "Node.Recognition.Succeeded": "(╥﹏╥) 居然超时了..."
     },
     "next": [
       "夜航65-放弃挑战"
@@ -359,7 +359,7 @@
     },
     "post_delay": 1000,
     "focus": {
-      "Node.Recognition.Starting": "超时倒计时开始"
+      "Node.Recognition.Starting": "⏱ 超时倒计时开始"
     },
     "next": [
       "夜航65-寻路"
@@ -408,7 +408,7 @@
     },
     "post_delay": 1000,
     "focus": {
-      "Node.Recognition.Succeeded": "正在进入夜航手册界面······"
+      "Node.Recognition.Succeeded": "进入夜航手册界面~"
     },
     "next": [
       "夜航65-寻找65"

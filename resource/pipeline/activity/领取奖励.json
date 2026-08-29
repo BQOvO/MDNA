@@ -1,153 +1,153 @@
 {
-    "一键日常-领取奖励": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
-        "post_delay": 1500,
-        "next": [
-            "一键日常-点击历练"
-        ]
+  "一键日常-领取奖励": {
+    "recognition": "DirectHit",
+    "action": "DoNothing",
+    "post_delay": 1500,
+    "next": [
+      "一键日常-点击历练"
+    ]
+  },
+  "一键日常-点击历练": {
+    "recognition": "DirectHit",
+    "action": "Click",
+    "target": [
+      1155,
+      24,
+      22,
+      25
+    ],
+    "post_delay": 1500,
+    "focus": {
+      "Node.Recognition.Succeeded": "进入历练界面~"
     },
-    "一键日常-点击历练": {
-        "recognition": "DirectHit",
-        "action": "Click",
-        "target": [
-            1155,
-            24,
-            22,
-            25
-        ],
-        "post_delay": 1500,
-        "focus": {
-            "Node.Recognition.Succeeded": "进入历练界面"
-        },
-        "next": [
-            "一键日常-备忘手记"
-        ]
+    "next": [
+      "一键日常-备忘手记"
+    ]
+  },
+  "一键日常-备忘手记": {
+    "recognition": "OCR",
+    "roi": [
+      1080,
+      85,
+      96,
+      30
+    ],
+    "expected": [
+      "备忘手记"
+    ],
+    "action": "Click",
+    "post_delay": 1500,
+    "focus": {
+      "Node.Recognition.Succeeded": "打开备忘手记~"
     },
-    "一键日常-备忘手记": {
-        "recognition": "OCR",
-        "roi": [
-            1080,
-            85,
-            96,
-            30
-        ],
-        "expected": [
-            "备忘手记"
-        ],
-        "action": "Click",
-        "post_delay": 1500,
-        "focus": {
-            "Node.Recognition.Succeeded": "进入备忘手记界面"
-        },
-        "next": [
-            "一键日常-一键领取"
-        ]
+    "next": [
+      "一键日常-一键领取"
+    ]
+  },
+  "一键日常-一键领取": {
+    "recognition": "OCR",
+    "roi": [
+      1068,
+      637,
+      101,
+      29
+    ],
+    "expected": [
+      "全部领取"
+    ],
+    "action": "Click",
+    "post_delay": 1500,
+    "focus": {
+      "Node.Recognition.Succeeded": "(๑˃̵ᴗ˂̵)و 全部领取！"
     },
-    "一键日常-一键领取": {
-        "recognition": "OCR",
-        "roi": [
-            1068,
-            637,
-            101,
-            29
-        ],
-        "expected": [
-            "全部领取"
-        ],
-        "action": "Click",
-        "post_delay": 1500,
-        "focus": {
-            "Node.Recognition.Succeeded": "全部领取！"
-        },
-        "next": [
-            "一键领取-快速点击领取1"
-        ]
+    "next": [
+      "一键领取-快速点击领取1"
+    ]
+  },
+  "一键日常-领取200": {
+    "recognition": "DirectHit",
+    "action": "Click",
+    "target": [
+      555,
+      455,
+      24,
+      17
+    ],
+    "post_delay": 1500,
+    "focus": {
+      "Node.Recognition.Succeeded": "领取完成！"
     },
-    "一键日常-领取200": {
-        "recognition": "DirectHit",
-        "action": "Click",
-        "target": [
-            555,
-            455,
-            24,
-            17
-        ],
-        "post_delay": 1500,
-        "focus": {
-            "Node.Recognition.Succeeded": "领取完成"
-        },
-        "next": [
-            "一键领取-快速点击领取3"
-        ]
-    },
-    "一键领取-快速点击领取3": {
-        "recognition": "DirectHit",
-        "action": "Click",
-        "target": [
-            453,
-            623,
-            135,
-            38
-        ],
-        "post_delay": 500,
-        "next": [
-            "一键领取-快速点击领取4"
-        ]
-    },
-    "一键领取-退回主界面": {
-        "recognition": "DirectHit",
-        "action": "Click",
-        "target": [
-            33,
-            23,
-            29,
-            17
-        ],
-        "focus": {
-            "Node.Recognition.Succeeded": "回到主界面"
-        }
-    },
-    "一键领取-快速点击领取1": {
-        "recognition": "DirectHit",
-        "action": "Click",
-        "target": [
-            453,
-            623,
-            135,
-            38
-        ],
-        "post_delay": 500,
-        "next": [
-            "一键领取-快速点击领取2"
-        ]
-    },
-    "一键领取-快速点击领取2": {
-        "recognition": "DirectHit",
-        "action": "Click",
-        "target": [
-            453,
-            623,
-            135,
-            38
-        ],
-        "post_delay": 500,
-        "next": [
-            "一键日常-领取200"
-        ]
-    },
-    "一键领取-快速点击领取4": {
-        "recognition": "DirectHit",
-        "action": "Click",
-        "target": [
-            453,
-            623,
-            135,
-            38
-        ],
-        "post_delay": 500,
-        "next": [
-            "一键领取-退回主界面"
-        ]
+    "next": [
+      "一键领取-快速点击领取3"
+    ]
+  },
+  "一键领取-快速点击领取3": {
+    "recognition": "DirectHit",
+    "action": "Click",
+    "target": [
+      453,
+      623,
+      135,
+      38
+    ],
+    "post_delay": 500,
+    "next": [
+      "一键领取-快速点击领取4"
+    ]
+  },
+  "一键领取-退回主界面": {
+    "recognition": "DirectHit",
+    "action": "Click",
+    "target": [
+      33,
+      23,
+      29,
+      17
+    ],
+    "focus": {
+      "Node.Recognition.Succeeded": "回到主界面~"
     }
+  },
+  "一键领取-快速点击领取1": {
+    "recognition": "DirectHit",
+    "action": "Click",
+    "target": [
+      453,
+      623,
+      135,
+      38
+    ],
+    "post_delay": 500,
+    "next": [
+      "一键领取-快速点击领取2"
+    ]
+  },
+  "一键领取-快速点击领取2": {
+    "recognition": "DirectHit",
+    "action": "Click",
+    "target": [
+      453,
+      623,
+      135,
+      38
+    ],
+    "post_delay": 500,
+    "next": [
+      "一键日常-领取200"
+    ]
+  },
+  "一键领取-快速点击领取4": {
+    "recognition": "DirectHit",
+    "action": "Click",
+    "target": [
+      453,
+      623,
+      135,
+      38
+    ],
+    "post_delay": 500,
+    "next": [
+      "一键领取-退回主界面"
+    ]
+  }
 }

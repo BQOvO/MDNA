@@ -1,134 +1,134 @@
 {
-    "一键日常-取消保存截图": {
-      "recognition": "OCR",
-      "roi": [
-        769,
-        664,
-        61,
-        28
-      ],
-      "expected": [
-        "取消"
-      ],
-      "action": "Click",
-      "post_delay": 1500,
-      "focus": {
-        "Node.Recognition.Succeeded": "这照片谁要啊这？"
-      },
-      "next": [
-        "一键日常-退出相机"
-      ]
+  "一键日常-取消保存截图": {
+    "recognition": "OCR",
+    "roi": [
+      769,
+      664,
+      61,
+      28
+    ],
+    "expected": [
+      "取消"
+    ],
+    "action": "Click",
+    "post_delay": 1500,
+    "focus": {
+      "Node.Recognition.Succeeded": "(╥﹏╥) 这照片谁要啊？"
     },
-    "一键日常-拍照": {
-      "next": [
-        "一键日常-点击玩家主页"
-      ]
+    "next": [
+      "一键日常-退出相机"
+    ]
+  },
+  "一键日常-拍照": {
+    "next": [
+      "一键日常-点击玩家主页"
+    ]
+  },
+  "一键日常-检测是否在玩家主页": {
+    "recognition": "OCR",
+    "roi": [
+      126,
+      187,
+      84,
+      26
+    ],
+    "expected": [
+      "历练经验"
+    ],
+    "post_delay": 1500,
+    "focus": {
+      "Node.Recognition.Succeeded": "进入玩家主页啦~"
     },
-    "一键日常-检测是否在玩家主页": {
-      "recognition": "OCR",
-      "roi": [
-        126,
-        187,
-        84,
-        26
-      ],
-      "expected": [
-        "历练经验"
-      ],
-      "post_delay": 1500,
-      "focus": {
-        "Node.Recognition.Succeeded": "进入玩家主页"
-      },
-      "next": [
-        "一键日常-点击相机"
-      ]
+    "next": [
+      "一键日常-点击相机"
+    ]
+  },
+  "一键日常-检测是否在玩家主页2": {
+    "recognition": "OCR",
+    "roi": [
+      126,
+      187,
+      84,
+      26
+    ],
+    "expected": [
+      "历练经验"
+    ],
+    "post_delay": 1500,
+    "next": [
+      "一键日常-退出玩家主页"
+    ]
+  },
+  "一键日常-点击拍照": {
+    "action": "Click",
+    "target": [
+      1226,
+      345,
+      29,
+      30
+    ],
+    "post_delay": 2000,
+    "focus": {
+      "Node.Recognition.Succeeded": "美美桑内，拍个照~"
     },
-    "一键日常-检测是否在玩家主页2": {
-      "recognition": "OCR",
-      "roi": [
-        126,
-        187,
-        84,
-        26
-      ],
-      "expected": [
-        "历练经验"
-      ],
-      "post_delay": 1500,
-      "next": [
-        "一键日常-退出玩家主页"
-      ]
+    "next": [
+      "一键日常-取消保存截图"
+    ]
+  },
+  "一键日常-点击玩家主页": {
+    "action": "Click",
+    "target": [
+      32,
+      26,
+      19,
+      18
+    ],
+    "post_delay": 1000,
+    "next": [
+      "一键日常-检测是否在玩家主页",
+      "[JumpBack]一键日常-等待空节点"
+    ]
+  },
+  "一键日常-点击相机": {
+    "action": "Click",
+    "target": [
+      40,
+      481,
+      16,
+      23
+    ],
+    "post_delay": 3000,
+    "focus": {
+      "Node.Recognition.Succeeded": "打开相机~"
     },
-    "一键日常-点击拍照": {
-      "action": "Click",
-      "target": [
-        1226,
-        345,
-        29,
-        30
-      ],
-      "post_delay": 2000,
-      "focus": {
-        "Node.Recognition.Succeeded": "美美桑内，拍个照"
-      },
-      "next": [
-        "一键日常-取消保存截图"
-      ]
+    "next": [
+      "一键日常-点击拍照"
+    ]
+  },
+  "一键日常-等待空节点": {},
+  "一键日常-退出玩家主页": {
+    "action": "Click",
+    "target": [
+      649,
+      47,
+      522,
+      648
+    ]
+  },
+  "一键日常-退出相机": {
+    "action": "Click",
+    "target": [
+      26,
+      22,
+      18,
+      21
+    ],
+    "post_delay": 2000,
+    "focus": {
+      "Node.Recognition.Succeeded": "退出相机~"
     },
-    "一键日常-点击玩家主页": {
-      "action": "Click",
-      "target": [
-        32,
-        26,
-        19,
-        18
-      ],
-      "post_delay": 1000,
-      "next": [
-        "一键日常-检测是否在玩家主页",
-        "[JumpBack]一键日常-等待空节点"
-      ]
-    },
-    "一键日常-点击相机": {
-      "action": "Click",
-      "target": [
-        40,
-        481,
-        16,
-        23
-      ],
-      "post_delay": 3000,
-      "focus": {
-        "Node.Recognition.Succeeded": "点击相机"
-      },
-      "next": [
-        "一键日常-点击拍照"
-      ]
-    },
-    "一键日常-等待空节点": {},
-    "一键日常-退出玩家主页": {
-      "action": "Click",
-      "target": [
-        649,
-        47,
-        522,
-        648
-      ]
-    },
-    "一键日常-退出相机": {
-      "action": "Click",
-      "target": [
-        26,
-        22,
-        18,
-        21
-      ],
-      "post_delay": 2000,
-      "focus": {
-        "Node.Recognition.Succeeded": "退出相机"
-      },
-      "next": [
-        "一键日常-检测是否在玩家主页2"
-      ]
-    }
+    "next": [
+      "一键日常-检测是否在玩家主页2"
+    ]
+  }
 }
