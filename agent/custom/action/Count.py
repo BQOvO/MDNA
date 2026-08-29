@@ -169,6 +169,7 @@ class CountPrint(CustomAction):
 
         logger = Logger("CountPrint", context)
         if output:
+            print(output)
             logger.ui(output)
         else:
             logger.ui("[CountPrint] 没有可输出的统计信息", color="gray")
