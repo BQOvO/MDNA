@@ -5,7 +5,6 @@ from agent.custom.action.Looper import Looper
 from agent.custom.action.randomr import randomr
 from agent.custom.action.FishFight import FishFight
 from agent.custom.action.FishFightDebug import FishFightDebug
-from agent.custom.action.ColorSampler import ColorSampler
 from agent.custom.action.VoyageClick import VoyageClick
 from agent.custom.action.outnoder import Outnoder
 from agent.custom.action.NumberComparator import NumberComparator
@@ -38,7 +37,6 @@ _register("Looper", Looper, AgentServer.custom_action)
 _register("randomr", randomr, AgentServer.custom_action)
 _register("FishFight", FishFight, AgentServer.custom_action)
 _register("FishFightDebug", FishFightDebug, AgentServer.custom_action)
-_register("ColorSampler", ColorSampler, AgentServer.custom_action)
 _register("VoyageClick", VoyageClick, AgentServer.custom_action)
 _register("outnoder", Outnoder, AgentServer.custom_action)
 _register("NumberComparator", NumberComparator, AgentServer.custom_action)
