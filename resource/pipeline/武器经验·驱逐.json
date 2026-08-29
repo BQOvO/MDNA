@@ -1,489 +1,483 @@
 {
-    "武器经验·驱逐-下一把": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "委托下一把流程",
-        "anchor": {
-            "武器经验·驱逐-回到加载": "武器经验·驱逐-加载中间过渡节点"
-        },
-        "post_delay": 0,
-        "next": [
-            {
-                "name": "武器经验·驱逐-回到加载",
-                "anchor": true
-            }
-        ]
+  "武器经验·驱逐-下一把": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "委托下一把流程",
+    "anchor": {
+      "武器经验·驱逐-回到加载": "武器经验·驱逐-加载中间过渡节点"
     },
-    "武器经验·驱逐-再接再厉": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "再接再厉",
-        "post_delay": 0,
-        "next": [
-            "武器经验·驱逐-失败计数"
-        ]
+    "post_delay": 0,
+    "next": [
+      {
+        "name": "武器经验·驱逐-回到加载",
+        "anchor": true
+      }
+    ]
+  },
+  "武器经验·驱逐-再接再厉": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "再接再厉",
+    "post_delay": 0,
+    "next": [
+      "武器经验·驱逐-失败计数"
+    ]
+  },
+  "武器经验·驱逐-加成书选择": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "不选书",
+    "post_delay": 0,
+    "next": [
+      "武器经验·驱逐-选书-开始挑战"
+    ]
+  },
+  "武器经验·驱逐-加载中": {
+    "recognition": "TemplateMatch",
+    "roi": [
+      1198,
+      643,
+      49,
+      38
+    ],
+    "template": [
+      "加载过程中百分号.png"
+    ],
+    "action": "DoNothing"
+  },
+  "武器经验·驱逐-加载中间过渡节点": {
+    "recognition": "DirectHit",
+    "action": "DoNothing",
+    "post_delay": 1000,
+    "focus": {
+      "Node.Recognition.Succeeded": "等待进入副本中······"
     },
-    "武器经验·驱逐-加成书选择": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "不选书",
-        "post_delay": 0,
-        "next": [
-            "武器经验·驱逐-选书-开始挑战"
-        ]
+    "next": [
+      {
+        "name": "武器经验·驱逐-加载中",
+        "jump_back": true
+      },
+      "武器经验·驱逐-检测是否成功进入驱逐"
+    ]
+  },
+  "武器经验·驱逐-启动节点": {
+    "recognition": "DirectHit",
+    "action": "DoNothing",
+    "next": [
+      "武器经验·驱逐-回到主界面"
+    ]
+  },
+  "武器经验·驱逐-回到主界面": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "回到主界面",
+    "post_delay": 0,
+    "focus": {
+      "Node.Recognition.Starting": "正在回到主界面·······"
     },
-    "武器经验·驱逐-加载中": {
-        "recognition": "TemplateMatch",
-        "roi": [
-            1198,
-            643,
-            49,
-            38
-        ],
-        "template": [
-            "加载过程中百分号.png"
-        ],
-        "action": "DoNothing"
+    "next": [
+      "武器经验·驱逐-进入历练界面"
+    ]
+  },
+  "武器经验·驱逐-失败后等待节点": {
+    "recognition": "DirectHit",
+    "action": "DoNothing",
+    "post_delay": 1000
+  },
+  "武器经验·驱逐-失败计数": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "Count",
+    "custom_action_param": {
+      "id": "failed"
     },
-    "武器经验·驱逐-加载中间过渡节点": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
-        "post_delay": 1000,
-        "focus": {
-            "Node.Recognition.Succeeded": "等待进入副本中······"
-        },
-        "next": [
-            {
-                "name": "武器经验·驱逐-加载中",
-                "jump_back": true
-            },
-            "武器经验·驱逐-检测是否成功进入驱逐"
-        ]
+    "anchor": {
+      "武器经验·驱逐-回到计数": "武器经验·驱逐-总计数"
     },
-    "武器经验·驱逐-启动节点": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
-        "next": [
-            "武器经验·驱逐-回到主界面"
-        ]
+    "post_delay": 0,
+    "on_error": [
+      {
+        "name": "武器经验·驱逐-回到计数",
+        "anchor": true
+      }
+    ]
+  },
+  "武器经验·驱逐-委托界面": {
+    "recognition": "OCR",
+    "roi": [
+      951,
+      614,
+      319,
+      73
+    ],
+    "expected": [
+      "委托"
+    ],
+    "action": "DoNothing",
+    "next": [
+      "武器经验·驱逐-进入驱逐委托"
+    ]
+  },
+  "武器经验·驱逐-寻路": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "MacroPlayer",
+    "custom_action_param": {
+      "file": "武器经验·驱逐.json"
     },
-    "武器经验·驱逐-回到主界面": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "回到主界面",
-        "post_delay": 0,
-        "focus": {
-            "Node.Recognition.Starting": "正在回到主界面·······"
-        },
-        "next": [
-            "武器经验·驱逐-进入历练界面"
-        ]
+    "post_delay": 0,
+    "focus": {
+      "Node.Action.Succeeded": "到达挂机位置，开始挂机！",
+      "Node.Recognition.Starting": "自动寻路中······"
     },
-    "武器经验·驱逐-失败后等待节点": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
-        "post_delay": 1000
+    "next": [
+      "武器经验·驱逐-角色主控"
+    ]
+  },
+  "武器经验·驱逐-开始挑战": {
+    "recognition": "OCR",
+    "expected": [
+      "开始挑战"
+    ],
+    "action": "Click",
+    "next": [
+      "武器经验·驱逐-加成书选择"
+    ]
+  },
+  "武器经验·驱逐-总计数": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "Count",
+    "custom_action_param": {
+      "id": "all",
+      "target": 10
     },
-    "武器经验·驱逐-失败计数": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "Count",
-        "custom_action_param": {
-            "id": "failed",
-            "target_total": 0
-        },
-        "anchor": {
-            "武器经验·驱逐-回到计数": "武器经验·驱逐-总计数"
-        },
-        "post_delay": 0,
-        "on_error": [
-            {
-                "name": "武器经验·驱逐-回到计数",
-                "anchor": true
-            }
-        ]
+    "post_delay": 0,
+    "next": [
+      "武器经验·驱逐-输出信息节点1"
+    ],
+    "on_error": [
+      "武器经验·驱逐-输出信息节点2"
+    ]
+  },
+  "武器经验·驱逐-成功计数": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "Count",
+    "custom_action_param": {
+      "id": "success"
     },
-    "武器经验·驱逐-委托界面": {
-        "recognition": "OCR",
-        "roi": [
-            951,
-            614,
-            319,
-            73
-        ],
-        "expected": [
-            "委托"
-        ],
-        "action": "DoNothing",
-        "next": [
-            "武器经验·驱逐-进入驱逐委托"
-        ]
+    "post_delay": 0,
+    "on_error": [
+      "武器经验·驱逐-总计数"
+    ]
+  },
+  "武器经验·驱逐-放弃挑战": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "放弃挑战",
+    "post_delay": 0,
+    "next": [
+      "武器经验·驱逐-确定退出"
+    ]
+  },
+  "武器经验·驱逐-检查超时": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "CheckTimeout",
+    "post_delay": 0,
+    "next": [
+      "武器经验·驱逐-角色主控"
+    ],
+    "on_error": [
+      "武器经验·驱逐-超时处理"
+    ]
+  },
+  "武器经验·驱逐-检测是否完成委托": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "Looper",
+    "custom_action_param": {
+      "count": 3,
+      "nodes": [
+        "委托完成"
+      ]
     },
-    "武器经验·驱逐-寻路": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "MacroPlayer",
-        "custom_action_param": {
-            "file": "武器经验·驱逐.json"
-        },
-        "post_delay": 0,
-        "focus": {
-            "Node.Action.Succeeded": "到达挂机位置，开始挂机！",
-            "Node.Recognition.Starting": "自动寻路中······"
-        },
-        "next": [
-            "武器经验·驱逐-角色主控"
-        ]
+    "post_delay": 0,
+    "next": [
+      "武器经验·驱逐-结束计时"
+    ],
+    "on_error": [
+      "武器经验·驱逐-检查超时"
+    ]
+  },
+  "武器经验·驱逐-检测是否成功进入驱逐": {
+    "recognition": "OCR",
+    "roi": [
+      15,
+      251,
+      190,
+      32
+    ],
+    "expected": [
+      "驱逐敌人"
+    ],
+    "action": "DoNothing",
+    "focus": {
+      "Node.Recognition.Succeeded": "成功进入驱逐副本"
     },
-    "武器经验·驱逐-开始挑战": {
-        "recognition": "OCR",
-        "expected": [
-            "开始挑战"
-        ],
-        "action": "Click",
-        "next": [
-            "武器经验·驱逐-加成书选择"
-        ]
+    "next": [
+      "武器经验·驱逐-超时计时开始"
+    ]
+  },
+  "武器经验·驱逐-深境委托界面": {
+    "recognition": "OCR",
+    "roi": [
+      951,
+      614,
+      319,
+      73
+    ],
+    "expected": [
+      "深境委托"
+    ],
+    "action": "Click"
+  },
+  "武器经验·驱逐-点击历练": {
+    "recognition": "DirectHit",
+    "action": "Click",
+    "target": [
+      1157,
+      21,
+      24,
+      24
+    ],
+    "post_delay": 2000,
+    "focus": {
+      "Node.Action.Succeeded": "成功进入历练界面"
     },
-    "武器经验·驱逐-总计数": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "Count",
-        "custom_action_param": {
-            "id": "all",
-            "target_total": 10
-        },
-        "post_delay": 0,
-        "next": [
-            "武器经验·驱逐-输出信息节点1"
-        ],
-        "on_error": [
-            "武器经验·驱逐-输出信息节点2"
-        ]
+    "next": [
+      "武器经验·驱逐-点击历练委托"
+    ]
+  },
+  "武器经验·驱逐-点击历练委托": {
+    "recognition": "TemplateMatch",
+    "roi": [
+      22,
+      157,
+      59,
+      53
+    ],
+    "template": [
+      "历练委托.png"
+    ],
+    "method": 3,
+    "action": "Click",
+    "post_delay": 1500,
+    "next": [
+      {
+        "name": "武器经验·驱逐-深境委托界面",
+        "jump_back": true
+      },
+      "武器经验·驱逐-委托界面"
+    ]
+  },
+  "武器经验·驱逐-确定退出": {
+    "recognition": "OCR",
+    "roi": [
+      737,
+      382,
+      87,
+      57
+    ],
+    "expected": [
+      "确定"
+    ],
+    "action": "Click",
+    "next": [
+      "武器经验·驱逐-等待退出节点"
+    ]
+  },
+  "武器经验·驱逐-等待退出节点": {
+    "recognition": "DirectHit",
+    "action": "DoNothing",
+    "post_delay": 1000,
+    "timeout": 100,
+    "next": [
+      "武器经验·驱逐-再接再厉",
+      {
+        "name": "武器经验·驱逐-失败后等待节点",
+        "jump_back": true
+      }
+    ]
+  },
+  "武器经验·驱逐-等级选择": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "等级选择50",
+    "post_delay": 0,
+    "next": [
+      "武器经验·驱逐-开始挑战"
+    ]
+  },
+  "武器经验·驱逐-结束计时": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "TimeoutReset",
+    "post_delay": 0,
+    "next": [
+      "武器经验·驱逐-成功计数"
+    ]
+  },
+  "武器经验·驱逐-角色主控": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "黎瑟",
+    "post_delay": 0,
+    "next": [
+      "武器经验·驱逐-检测是否完成委托"
+    ]
+  },
+  "武器经验·驱逐-超时处理": {
+    "recognition": "DirectHit",
+    "pre_delay": 500,
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "退出委托门",
+    "post_delay": 0,
+    "focus": {
+      "Node.Action.Starting": "开始进行超时处理",
+      "Node.Recognition.Starting": "啊？居然超时了"
     },
-    "武器经验·驱逐-成功计数": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "Count",
-        "custom_action_param": {
-            "id": "success",
-            "target_total": 0
-        },
-        "post_delay": 0,
-        "on_error": [
-            "武器经验·驱逐-总计数"
-        ]
+    "next": [
+      "武器经验·驱逐-放弃挑战"
+    ]
+  },
+  "武器经验·驱逐-超时计时开始": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "TimeoutStart",
+    "custom_action_param": {
+      "duration": 100
     },
-    "武器经验·驱逐-放弃挑战": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "放弃挑战",
-        "post_delay": 0,
-        "next": [
-            "武器经验·驱逐-确定退出"
-        ]
+    "post_delay": 1000,
+    "focus": {
+      "Node.Recognition.Succeeded": "开始超时计时（防卡怪）"
     },
-    "武器经验·驱逐-检查超时": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "CheckTimeout",
-        "post_delay": 0,
-        "next": [
-            "武器经验·驱逐-角色主控"
-        ],
-        "on_error": [
-            "武器经验·驱逐-超时处理"
-        ]
+    "next": [
+      "武器经验·驱逐-寻路"
+    ]
+  },
+  "武器经验·驱逐-输出信息节点1": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "CountPrint",
+    "custom_action_param": {
+      "msg": "武器经验·驱逐已全部完成 失败{failed}次 成功{success}次"
     },
-    "武器经验·驱逐-检测是否完成委托": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "Looper",
-        "custom_action_param": {
-            "count": 3,
-            "nodes": [
-                "委托完成"
-            ]
-        },
-        "post_delay": 0,
-        "next": [
-            "武器经验·驱逐-结束计时"
-        ],
-        "on_error": [
-            "武器经验·驱逐-检查超时"
-        ]
+    "post_delay": 0,
+    "next": [
+      "武器经验·驱逐-退出委托流程"
+    ]
+  },
+  "武器经验·驱逐-输出信息节点2": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "CountPrint",
+    "custom_action_param": {
+      "msg": "武器经验·驱逐已完成{all}/{all_target}次 失败{failed}次 成功{success}次"
     },
-    "武器经验·驱逐-检测是否成功进入驱逐": {
-        "recognition": "OCR",
-        "roi": [
-            15,
-            251,
-            190,
-            32
-        ],
-        "expected": [
-            "驱逐敌人"
-        ],
-        "action": "DoNothing",
-        "focus": {
-            "Node.Recognition.Succeeded": "成功进入驱逐副本"
-        },
-        "next": [
-            "武器经验·驱逐-超时计时开始"
-        ]
+    "post_delay": 0,
+    "next": [
+      "武器经验·驱逐-下一把"
+    ]
+  },
+  "武器经验·驱逐-进入历练界面": {
+    "recognition": "TemplateMatch",
+    "roi": [
+      11,
+      9,
+      82,
+      60
+    ],
+    "template": [
+      "玩家主页.png"
+    ],
+    "threshold": [
+      0.5
+    ],
+    "action": "DoNothing",
+    "post_delay": 1500,
+    "focus": {
+      "Node.Recognition.Succeeded": "正在进入历练界面·······"
     },
-    "武器经验·驱逐-深境委托界面": {
-        "recognition": "OCR",
-        "roi": [
-            951,
-            614,
-            319,
-            73
-        ],
-        "expected": [
-            "深境委托"
-        ],
-        "action": "Click"
+    "next": [
+      "武器经验·驱逐-点击历练"
+    ]
+  },
+  "武器经验·驱逐-进入驱逐委托": {
+    "recognition": "OCR",
+    "expected": [
+      "驱逐"
+    ],
+    "action": "Click",
+    "post_delay": 1500,
+    "focus": {
+      "Node.Action.Succeeded": "成功进入驱逐副本"
     },
-    "武器经验·驱逐-点击历练": {
-        "recognition": "DirectHit",
-        "action": "Click",
-        "target": [
-            1157,
-            21,
-            24,
-            24
-        ],
-        "post_delay": 2000,
-        "focus": {
-            "Node.Action.Succeeded": "成功进入历练界面"
-        },
-        "next": [
-            "武器经验·驱逐-点击历练委托"
-        ]
+    "next": [
+      "武器经验·驱逐-等级选择"
+    ]
+  },
+  "武器经验·驱逐-退出委托流程": {
+    "recognition": "DirectHit",
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "退出委托",
+    "post_delay": 0
+  },
+  "武器经验·驱逐-选书-开始挑战": {
+    "recognition": "OCR",
+    "roi": [
+      635,
+      470,
+      296,
+      58
+    ],
+    "expected": [
+      "开始挑战"
+    ],
+    "action": "Click",
+    "focus": {
+      "Node.Action.Succeeded": "正在加载中······"
     },
-    "武器经验·驱逐-点击历练委托": {
-        "recognition": "TemplateMatch",
-        "roi": [
-            22,
-            157,
-            59,
-            53
-        ],
-        "template": [
-            "历练委托.png"
-        ],
-        "method": 3,
-        "action": "Click",
-        "post_delay": 1500,
-        "next": [
-            {
-                "name": "武器经验·驱逐-深境委托界面",
-                "jump_back": true
-            },
-            "武器经验·驱逐-委托界面"
-        ]
-    },
-    "武器经验·驱逐-确定退出": {
-        "recognition": "OCR",
-        "roi": [
-            737,
-            382,
-            87,
-            57
-        ],
-        "expected": [
-            "确定"
-        ],
-        "action": "Click",
-        "next": [
-            "武器经验·驱逐-等待退出节点"
-        ]
-    },
-    "武器经验·驱逐-等待退出节点": {
-        "recognition": "DirectHit",
-        "action": "DoNothing",
-        "post_delay": 1000,
-        "timeout": 100,
-        "next": [
-            "武器经验·驱逐-再接再厉",
-            {
-                "name": "武器经验·驱逐-失败后等待节点",
-                "jump_back": true
-            }
-        ]
-    },
-    "武器经验·驱逐-等级选择": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "等级选择50",
-        "post_delay": 0,
-        "next": [
-            "武器经验·驱逐-开始挑战"
-        ]
-    },
-    "武器经验·驱逐-结束计时": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "TimeoutReset",
-        "post_delay": 0,
-        "next": [
-            "武器经验·驱逐-成功计数"
-        ]
-    },
-    "武器经验·驱逐-角色主控": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "黎瑟",
-        "post_delay": 0,
-        "next": [
-            "武器经验·驱逐-检测是否完成委托"
-        ]
-    },
-    "武器经验·驱逐-超时处理": {
-        "recognition": "DirectHit",
-        "pre_delay": 500,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "退出委托门",
-        "post_delay": 0,
-        "focus": {
-            "Node.Action.Starting": "开始进行超时处理",
-            "Node.Recognition.Starting": "啊？居然超时了"
-        },
-        "next": [
-            "武器经验·驱逐-放弃挑战"
-        ]
-    },
-    "武器经验·驱逐-超时计时开始": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "TimeoutStart",
-        "custom_action_param": {
-            "duration": 100
-        },
-        "post_delay": 1000,
-        "focus": {
-            "Node.Recognition.Succeeded": "开始超时计时（防卡怪）"
-        },
-        "next": [
-            "武器经验·驱逐-寻路"
-        ]
-    },
-    "武器经验·驱逐-输出信息节点1": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "CountPrint",
-        "custom_action_param": {
-            "all": "武器经验·驱逐已全部完成",
-            "failed": "失败{total}次",
-            "success": "成功{total}次"
-        },
-        "post_delay": 0,
-        "next": [
-            "武器经验·驱逐-退出委托流程"
-        ]
-    },
-    "武器经验·驱逐-输出信息节点2": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "CountPrint",
-        "custom_action_param": {
-            "all": "武器经验·驱逐已完成{total}/{target}次",
-            "failed": "失败{total}次",
-            "success": "成功{total}次"
-        },
-        "post_delay": 0,
-        "next": [
-            "武器经验·驱逐-下一把"
-        ]
-    },
-    "武器经验·驱逐-进入历练界面": {
-        "recognition": "TemplateMatch",
-        "roi": [
-            11,
-            9,
-            82,
-            60
-        ],
-        "template": [
-            "玩家主页.png"
-        ],
-        "threshold": [
-            0.5
-        ],
-        "action": "DoNothing",
-        "post_delay": 1500,
-        "focus": {
-            "Node.Recognition.Succeeded": "正在进入历练界面·······"
-        },
-        "next": [
-            "武器经验·驱逐-点击历练"
-        ]
-    },
-    "武器经验·驱逐-进入驱逐委托": {
-        "recognition": "OCR",
-        "expected": [
-            "驱逐"
-        ],
-        "action": "Click",
-        "post_delay": 1500,
-        "focus": {
-            "Node.Action.Succeeded": "成功进入驱逐副本"
-        },
-        "next": [
-            "武器经验·驱逐-等级选择"
-        ]
-    },
-    "武器经验·驱逐-退出委托流程": {
-        "recognition": "DirectHit",
-        "pre_delay": 0,
-        "action": "Custom",
-        "custom_action": "outnoder",
-        "custom_action_param": "退出委托",
-        "post_delay": 0
-    },
-    "武器经验·驱逐-选书-开始挑战": {
-        "recognition": "OCR",
-        "roi": [
-            635,
-            470,
-            296,
-            58
-        ],
-        "expected": [
-            "开始挑战"
-        ],
-        "action": "Click",
-        "focus": {
-            "Node.Action.Succeeded": "正在加载中······"
-        },
-        "next": [
-            "武器经验·驱逐-加载中间过渡节点"
-        ]
-    }
+    "next": [
+      "武器经验·驱逐-加载中间过渡节点"
+    ]
+  }
 }
