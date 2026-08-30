@@ -1,0 +1,344 @@
+{
+  "钓鱼-启动": {
+    "next": [
+      "钓鱼-开始钓鱼"
+    ]
+  },
+  "钓鱼-开始钓鱼": {
+    "recognition": "OCR",
+    "roi": [
+      1027,
+      641,
+      243,
+      54
+    ],
+    "expected": [
+      "开始钓鱼"
+    ],
+    "action": "Click",
+    "focus": {
+      "Node.Action.Starting": "(๑•̀ㅂ•́)و✧ 准备开始钓鱼啦！"
+    },
+    "next": [
+      "钓鱼-抛竿"
+    ]
+  },
+  "钓鱼-抛竿": {
+    "recognition": "TemplateMatch",
+    "roi": [
+      1082,
+      528,
+      131,
+      126
+    ],
+    "template": [
+      "钓鱼/抛竿.png"
+    ],
+    "action": "Click",
+    "focus": {
+      "Node.Action.Starting": "抛竿中，等待鱼儿上钩~"
+    },
+    "next": [
+      "钓鱼-水中无鱼",
+      "钓鱼-鱼上钩了",
+      "[JumpBack]钓鱼-等鱼"
+    ]
+  },
+  "钓鱼-水中无鱼": {
+    "recognition": "OCR",
+    "roi": [
+      501,
+      209,
+      274,
+      86
+    ],
+    "expected": [
+      "水中暂时无鱼"
+    ],
+    "focus": {
+      "Node.Recognition.Succeeded": "(╥﹏╥) 鱼已经钓完了，换个地方继续吧~"
+    }
+  },
+  "钓鱼-鱼上钩了": {
+    "recognition": "TemplateMatch",
+    "roi": [
+      1082,
+      528,
+      131,
+      126
+    ],
+    "template": [
+      "钓鱼/抛竿.png"
+    ],
+    "action": "Click",
+    "focus": {
+      "Node.Recognition.Succeeded": "٩(ˊᗜˋ*)و 鱼上钩了！快收线！"
+    },
+    "next": [
+      "钓鱼-钓鱼博弈"
+    ]
+  },
+  "钓鱼-等鱼": {
+    "recognition": "TemplateMatch",
+    "roi": [
+      1082,
+      528,
+      131,
+      126
+    ],
+    "template": [
+      "钓鱼/等鱼.png"
+    ],
+    "focus": {
+      "Node.Recognition.Starting": "(´-ω-`) 等待鱼儿咬钩中..."
+    }
+  },
+  "钓鱼-钓鱼博弈": {
+    "action": "Custom",
+    "custom_action": "FishFight",
+    "custom_action_param": {
+      "downtarget": [
+        1146,
+        588
+      ],
+      "roi": [
+        1136,
+        147,
+        24,
+        317
+      ]
+    },
+    "post_delay": 3000,
+    "focus": {
+      "Node.Action.Starting": "(ง •̀_•́)ง 正在和鱼拉扯中！"
+    },
+    "next": [
+      "钓鱼-钓鱼成功",
+      "钓鱼-钓鱼失败"
+    ]
+  },
+  "钓鱼-钓鱼成功": {
+    "recognition": "OCR",
+    "roi": [
+      515,
+      107,
+      249,
+      93
+    ],
+    "expected": [
+      "新图鉴！",
+      "钓到鱼了"
+    ],
+    "anchor": {
+      "钓鱼-再次钓鱼": "钓鱼-抛竿"
+    },
+    "post_delay": 1000,
+    "focus": {
+      "Node.Recognition.Succeeded": "(๑˃̵ᴗ˂̵)و 钓到鱼啦！"
+    },
+    "next": [
+      "钓鱼-成功计数"
+    ]
+  },
+  "钓鱼-钓鱼失败": {
+    "recognition": "TemplateMatch",
+    "roi": [
+      1085,
+      524,
+      126,
+      124
+    ],
+    "template": [
+      "钓鱼/抛竿.png"
+    ],
+    "anchor": {
+      "钓鱼-再次钓鱼": "钓鱼-抛竿"
+    },
+    "focus": {
+      "Node.Recognition.Succeeded": "(╥﹏╥) 鱼跑掉了..."
+    },
+    "next": [
+      "钓鱼-失败计数"
+    ]
+  },
+  "钓鱼-跳过获得鱼界面": {
+    "action": "Click",
+    "target": [
+      1082,
+      528,
+      131,
+      126
+    ],
+    "post_delay": 1000,
+    "next": [
+      "钓鱼-识别是否成功跳过获得鱼界面",
+      "钓鱼-确定成功跳过",
+      "钓鱼-授渔以鱼"
+    ]
+  },
+  "钓鱼-识别是否成功跳过获得鱼界面": {
+    "recognition": "OCR",
+    "roi": [
+      515,
+      107,
+      249,
+      93
+    ],
+    "expected": [
+      "新图鉴！",
+      "钓到鱼了"
+    ],
+    "post_delay": 1000,
+    "next": [
+      "钓鱼-再次尝试跳过"
+    ]
+  },
+  "钓鱼-再次尝试跳过": {
+    "action": "Click",
+    "target": [
+      1082,
+      528,
+      131,
+      126
+    ],
+    "next": [
+      "钓鱼-总计数"
+    ]
+  },
+  "钓鱼-确定成功跳过": {
+    "recognition": "TemplateMatch",
+    "roi": [
+      1085,
+      524,
+      126,
+      124
+    ],
+    "template": [
+      "钓鱼/抛竿.png"
+    ],
+    "anchor": {
+      "钓鱼-再次钓鱼": "钓鱼-抛竿"
+    },
+    "next": [
+      "钓鱼-总计数"
+    ]
+  },
+  "钓鱼-授渔以鱼": {
+    "recognition": "OCR",
+    "roi": [
+      515,
+      107,
+      249,
+      93
+    ],
+    "expected": [
+      "授渔以鱼的机会"
+    ],
+    "focus": {
+      "Node.Recognition.Succeeded": "✧ 触发授渔以鱼！额外奖励！"
+    },
+    "next": [
+      "钓鱼-授渔以鱼-总计数"
+    ]
+  },
+  "钓鱼-点击授渔以鱼": {
+    "recognition": "TemplateMatch",
+    "template": [
+      "钓鱼/授渔以鱼.png"
+    ],
+    "action": "Click",
+    "anchor": {
+      "钓鱼-授渔以鱼-博弈": "钓鱼-钓鱼博弈"
+    },
+    "next": [
+      "钓鱼-授渔以鱼-鱼上钩了",
+      "[JumpBack]钓鱼-授渔以鱼-等鱼"
+    ]
+  },
+  "钓鱼-授渔以鱼-鱼上钩了": {
+    "recognition": "TemplateMatch",
+    "roi": [
+      1082,
+      528,
+      131,
+      126
+    ],
+    "template": [
+      "钓鱼/抛竿.png"
+    ],
+    "action": "Click",
+    "next": [
+      "[Anchor]钓鱼-授渔以鱼-博弈"
+    ]
+  },
+  "钓鱼-授渔以鱼-等鱼": {
+    "recognition": "TemplateMatch",
+    "roi": [
+      1082,
+      528,
+      131,
+      126
+    ],
+    "template": [
+      "钓鱼/等鱼.png"
+    ]
+  },
+  "钓鱼-成功计数": {
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "Count",
+    "custom_action_param": {
+      "id": "success"
+    },
+    "post_delay": 0,
+    "on_error": [
+      "钓鱼-跳过获得鱼界面"
+    ]
+  },
+  "钓鱼-失败计数": {
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "Count",
+    "custom_action_param": {
+      "id": "failed"
+    },
+    "post_delay": 0,
+    "on_error": [
+      "钓鱼-总计数"
+    ]
+  },
+  "钓鱼-总计数": {
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "Count",
+    "custom_action_param": {
+      "id": "all"
+    },
+    "post_delay": 0,
+    "on_error": [
+      "钓鱼-输出统计"
+    ]
+  },
+  "钓鱼-输出统计": {
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "CountPrint",
+    "custom_action_param": "成功{success}次 | 失败{failed}次 | 共计{all}次",
+    "post_delay": 0,
+    "next": [
+      "[Anchor]钓鱼-再次钓鱼"
+    ]
+  },
+  "钓鱼-授渔以鱼-总计数": {
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "Count",
+    "custom_action_param": {
+      "id": "all"
+    },
+    "post_delay": 0,
+    "on_error": [
+      "钓鱼-点击授渔以鱼"
+    ]
+  }
+}

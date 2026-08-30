@@ -37,6 +37,11 @@ class FishFight(CustomAction):
     _DEFAULT_CONTROL_ZONE_RATIO = 0.35
     _DEFAULT_MERGE_GRACE = 0.20
     _DEFAULT_BAR_MISSING_TIMEOUT = 2.5
+    _DEFAULT_LOWER_PULSE_WAIT = 200
+    _DEFAULT_UPPER_DEBOUNCE = 3
+    _DEFAULT_NO_ICON_PULSE_INTERVAL = 80
+    _DEFAULT_NEUTRAL_PULSE_INTERVAL = 18
+    _DEFAULT_NEUTRAL_PULSE_HOLD = 3
 
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
         """钓鱼博弈主循环。
@@ -44,7 +49,7 @@ class FishFight(CustomAction):
         参数 (custom_action_param JSON):
             downtarget  - [x, y] 按压坐标 (必需)
             roi         - [x, y, w, h] 鱼条区域 (必需)
-            max_time    - 博弈最大时长，默认 60s
+            max_time    - 博弈最大时长，默认 75s
             wait_time   - 等待鱼条出现的最大时长，默认 20s
 
         可选调参:
@@ -55,6 +60,7 @@ class FishFight(CustomAction):
             bar_min_area         - 光标最小面积，默认 1200
             icon_min_area        - 鱼标最小面积，默认 70
             icon_max_area        - 鱼标最大面积，默认 400
+            lower_pulse_wait     - 下控区脉冲等待帧数，默认 200（约1000ms）。越大光标在下控区松手越久
         """
         try:
             param = json.loads(argv.custom_action_param) if argv.custom_action_param else {}
@@ -71,7 +77,7 @@ class FishFight(CustomAction):
             print("[FishFight] 缺少 roi [x,y,w,h]")
             return CustomAction.RunResult(success=False)
 
-        max_time = param.get("max_time", 60.0)
+        max_time = param.get("max_time", 75.0)
         wait_time = param.get("wait_time", 20.0)
 
         gray_threshold = param.get("gray_threshold", self._DEFAULT_GRAY_THRESHOLD)
@@ -81,6 +87,11 @@ class FishFight(CustomAction):
         control_zone_ratio = param.get("control_zone_ratio", self._DEFAULT_CONTROL_ZONE_RATIO)
         merge_grace = param.get("merge_grace", self._DEFAULT_MERGE_GRACE)
         bar_missing_timeout = param.get("bar_missing_timeout", self._DEFAULT_BAR_MISSING_TIMEOUT)
+        lower_pulse_wait_frames = param.get("lower_pulse_wait", self._DEFAULT_LOWER_PULSE_WAIT)
+        upper_debounce = param.get("upper_debounce", self._DEFAULT_UPPER_DEBOUNCE)
+        no_icon_pulse_interval = param.get("no_icon_pulse_interval", self._DEFAULT_NO_ICON_PULSE_INTERVAL)
+        neutral_pulse_interval = param.get("neutral_pulse_interval", self._DEFAULT_NEUTRAL_PULSE_INTERVAL)
+        neutral_pulse_hold = param.get("neutral_pulse_hold", self._DEFAULT_NEUTRAL_PULSE_HOLD)
 
         self._context = context
         self._roi = roi
@@ -106,7 +117,7 @@ class FishFight(CustomAction):
             time.sleep(0.2)
         if not ready:
             print("[FishFight] 等待超时, 未检测到鱼条和鱼标")
-            return CustomAction.RunResult(success=False)
+            return CustomAction.RunResult(success=True)
 
         print(f"[FishFight] 开始博弈 (TouchDown/TouchUp, zone_ratio={control_zone_ratio:.3f})...")
         start_time = time.monotonic()
@@ -117,7 +128,10 @@ class FishFight(CustomAction):
         last_known_icon_y_rel = 0.0
         bar_missing_start = None
         merge_start = None
-        lower_pulse_wait = 0
+        upper_debounce_cnt = 0
+        no_icon_frames = 0
+        zone_ratio_locked = False
+        neutral_frames = 0
 
         while time.monotonic() - start_time < max_time:
             img = self._capture(ctrl)
@@ -148,11 +162,14 @@ class FishFight(CustomAction):
             if bar_height <= 0:
                 bar_height = 1
 
-            roi_area = roi[2] * roi[3]
-            if bar_area > 0 and roi_area > 0:
-                new_ratio = bar_area / roi_area
-                if abs(new_ratio - control_zone_ratio) / max(control_zone_ratio, 0.001) > 0.1:
-                    control_zone_ratio = new_ratio
+            if has_icon and not zone_ratio_locked:
+                roi_area = roi[2] * roi[3]
+                if bar_area > 0 and roi_area > 0:
+                    calibrated = bar_area / roi_area
+                    if calibrated > 0.05:
+                        control_zone_ratio = max(0.15, calibrated)
+                zone_ratio_locked = True
+                print(f"[FishFight] 首次识别锁定 zone_ratio={control_zone_ratio:.3f}")
 
             control_height = int(bar_height * control_zone_ratio)
             control_top = bar_top + control_height
@@ -160,29 +177,40 @@ class FishFight(CustomAction):
 
             if has_icon:
                 merge_start = None
+                no_icon_frames = 0
                 icon_y = icon_center[1]
                 icon_y_rel = icon_y - bar_center[1]
                 last_known_icon_y_rel = icon_y_rel
 
                 if icon_y < control_top:
-                    lower_pulse_wait = 0
-                    if not is_holding:
+                    upper_debounce_cnt += 1
+                    neutral_frames = 0
+                    if upper_debounce_cnt >= upper_debounce and not is_holding:
                         self._do_action("TouchDown")
                         is_holding = True
                 elif icon_y > control_bottom:
+                    upper_debounce_cnt = 0
+                    neutral_frames = 0
                     if is_holding:
                         self._do_action("TouchUp")
                         is_holding = False
-                        lower_pulse_wait = 3
-                    elif lower_pulse_wait > 0:
-                        lower_pulse_wait -= 1
-                        if lower_pulse_wait == 0 and not is_holding:
-                            self._do_action("TouchDown")
-                            is_holding = True
                 else:
-                    if is_holding:
-                        self._do_action("TouchUp")
-                        is_holding = False
+                    upper_debounce_cnt = 0
+                    if icon_y_rel < 0:
+                        neutral_frames += 1
+                        if neutral_frames % neutral_pulse_interval < neutral_pulse_hold:
+                            if not is_holding:
+                                self._do_action("TouchDown")
+                                is_holding = True
+                        else:
+                            if is_holding:
+                                self._do_action("TouchUp")
+                                is_holding = False
+                    else:
+                        neutral_frames = 0
+                        if is_holding:
+                            self._do_action("TouchUp")
+                            is_holding = False
 
                 now = time.monotonic()
                 if now - last_log_time >= 2.0:
@@ -200,11 +228,13 @@ class FishFight(CustomAction):
                     last_log_time = now
 
             else:
+                no_icon_frames += 1
                 is_merged = icon_was_visible
                 if is_merged:
                     if merge_start is None:
                         merge_start = time.monotonic()
                     if time.monotonic() - merge_start <= merge_grace:
+                        upper_debounce_cnt = 0
                         if last_known_icon_y_rel < 0:
                             if not is_holding:
                                 self._do_action("TouchDown")
@@ -218,6 +248,15 @@ class FishFight(CustomAction):
                         icon_was_visible = False
                 else:
                     merge_start = None
+                    pulse_phase = no_icon_frames % no_icon_pulse_interval
+                    if pulse_phase < 5:
+                        if not is_holding:
+                            self._do_action("TouchDown")
+                            is_holding = True
+                    else:
+                        if is_holding:
+                            self._do_action("TouchUp")
+                            is_holding = False
 
             icon_was_visible = has_icon
             time.sleep(self._LOOP_SLEEP)
@@ -346,21 +385,22 @@ class FishFight(CustomAction):
 
 1. 等待阶段：循环截图检测，直到同时识别到光标(最大亮斑)和鱼标(次大亮斑)。
 2. 博弈阶段：每 5ms 一帧，灰度二值化 → 找轮廓 → 判断鱼标所在控制区 → 执行 TouchDown/TouchUp。
-3. 光照自适应：每一帧用当前 bar_area 动态计算 control_zone_ratio = bar_area / roi_area。
+3. 首次校准：同时识别到鱼标和光标后，用 bar_area/roi_area 一次性锁定 zone_ratio（下限 0.15）。
 4. 鱼标合并容错：短暂丢失鱼标时，按 merge_grace 时间内沿用上一次位置继续控制。
 5. 鱼条丢失超时：连续丢失鱼条超过 bar_missing_timeout 秒，视为溜鱼结束，返回成功。
 
 ===== 控制区逻辑 =====
 
 上控区 (icon_y < control_top):
-  → TouchDown 按住，光标持续上升
+  → 连续 upper_debounce 帧后 TouchDown，光标上升
 
-中立区 (control_top < icon_y < control_bottom):
-  → TouchUp 松开，光标减速，防止过冲
+中立区 (control_top <= icon_y <= control_bottom):
+  → 上半区 (icon_y_rel < 0, 鱼标在光标中心上方): PWM 脉冲，每 N 帧按 hold 帧
+  → 下半区 (icon_y_rel >= 0, 鱼标在光标中心下方): TouchUp，光标下坠
+  → 防止光标在鱼标下方时继续按压导致过冲
 
 下控区 (icon_y > control_bottom):
-  → TouchUp 松开 → 等 3 帧 (~15ms) → TouchDown 重新按住
-  → 脉冲式控制：短暂减速后继续追踪，避免光标一直下坠
+  → TouchUp 松开，光标自然下坠
 
 ===== Pipeline JSON 示例 =====
 

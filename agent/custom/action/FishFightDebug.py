@@ -42,7 +42,7 @@ DEBUG_PARAMS = {
     "icon_max_area": 400,
 
     # ── 控制参数 ──
-    # 控制区初始占比，运行时每帧动态计算为 bar_area / roi_area
+    # 控制区占比，首次同时识别到鱼标和光标时自动校准一次（不低于 0.15）
     "control_zone_ratio": 0.35,
 
     # 动态按压时长：duration = min_hold + hold_k * |offset|，上限 max_hold
@@ -57,8 +57,21 @@ DEBUG_PARAMS = {
     # 鱼条丢失超时 (秒)
     "bar_missing_timeout": 5.0,
 
+    # 下控区脉冲等待帧数，默认 200 (约1000ms)
+    "lower_pulse_wait": 200,
+
+    # 上控区防抖帧数，鱼标需连续在区内 N 帧才触发按下
+    "upper_debounce": 3,
+
+    # 中立区脉冲：仅在上半区(鱼标在光标中心上方)生效，每 N 帧按压 hold 帧
+    "neutral_pulse_interval": 18,
+    "neutral_pulse_hold": 3,
+
+    # 鱼标丢失脉冲间隔（帧），每 N 帧快速按压 5 帧防坠底
+    "no_icon_pulse_interval": 80,
+
     # ── 超时 ──
-    "max_time": 60.0,
+    "max_time": 75.0,
     "wait_time": 20.0
 }
 
@@ -107,6 +120,11 @@ class FishFightDebug(CustomAction):
         hold_k = DEBUG_PARAMS["hold_k"]
         merge_grace = DEBUG_PARAMS["merge_grace"]
         bar_missing_timeout = DEBUG_PARAMS["bar_missing_timeout"]
+        lower_pulse_wait_frames = DEBUG_PARAMS["lower_pulse_wait"]
+        upper_debounce = DEBUG_PARAMS["upper_debounce"]
+        no_icon_pulse_interval = DEBUG_PARAMS["no_icon_pulse_interval"]
+        neutral_pulse_interval = DEBUG_PARAMS["neutral_pulse_interval"]
+        neutral_pulse_hold = DEBUG_PARAMS["neutral_pulse_hold"]
         max_time = DEBUG_PARAMS["max_time"]
         wait_time = DEBUG_PARAMS["wait_time"]
 
@@ -203,7 +221,10 @@ class FishFightDebug(CustomAction):
         hold_state_changes = 0
         duration_list = []
         hold_start_time = 0.0
-        lower_pulse_wait = 0
+        upper_debounce_cnt = 0
+        no_icon_frames = 0
+        zone_ratio_locked = False
+        neutral_frames = 0
 
         def fight_elapsed():
             ref = fight_start_time if fight_start_time is not None else start_time
@@ -267,11 +288,14 @@ class FishFightDebug(CustomAction):
             if bar_height <= 0:
                 bar_height = 1
 
-            roi_area = roi[2] * roi[3]
-            if bar_area > 0 and roi_area > 0:
-                new_ratio = bar_area / roi_area
-                if abs(new_ratio - control_zone_ratio) / max(control_zone_ratio, 0.001) > 0.1:
-                    control_zone_ratio = new_ratio
+            if has_icon and not zone_ratio_locked:
+                roi_area = roi[2] * roi[3]
+                if bar_area > 0 and roi_area > 0:
+                    calibrated = bar_area / roi_area
+                    if calibrated > 0.05:
+                        control_zone_ratio = max(0.15, calibrated)
+                zone_ratio_locked = True
+                print(f"[FishFightDebug] 首次识别锁定 zone_ratio={control_zone_ratio:.3f}")
 
             control_height = int(bar_height * control_zone_ratio)
             control_top = bar_top + control_height
@@ -286,6 +310,7 @@ class FishFightDebug(CustomAction):
 
             if has_icon:
                 merge_start = None
+                no_icon_frames = 0
                 icon_y = icon_center[1]
                 icon_y_rel = icon_y - bar_center[1]
                 last_known_icon_y_rel = icon_y_rel
@@ -293,33 +318,18 @@ class FishFightDebug(CustomAction):
 
                 if icon_y < control_top:
                     zone = "upper"
-                    lower_pulse_wait = 0
-                    if not is_holding:
+                    neutral_frames = 0
+                    upper_debounce_cnt += 1
+                    if upper_debounce_cnt >= upper_debounce and not is_holding:
                         self._do_action("TouchDown")
                         hold_start_time = time.monotonic()
                         is_holding = True
                         hold_state_changes += 1
-                    action = "press"
+                    action = "press" if is_holding else "release"
                 elif icon_y > control_bottom:
                     zone = "lower"
-                    if is_holding:
-                        self._do_action("TouchUp")
-                        hold_ms = (time.monotonic() - hold_start_time) * 1000
-                        total_hold_ms += hold_ms
-                        duration_list.append(hold_ms)
-                        is_holding = False
-                        hold_state_changes += 1
-                        lower_pulse_wait = 3
-                    elif lower_pulse_wait > 0:
-                        lower_pulse_wait -= 1
-                        if lower_pulse_wait == 0 and not is_holding:
-                            self._do_action("TouchDown")
-                            hold_start_time = time.monotonic()
-                            is_holding = True
-                            hold_state_changes += 1
-                    action = "press" if is_holding else "release"
-                else:
-                    zone = "neutral"
+                    neutral_frames = 0
+                    upper_debounce_cnt = 0
                     if is_holding:
                         self._do_action("TouchUp")
                         hold_ms = (time.monotonic() - hold_start_time) * 1000
@@ -328,8 +338,40 @@ class FishFightDebug(CustomAction):
                         is_holding = False
                         hold_state_changes += 1
                     action = "release"
+                else:
+                    zone = "neutral"
+                    upper_debounce_cnt = 0
+                    if icon_y_rel < 0:
+                        neutral_frames += 1
+                        if neutral_frames % neutral_pulse_interval < neutral_pulse_hold:
+                            if not is_holding:
+                                self._do_action("TouchDown")
+                                hold_start_time = time.monotonic()
+                                is_holding = True
+                                hold_state_changes += 1
+                            action = "press"
+                        else:
+                            if is_holding:
+                                self._do_action("TouchUp")
+                                hold_ms = (time.monotonic() - hold_start_time) * 1000
+                                total_hold_ms += hold_ms
+                                duration_list.append(hold_ms)
+                                is_holding = False
+                                hold_state_changes += 1
+                            action = "release"
+                    else:
+                        neutral_frames = 0
+                        if is_holding:
+                            self._do_action("TouchUp")
+                            hold_ms = (time.monotonic() - hold_start_time) * 1000
+                            total_hold_ms += hold_ms
+                            duration_list.append(hold_ms)
+                            is_holding = False
+                            hold_state_changes += 1
+                        action = "release"
 
             else:
+                no_icon_frames += 1
                 is_merged = icon_was_visible
                 if is_merged:
                     merge_events += 1
@@ -359,7 +401,25 @@ class FishFightDebug(CustomAction):
                         zone = "merge_expired"
                 else:
                     merge_start = None
-                    zone = "no_icon"
+                    pulse_phase = no_icon_frames % no_icon_pulse_interval
+                    if pulse_phase < 5:
+                        if not is_holding:
+                            self._do_action("TouchDown")
+                            hold_start_time = time.monotonic()
+                            is_holding = True
+                            hold_state_changes += 1
+                        action = "press"
+                        zone = "pulse_press"
+                    else:
+                        if is_holding:
+                            self._do_action("TouchUp")
+                            hold_ms = (time.monotonic() - hold_start_time) * 1000
+                            total_hold_ms += hold_ms
+                            duration_list.append(hold_ms)
+                            is_holding = False
+                            hold_state_changes += 1
+                        action = "release"
+                        zone = "pulse_release"
 
             if zone != last_zone and last_zone is not None:
                 if (zone == "upper" and last_zone == "lower") or (zone == "lower" and last_zone == "upper"):
@@ -412,7 +472,7 @@ class FishFightDebug(CustomAction):
             duration_list, elapsed, success, fail_reason,
             gray_threshold, bar_min_area, icon_min_area, icon_max_area,
             control_zone_ratio, min_hold_duration, max_hold_duration, hold_k,
-            merge_grace, bar_missing_timeout, max_time,
+            merge_grace, bar_missing_timeout, max_time, lower_pulse_wait_frames,
         )
 
         report_text = self._print_report(
@@ -424,7 +484,7 @@ class FishFightDebug(CustomAction):
             duration_list, screenshot_count,
             gray_threshold, control_zone_ratio,
             min_hold_duration, max_hold_duration, hold_k,
-            merge_grace, bar_missing_timeout,
+            merge_grace, bar_missing_timeout, lower_pulse_wait_frames,
             analysis,
         )
 
@@ -460,6 +520,7 @@ class FishFightDebug(CustomAction):
                 "hold_k": hold_k,
                 "merge_grace": merge_grace,
                 "bar_missing_timeout": bar_missing_timeout,
+                "lower_pulse_wait": lower_pulse_wait_frames,
             },
             "recommendations": analysis,
         }
@@ -478,7 +539,7 @@ class FishFightDebug(CustomAction):
                  duration_list, elapsed, success, fail_reason,
                  gray_threshold, bar_min_area, icon_min_area, icon_max_area,
                  control_zone_ratio, min_hold_duration, max_hold_duration, hold_k,
-                 merge_grace, bar_missing_timeout, max_time):
+                 merge_grace, bar_missing_timeout, max_time, lower_pulse_wait_frames):
         recs = []
 
         bar_total = bar_hits + bar_misses
@@ -647,7 +708,7 @@ class FishFightDebug(CustomAction):
                       duration_list, screenshot_count,
                       gray_threshold, control_zone_ratio,
                       min_hold_duration, max_hold_duration, hold_k,
-                      merge_grace, bar_missing_timeout,
+                      merge_grace, bar_missing_timeout, lower_pulse_wait_frames,
                       analysis):
         bar_total = bar_hits + bar_misses
         icon_total = icon_hits + icon_misses
@@ -723,6 +784,7 @@ class FishFightDebug(CustomAction):
         emit(f"    控制模式:              TouchDown/TouchUp (非阻塞)")
         emit(f"    gray_threshold:        {gray_threshold}")
         emit(f"    control_zone_ratio:    {control_zone_ratio}")
+        emit(f"    lower_pulse_wait:      {lower_pulse_wait_frames} frames")
         emit(f"    merge_grace:           {merge_grace} s")
         emit(f"    bar_missing_timeout:   {bar_missing_timeout} s")
 
@@ -852,7 +914,7 @@ class FishFightDebug(CustomAction):
         fieldnames = [
             "序号", "时间", "成功", "耗时(秒)", "总帧数", "按压次数",
             "总按压ms", "平均按压ms", "按压占比%", "状态切换",
-            "gray_threshold", "control_zone_ratio",
+            "gray_threshold", "control_zone_ratio", "lower_pulse_wait",
             "min_hold", "max_hold", "hold_k",
             "merge_grace", "bar_missing_timeout",
             "鱼条命中率", "鱼标命中率",
@@ -890,6 +952,7 @@ class FishFightDebug(CustomAction):
                 "状态切换": r.get("hold_state_changes", 0),
                 "gray_threshold": p.get("gray_threshold", ""),
                 "control_zone_ratio": p.get("control_zone_ratio", ""),
+                "lower_pulse_wait": p.get("lower_pulse_wait", ""),
                 "min_hold": p.get("min_hold_duration", ""),
                 "max_hold": p.get("max_hold_duration", ""),
                 "hold_k": p.get("hold_k", ""),
