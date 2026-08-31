@@ -1,0 +1,120 @@
+name: update-changelog
+
+on:
+  push:
+    tags:
+      - "v*"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: Generate changelog
+        shell: bash
+        env:
+          CURRENT_TAG: "${{ github.ref_name }}"
+        run: |
+          echo "Current tag: ${CURRENT_TAG}"
+
+          PREV_TAG=$(git describe --tags --abbrev=0 "${CURRENT_TAG}^" 2>/dev/null || echo "")
+
+          CHANGELOG_FILE="resource/announcement/3.最新更新.md"
+          mkdir -p "$(dirname "${CHANGELOG_FILE}")"
+
+          echo '<!-- markdownlint-disable MD013 -->' > "${CHANGELOG_FILE}"
+          echo '<!-- 此文件由 GitHub Actions 自动生成，无需手动配置 -->' >> "${CHANGELOG_FILE}"
+          echo '<!-- 若工作流失败则跳过，不影响其他 Action -->' >> "${CHANGELOG_FILE}"
+          echo '' >> "${CHANGELOG_FILE}"
+
+          echo "# ${CURRENT_TAG} 更新内容" >> "${CHANGELOG_FILE}"
+          echo "" >> "${CHANGELOG_FILE}"
+
+          if [ -z "${PREV_TAG}" ]; then
+            echo "首个版本发布" >> "${CHANGELOG_FILE}"
+            exit 0
+          fi
+
+          echo "Previous tag: ${PREV_TAG}"
+
+          COMMITS=$(git log --oneline --no-merges --format="%s" "${PREV_TAG}..${CURRENT_TAG}" 2>/dev/null || echo "")
+
+          if [ -z "${COMMITS}" ]; then
+            echo "暂无更新内容" >> "${CHANGELOG_FILE}"
+            exit 0
+          fi
+
+          rm -f /tmp/new_features.txt /tmp/fixes.txt /tmp/improvements.txt
+
+          while IFS= read -r line; do
+            [ -z "${line}" ] && continue
+
+            if echo "${line}" | grep -qiE '^(chore|ci|docs|style|refactor|reorg|revert|test|wip|text)(\(.*\))?:'; then
+              continue
+            fi
+
+            DISPLAY=$(echo "${line}" | sed -E 's/^(feat|fix|improve|perf)(\(.*\))?[：:] ?//i')
+
+            if echo "${line}" | grep -qiE '^feat(\(.*\))?:'; then
+              echo "- ${DISPLAY}" >> /tmp/new_features.txt
+            elif echo "${line}" | grep -qiE '^fix(\(.*\))?:'; then
+              echo "- ${DISPLAY}" >> /tmp/fixes.txt
+            elif echo "${line}" | grep -qiE '^(improve|perf)(\(.*\))?:'; then
+              echo "- ${DISPLAY}" >> /tmp/improvements.txt
+            fi
+          done <<< "${COMMITS}"
+
+          HAS_CONTENT=false
+
+          if [ -f /tmp/new_features.txt ] && [ -s /tmp/new_features.txt ]; then
+            echo "### 新增" >> "${CHANGELOG_FILE}"
+            echo "" >> "${CHANGELOG_FILE}"
+            cat /tmp/new_features.txt >> "${CHANGELOG_FILE}"
+            HAS_CONTENT=true
+          fi
+
+          if [ -f /tmp/fixes.txt ] && [ -s /tmp/fixes.txt ]; then
+            echo "### 修复" >> "${CHANGELOG_FILE}"
+            echo "" >> "${CHANGELOG_FILE}"
+            cat /tmp/fixes.txt >> "${CHANGELOG_FILE}"
+            HAS_CONTENT=true
+          fi
+
+          if [ -f /tmp/improvements.txt ] && [ -s /tmp/improvements.txt ]; then
+            echo "### 优化" >> "${CHANGELOG_FILE}"
+            echo "" >> "${CHANGELOG_FILE}"
+            cat /tmp/improvements.txt >> "${CHANGELOG_FILE}"
+            HAS_CONTENT=true
+          fi
+
+          if [ "${HAS_CONTENT}" = false ]; then
+            echo "暂无用户可见的更新内容" >> "${CHANGELOG_FILE}"
+          fi
+
+          echo "Generated changelog:"
+          cat "${CHANGELOG_FILE}"
+
+      - name: Commit and push
+        shell: bash
+        env:
+          CURRENT_TAG: "${{ github.ref_name }}"
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main
+          git add resource/announcement/3.最新更新.md
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "docs: 自动更新 ${CURRENT_TAG} 版本更新日志"
+            git push
+          fi
