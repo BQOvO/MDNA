@@ -254,7 +254,8 @@
       "Node.Recognition.Starting": "⏱ 超时倒计时开始"
     },
     "next": [
-      "夜航65-寻路"
+      "夜航65-地图识别1",
+      "夜航65-地图识别2"
     ]
   },
   "夜航65-输出信息节点1": {
@@ -354,12 +355,12 @@
       "夜航65-检测是否完成委托"
     ]
   },
-  "夜航65-寻路": {
+  "夜航65-寻路1": {
     "pre_delay": 0,
     "action": "Custom",
     "custom_action": "MacroPlayer",
     "custom_action_param": {
-      "file": "夜航手册65/夜航手册65.json"
+      "file": "夜航手册65/夜航手册65-1.json"
     },
     "post_delay": 0,
     "focus": {
@@ -368,6 +369,58 @@
     },
     "next": [
       "夜航65-角色主控"
+    ]
+  },
+  "夜航65-寻路2": {
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "MacroPlayer",
+    "custom_action_param": {
+      "file": "夜航手册65/夜航手册65-2.json"
+    },
+    "post_delay": 0,
+    "focus": {
+      "Node.Action.Succeeded": "到达挂机点，开刷！",
+      "Node.Recognition.Starting": "(ง •̀_•́)ง 自动寻路中，马上就到！"
+    },
+    "next": [
+      "夜航65-角色主控"
+    ]
+  },
+  "夜航65-地图识别1": {
+    "recognition": "TemplateMatch",
+    "roi": [
+      461,
+      242,
+      359,
+      251
+    ],
+    "template": [
+      "夜航手册map/扼守-1.png"
+    ],
+    "focus": {
+      "Node.Recognition.Succeeded": "识别到地图1：扼守-1"
+    },
+    "next": [
+      "夜航65-寻路1"
+    ]
+  },
+  "夜航65-地图识别2": {
+    "recognition": "TemplateMatch",
+    "roi": [
+      461,
+      242,
+      359,
+      251
+    ],
+    "template": [
+      "夜航手册map/扼守-2.png"
+    ],
+    "focus": {
+      "Node.Recognition.Succeeded": "识别到地图2：扼守-2"
+    },
+    "next": [
+      "夜航65-寻路2"
     ]
   }
 }
