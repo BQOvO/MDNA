@@ -1,0 +1,71 @@
+{
+    "RoundTracker测试-启动": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "focus": {
+            "Node.Recognition.Succeeded": "RoundTracker 循环测试开始，终端和面板都会输出"
+        },
+        "next": [
+            "RoundTracker测试-执行"
+        ]
+    },
+    "RoundTracker测试-执行": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "RoundTracker"
+            }
+        },
+        "focus": {
+            "Node.Action.Starting": ">>> 正在执行 RoundTracker <<<"
+        },
+        "next": [
+            "RoundTracker测试-输出成功"
+        ],
+        "on_error": [
+            "RoundTracker测试-输出失败"
+        ]
+    },
+    "RoundTracker测试-输出成功": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "CountPrint",
+                "custom_action_param": "=== RoundTracker 测试：next 分支触发（数字发生变化）==="
+            }
+        },
+        "focus": {
+            "Node.Recognition.Succeeded": "RoundTracker 成功 (next)"
+        },
+        "post_delay": 2000,
+        "next": [
+            "RoundTracker测试-执行"
+        ]
+    },
+    "RoundTracker测试-输出失败": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action": "CountPrint",
+                "custom_action_param": "=== RoundTracker 测试：on_error 分支触发（基线记录 / 数字未变化 / 重试耗尽）==="
+            }
+        },
+        "focus": {
+            "Node.Recognition.Succeeded": "RoundTracker 失败 (on_error)"
+        },
+        "post_delay": 2000,
+        "next": [
+            "RoundTracker测试-执行"
+        ]
+    }
+}

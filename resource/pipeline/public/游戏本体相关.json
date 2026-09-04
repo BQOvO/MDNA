@@ -1,0 +1,68 @@
+{
+    "关闭二重螺旋": {
+        "recognition": "DirectHit",
+        "action": "StopApp",
+        "package": "com.hero.dna.gf"
+    },
+    "开始二重螺旋": {
+        "recognition": "DirectHit",
+        "action": "StartApp",
+        "package": "com.hero.dna.gf"
+    },
+    "开始游戏的黑幕等待": {
+        "recognition": "DirectHit",
+        "pre_delay": 2000,
+        "action": "DoNothing"
+    },
+    "游戏登陆界面": {
+        "recognition": "OCR",
+        "roi": [
+            0,
+            0,
+            0,
+            0
+        ],
+        "expected": [
+            "登录"
+        ],
+        "action": "Click"
+    },
+    "点击开始游戏": {
+        "recognition": "OCR",
+        "roi": [
+            0,
+            0,
+            0,
+            0
+        ],
+        "expected": [
+            "点击开始游戏"
+        ],
+        "action": "Click"
+    },
+    "公告": {
+        "recognition": "OCR",
+        "roi": [
+            0,
+            0,
+            0,
+            0
+        ],
+        "expected": [
+            "公告"
+        ],
+        "action": "Click",
+        "target": [
+            0,
+            0,
+            0,
+            0
+        ]
+    },
+    "游戏进程检查": {
+        "recognition": "Custom",
+        "custom_recognition": "GameProcessCheck",
+        "next": [],
+        "on_error": ["开始二重螺旋"]
+    }
+}

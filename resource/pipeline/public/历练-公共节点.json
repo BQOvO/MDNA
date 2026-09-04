@@ -1,0 +1,29 @@
+{
+    "历练-深境委托界面": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [951, 614, 319, 73],
+                "expected": ["深境委托"]
+            }
+        },
+        "action": {
+            "type": "Click"
+        }
+    },
+    "历练-副本加载中": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [1184, 632, 71, 61],
+                "template": [
+                    "加载过程中百分号.png",
+                    "退出委托的加载中.png"
+                ]
+            }
+        }
+    },
+    "历练-失败后等待": {
+        "post_delay": 1000
+    }
+}
