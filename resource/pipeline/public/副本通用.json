@@ -1,16 +1,15 @@
 {
     "再接再厉": {
-        "recognition": "OCR",
-        "roi": [
-            5,
-            339,
-            194,
-            220
-        ],
-        "expected": [
-            "再接再厉"
-        ],
-        "action": "DoNothing"
+      "recognition": "OCR",
+      "roi": [
+        5,
+        339,
+        194,
+        220
+      ],
+      "expected": [
+        "再接再厉"
+      ]
     },
     "再次进行": {
         "recognition": "OCR",
@@ -26,18 +25,17 @@
         "action": "Click"
     },
     "委托完成": {
-        "recognition": "OCR",
-        "roi": [
-            18,
-            412,
-            142,
-            54
-        ],
-        "expected": [
-            "委托完成"
-        ],
-        "action": "DoNothing",
-        "timeout": 100
+      "recognition": "OCR",
+      "roi": [
+        18,
+        412,
+        142,
+        54
+      ],
+      "expected": [
+        "委托完成"
+      ],
+      "timeout": 100
     },
     "开始挑战": {
         "recognition": "OCR",
@@ -79,62 +77,56 @@
         "action": "Click"
     },
     "退出委托": {
-        "recognition": "OCR",
-        "roi": [
-            764,
-            619,
-            508,
-            90
-        ],
-        "expected": [
-            "退出委托"
-        ],
-        "action": "Click",
-        "post_delay": 2000,
-        "next": [
-            {
-                "name": "退出委托-等待加载中界面",
-                "jump_back": true
-            },
-            "退出委托-检测是否到达历练界面"
-        ]
+      "recognition": "OCR",
+      "roi": [
+        764,
+        619,
+        508,
+        90
+      ],
+      "expected": [
+        "退出委托"
+      ],
+      "action": "Click",
+      "post_delay": 2000,
+      "next": [
+        "[JumpBack]退出委托-等待加载中界面",
+        "退出委托-检测是否到达历练界面"
+      ]
     },
     "退出委托-检测是否到达历练界面": {
-        "recognition": "OCR",
-        "roi": [
-            86,
-            14,
-            117,
-            33
-        ],
-        "expected": [
-            "历练"
-        ],
-        "action": "DoNothing",
-        "next": [
-            "退出委托-点击退出"
-        ]
+      "recognition": "OCR",
+      "roi": [
+        86,
+        14,
+        117,
+        33
+      ],
+      "expected": [
+        "历练"
+      ],
+      "next": [
+        "退出委托-点击退出"
+      ]
     },
     "退出委托-点击退出": {
-        "recognition": "DirectHit",
-        "action": "Click",
-        "target": [
-            47,
-            32
-        ]
+      "action": "Click",
+      "target": [
+        47,
+        32
+      ]
     },
     "退出委托-等待加载中界面": {
-        "recognition": "TemplateMatch",
-        "roi": [
-            1184,
-            632,
-            71,
-            61
-        ],
-        "template": [
-            "退出委托的加载中.png"
-        ],
-        "action": "DoNothing"
+      "recognition": "TemplateMatch",
+      "roi": [
+        1184,
+        632,
+        71,
+        61
+      ],
+      "template": [
+        "退出委托的加载中.png"
+      ]
     },
     "退出委托门": {
         "recognition": "TemplateMatch",
@@ -150,16 +142,23 @@
         "action": "Click"
     },
     "行动抉择": {
-        "recognition": "OCR",
-        "roi": [
-            588,
-            2,
-            105,
-            39
-        ],
-        "expected": [
-            "行动抉择"
-        ],
-        "action": "DoNothing"
+      "recognition": "OCR",
+      "roi": [
+        588,
+        2,
+        105,
+        39
+      ],
+      "expected": [
+        "行动抉择"
+      ],
+      "pre_delay": 1000,
+      "action": "Click",
+      "target": [
+        351,
+        511,
+        65,
+        20
+      ]
     }
 }
