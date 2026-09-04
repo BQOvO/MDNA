@@ -292,7 +292,7 @@
         {
           "name": "水母技能释放间隔",
           "description": "单位为秒，请合理配置",
-          "default": "20",
+          "default": "6",
           "pipeline_type": "int",
           "verify": "^(?:[1-9]|1[0-9]|20)$"
         }
@@ -322,7 +322,7 @@
         }
       ],
       "pipeline_override": {
-        "轮次": {
+        "夜航65-检测轮次": {
           "custom_action_param": {
             "target": "{轮次}"
           }
