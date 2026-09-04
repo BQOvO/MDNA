@@ -9,7 +9,6 @@
         "夜航55加成书选择",
         "夜航55刷取次数",
         "夜航55主控",
-        "夜航55技能释放间隔",
         "夜航55超时时间"
       ]
     }
@@ -155,6 +154,11 @@
           "custom_action_param": {
             "duration": "{超时时间}"
           }
+        },
+        "夜航55-重新计时": {
+          "custom_action_param": {
+            "duration": "{超时时间}"
+          }
         }
       }
     },
@@ -185,6 +189,9 @@
       "cases": [
         {
           "name": "黎瑟",
+          "option": [
+            "夜航55黎瑟技能释放间隔"
+          ],
           "pipeline_override": {
             "夜航55-角色主控": {
               "custom_action_param": "黎瑟"
@@ -193,6 +200,9 @@
         },
         {
           "name": "水母",
+          "option": [
+            "夜航55水母技能释放间隔"
+          ],
           "pipeline_override": {
             "夜航55-角色主控": {
               "custom_action_param": "水母"
@@ -201,21 +211,45 @@
         }
       ]
     },
-    "夜航55技能释放间隔": {
+    "夜航55黎瑟技能释放间隔": {
+      "label": "黎瑟技能释放间隔（Q技能）",
       "type": "input",
       "inputs": [
         {
-          "name": "角色技能释放间隔",
+          "name": "黎瑟技能释放间隔",
           "description": "单位为秒，请合理配置",
           "default": "20",
           "pipeline_type": "int",
-          "verify": "^\\d+$"
+          "verify": "^(?:[1-9]|1[0-9]|20)$"
         }
       ],
       "pipeline_override": {
         "夜航55-检测是否完成委托": {
           "custom_action_param": {
-            "count": "{角色技能释放间隔}",
+            "count": "{黎瑟技能释放间隔}",
+            "nodes": [
+              "委托完成"
+            ]
+          }
+        }
+      }
+    },
+    "夜航55水母技能释放间隔": {
+      "label": "水母技能释放间隔（E技能）",
+      "type": "input",
+      "inputs": [
+        {
+          "name": "水母技能释放间隔",
+          "description": "单位为秒，请合理配置",
+          "default": "20",
+          "pipeline_type": "int",
+          "verify": "^(?:[1-9]|1[0-9]|20)$"
+        }
+      ],
+      "pipeline_override": {
+        "夜航55-检测是否完成委托": {
+          "custom_action_param": {
+            "count": "{水母技能释放间隔}",
             "nodes": [
               "委托完成"
             ]
