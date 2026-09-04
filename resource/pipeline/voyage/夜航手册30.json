@@ -416,7 +416,6 @@
     "template": [
       "夜航手册map/扼守-2.png"
     ],
-    "action": "Click",
     "focus": {
       "Node.Recognition.Succeeded": "识别到地图2：扼守-2"
     },
