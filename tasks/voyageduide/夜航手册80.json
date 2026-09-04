@@ -26,6 +26,11 @@
             "夜航80-选择副本": {
               "custom_action_param": "夜航-80-1"
             },
+            "夜航80-寻路": {
+              "custom_action_param": {
+                "file": "夜航手册80/夜航手册80·避险.json"
+              }
+            },
             "夜航80-检测是否成功进入副本": {
               "expected": [
                 "避险"
@@ -38,6 +43,11 @@
           "pipeline_override": {
             "夜航80-选择副本": {
               "custom_action_param": "夜航-80-2"
+            },
+            "夜航80-寻路": {
+              "custom_action_param": {
+                "file": "夜航手册80/夜航手册80·避险.json"
+              }
             },
             "夜航80-检测是否成功进入副本": {
               "expected": [
@@ -52,12 +62,28 @@
             "夜航80-选择副本": {
               "custom_action_param": "夜航-80-3"
             },
+            "夜航80-寻路": {
+              "custom_action_param": {
+                "file": "夜航手册80/夜航手册80·扼守.json"
+              }
+            },
             "夜航80-检测是否成功进入副本": {
               "expected": [
                 "扼守"
               ]
+            },
+            "夜航80-进入副本": {
+              "custom_action_param": "夜航手册进入副本流程（无尽）"
+            },
+            "夜航80-角色主控": {
+              "next": [
+                "夜航80-检测轮次"
+              ]
             }
-          }
+          },
+          "option": [
+            "夜航80轮次选择"
+          ]
         },
         {
           "name": "第四个",
@@ -65,12 +91,28 @@
             "夜航80-选择副本": {
               "custom_action_param": "夜航-80-4"
             },
+            "夜航80-寻路": {
+              "custom_action_param": {
+                "file": "夜航手册80/夜航手册80·扼守.json"
+              }
+            },
             "夜航80-检测是否成功进入副本": {
               "expected": [
                 "扼守"
               ]
+            },
+            "夜航80-进入副本": {
+              "custom_action_param": "夜航手册进入副本流程（无尽）"
+            },
+            "夜航80-角色主控": {
+              "next": [
+                "夜航80-检测轮次"
+              ]
             }
-          }
+          },
+          "option": [
+            "夜航80轮次选择"
+          ]
         }
       ]
     },
@@ -155,6 +197,11 @@
       ],
       "pipeline_override": {
         "夜航80-超时计时开始": {
+          "custom_action_param": {
+            "duration": "{超时时间}"
+          }
+        },
+        "夜航80-重新计时": {
           "custom_action_param": {
             "duration": "{超时时间}"
           }
@@ -252,6 +299,27 @@
             "nodes": [
               "委托完成"
             ]
+          }
+        }
+      }
+    },
+    "夜航80轮次选择": {
+      "label": "轮次选择",
+      "type": "input",
+      "description": "设置自动轮次功能的目标轮数",
+      "inputs": [
+        {
+          "name": "轮次",
+          "description": "输入目标轮次",
+          "default": "1",
+          "pipeline_type": "int",
+          "verify": "^(?:[1-9]|[1-9]\\d)$"
+        }
+      ],
+      "pipeline_override": {
+        "夜航80-检测轮次": {
+          "custom_action_param": {
+            "target": "{轮次}"
           }
         }
       }
