@@ -1,13 +1,9 @@
 {
   "夜航30-再接再厉": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "outnoder",
-        "custom_action_param": "再接再厉"
-      }
-    },
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "再接再厉",
     "post_delay": 0,
     "next": [
       "夜航30-失败计数"
@@ -15,13 +11,9 @@
   },
   "夜航30-下一把": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "outnoder",
-        "custom_action_param": "委托下一把流程"
-      }
-    },
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "委托下一把流程",
     "anchor": {
       "夜航30-回到加载": "夜航30-加载中间过渡节点"
     },
@@ -31,20 +23,16 @@
     ]
   },
   "夜航30-加载中": {
-    "recognition": {
-      "type": "TemplateMatch",
-      "param": {
-        "roi": [
-          1184,
-          632,
-          71,
-          61
-        ],
-        "template": [
-          "加载过程中百分号.png"
-        ]
-      }
-    }
+    "recognition": "TemplateMatch",
+    "roi": [
+      1184,
+      632,
+      71,
+      61
+    ],
+    "template": [
+      "加载过程中百分号.png"
+    ]
   },
   "夜航30-加载中间过渡节点": {
     "post_delay": 1000,
@@ -63,13 +51,9 @@
   },
   "夜航30-回到主界面": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "outnoder",
-        "custom_action_param": "回到主界面"
-      }
-    },
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "回到主界面",
     "post_delay": 0,
     "focus": {
       "Node.Recognition.Starting": "正在返回主界面..."
@@ -83,14 +67,10 @@
   },
   "夜航30-失败计数": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "Count",
-        "custom_action_param": {
-          "id": "failed"
-        }
-      }
+    "action": "Custom",
+    "custom_action": "Count",
+    "custom_action_param": {
+      "id": "failed"
     },
     "anchor": {
       "夜航30-回到计数": "夜航30-总计数"
@@ -102,49 +82,21 @@
   },
   "夜航30-寻找30": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "outnoder",
-        "custom_action_param": "夜航-等级条上滑动"
-      }
-    },
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "夜航-等级条上滑动",
     "post_delay": 1000,
     "next": [
       "夜航30-点击30"
     ]
   },
-  "夜航30-寻路": {
-    "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "MacroPlayer",
-        "custom_action_param": {
-          "file": "夜航手册30/夜航手册30.json"
-        }
-      }
-    },
-    "post_delay": 0,
-    "focus": {
-      "Node.Action.Succeeded": "到达挂机点，开刷！",
-      "Node.Recognition.Starting": "(ง •̀_•́)ง 自动寻路中，马上就到！"
-    },
-    "next": [
-      "夜航30-角色主控"
-    ]
-  },
   "夜航30-总计数": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "Count",
-        "custom_action_param": {
-          "id": "all",
-          "target": 10
-        }
-      }
+    "action": "Custom",
+    "custom_action": "Count",
+    "custom_action_param": {
+      "id": "all",
+      "target": 10
     },
     "post_delay": 0,
     "next": [
@@ -156,14 +108,10 @@
   },
   "夜航30-成功计数": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "Count",
-        "custom_action_param": {
-          "id": "success"
-        }
-      }
+    "action": "Custom",
+    "custom_action": "Count",
+    "custom_action_param": {
+      "id": "success"
     },
     "post_delay": 0,
     "on_error": [
@@ -172,13 +120,9 @@
   },
   "夜航30-放弃挑战": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "outnoder",
-        "custom_action_param": "放弃挑战"
-      }
-    },
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "放弃挑战",
     "post_delay": 0,
     "focus": {
       "Node.Recognition.Starting": "正在退出当前副本..."
@@ -189,12 +133,8 @@
   },
   "夜航30-检查超时": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "CheckTimeout"
-      }
-    },
+    "action": "Custom",
+    "custom_action": "CheckTimeout",
     "post_delay": 0,
     "next": [
       "夜航30-角色主控"
@@ -205,17 +145,13 @@
   },
   "夜航30-检测是否完成委托": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "Looper",
-        "custom_action_param": {
-          "count": 3,
-          "nodes": [
-            "委托完成"
-          ]
-        }
-      }
+    "action": "Custom",
+    "custom_action": "Looper",
+    "custom_action_param": {
+      "count": 3,
+      "nodes": [
+        "委托完成"
+      ]
     },
     "post_delay": 0,
     "next": [
@@ -226,56 +162,42 @@
     ]
   },
   "夜航30-检测是否成功进入副本": {
-    "recognition": {
-      "type": "OCR",
-      "param": {
-        "roi": [
-          24,
-          221,
-          53,
-          33
-        ],
-        "expected": [
-          "扼守"
-        ]
-      }
-    },
+    "recognition": "OCR",
+    "roi": [
+      24,
+      221,
+      53,
+      33
+    ],
+    "expected": [
+      "扼守"
+    ],
     "next": [
       "夜航30-超时计时开始"
     ]
   },
   "夜航30-点击30": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "outnoder",
-        "custom_action_param": "夜航-30"
-      }
-    },
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "夜航-30",
     "post_delay": 1000,
     "next": [
       "夜航30-选择副本"
     ]
   },
   "夜航30-确定退出": {
-    "recognition": {
-      "type": "OCR",
-      "param": {
-        "roi": [
-          737,
-          382,
-          87,
-          57
-        ],
-        "expected": [
-          "确定"
-        ]
-      }
-    },
-    "action": {
-      "type": "Click"
-    },
+    "recognition": "OCR",
+    "roi": [
+      737,
+      382,
+      87,
+      57
+    ],
+    "expected": [
+      "确定"
+    ],
+    "action": "Click",
     "next": [
       "夜航30-等待退出节点"
     ]
@@ -290,12 +212,8 @@
   },
   "夜航30-结束计时": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "TimeoutReset"
-      }
-    },
+    "action": "Custom",
+    "custom_action": "TimeoutReset",
     "post_delay": 0,
     "next": [
       "夜航30-成功计数"
@@ -303,13 +221,9 @@
   },
   "夜航30-角色主控": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "outnoder",
-        "custom_action_param": "黎瑟"
-      }
-    },
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "黎瑟",
     "post_delay": 0,
     "next": [
       "夜航30-检测轮次"
@@ -317,13 +231,9 @@
   },
   "夜航30-超时处理": {
     "pre_delay": 500,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "outnoder",
-        "custom_action_param": "退出委托门"
-      }
-    },
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "退出委托门",
     "post_delay": 0,
     "focus": {
       "Node.Recognition.Succeeded": "(╥﹏╥) 居然超时了..."
@@ -334,33 +244,26 @@
   },
   "夜航30-超时计时开始": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "TimeoutStart",
-        "custom_action_param": {
-          "duration": 30
-        }
-      }
+    "action": "Custom",
+    "custom_action": "TimeoutStart",
+    "custom_action_param": {
+      "duration": 30
     },
     "post_delay": 1000,
     "focus": {
       "Node.Recognition.Starting": "⏱ 超时倒计时开始"
     },
     "next": [
-      "夜航30-寻路"
+      "夜航30-地图识别1",
+      "夜航30-地图识别2"
     ]
   },
   "夜航30-输出信息节点1": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "CountPrint",
-        "custom_action_param": {
-          "msg": "夜航手册30已全部完成 失败{failed}次 成功{success}次"
-        }
-      }
+    "action": "Custom",
+    "custom_action": "CountPrint",
+    "custom_action_param": {
+      "msg": "夜航手册30已全部完成 失败{failed}次 成功{success}次"
     },
     "post_delay": 0,
     "next": [
@@ -369,14 +272,10 @@
   },
   "夜航30-输出信息节点2": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "CountPrint",
-        "custom_action_param": {
-          "msg": "夜航手册30已完成{all}/{all_target}次 失败{failed}次 成功{success}次"
-        }
-      }
+    "action": "Custom",
+    "custom_action": "CountPrint",
+    "custom_action_param": {
+      "msg": "夜航手册30已完成{all}/{all_target}次 失败{failed}次 成功{success}次"
     },
     "post_delay": 0,
     "next": [
@@ -385,13 +284,9 @@
   },
   "夜航30-进入夜航手册": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "outnoder",
-        "custom_action_param": "进入历练夜航界面流程"
-      }
-    },
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "进入历练夜航界面流程",
     "post_delay": 1000,
     "focus": {
       "Node.Recognition.Succeeded": "进入夜航手册界面~"
@@ -402,24 +297,16 @@
   },
   "夜航30-退出委托流程": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "outnoder",
-        "custom_action_param": "退出委托"
-      }
-    },
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "退出委托",
     "post_delay": 0
   },
   "夜航30-进入副本": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "outnoder",
-        "custom_action_param": "夜航手册进入副本流程（无尽）"
-      }
-    },
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "夜航手册进入副本流程（无尽）",
     "post_delay": 0,
     "next": [
       "夜航30-加载中间过渡节点"
@@ -427,28 +314,17 @@
   },
   "夜航30-选择副本": {
     "pre_delay": 0,
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "outnoder",
-        "custom_action_param": "夜航-30-1"
-      }
-    },
+    "action": "Custom",
+    "custom_action": "outnoder",
+    "custom_action_param": "夜航-30-1",
     "post_delay": 0,
     "next": [
       "夜航30-进入副本"
     ]
   },
   "夜航30-检测轮次": {
-    "recognition": {
-      "type": "DirectHit"
-    },
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "RoundTracker"
-      }
-    },
+    "action": "Custom",
+    "custom_action": "RoundTracker",
     "focus": {
       "Node.Action.Starting": "正在检测轮次变化..."
     },
@@ -460,37 +336,92 @@
     ]
   },
   "夜航30-重置超时": {
-    "recognition": {
-      "type": "DirectHit"
-    },
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "TimeoutReset"
-      }
-    },
+    "action": "Custom",
+    "custom_action": "TimeoutReset",
     "next": [
       "夜航30-重新计时"
     ]
   },
   "夜航30-重新计时": {
-    "recognition": {
-      "type": "DirectHit"
-    },
-    "action": {
-      "type": "Custom",
-      "param": {
-        "custom_action": "TimeoutStart",
-        "custom_action_param": {
-          "duration": 30
-        }
-      }
+    "action": "Custom",
+    "custom_action": "TimeoutStart",
+    "custom_action_param": {
+      "duration": 30
     },
     "focus": {
       "Node.Recognition.Succeeded": "进入下一轮次，超时计时重置"
     },
     "next": [
       "夜航30-检测是否完成委托"
+    ]
+  },
+  "夜航30-寻路1": {
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "MacroPlayer",
+    "custom_action_param": {
+      "file": "夜航手册30/夜航手册30-1.json"
+    },
+    "post_delay": 0,
+    "focus": {
+      "Node.Action.Succeeded": "到达挂机点，开刷！",
+      "Node.Recognition.Starting": "(ง •̀_•́)ง 自动寻路中，马上就到！"
+    },
+    "next": [
+      "夜航30-角色主控"
+    ]
+  },
+  "夜航30-寻路2": {
+    "pre_delay": 0,
+    "action": "Custom",
+    "custom_action": "MacroPlayer",
+    "custom_action_param": {
+      "file": "夜航手册30/夜航手册30-2.json"
+    },
+    "post_delay": 0,
+    "focus": {
+      "Node.Action.Succeeded": "到达挂机点，开刷！",
+      "Node.Recognition.Starting": "(ง •̀_•́)ง 自动寻路中，马上就到！"
+    },
+    "next": [
+      "夜航30-角色主控"
+    ]
+  },
+  "夜航30-地图识别1": {
+    "recognition": "TemplateMatch",
+    "roi": [
+      461,
+      242,
+      359,
+      251
+    ],
+    "template": [
+      "夜航手册map/扼守-1.png"
+    ],
+    "focus": {
+      "Node.Recognition.Succeeded": "识别到地图1：扼守-1"
+    },
+    "next": [
+      "夜航30-寻路1"
+    ]
+  },
+  "夜航30-地图识别2": {
+    "recognition": "TemplateMatch",
+    "roi": [
+      461,
+      242,
+      359,
+      251
+    ],
+    "template": [
+      "夜航手册map/扼守-2.png"
+    ],
+    "action": "Click",
+    "focus": {
+      "Node.Recognition.Succeeded": "识别到地图2：扼守-2"
+    },
+    "next": [
+      "夜航30-寻路2"
     ]
   }
 }
