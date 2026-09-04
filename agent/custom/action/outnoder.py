@@ -21,17 +21,26 @@ class Outnoder(CustomAction):
             print("[Outnoder] 缺少 node 名称")
             return CustomAction.RunResult(success=False)
 
+        if not context.tasker.resource.get_node_data(target_node):
+            print(f"[Outnoder] 节点 '{target_node}' 不存在于已加载的 pipeline 中")
+            return CustomAction.RunResult(success=False)
+
         print(f"[Outnoder] 执行外部节点: '{target_node}'")
 
         try:
             task_detail = context.run_task(target_node)
             if task_detail is not None and task_detail.status is not None:
                 success = task_detail.status.succeeded
+                if not success:
+                    print(f"[Outnoder] 节点 '{target_node}' 执行失败 (status.succeeded=False)")
+            elif task_detail is None:
+                success = False
+                print(f"[Outnoder] run_task('{target_node}') 返回 None（可能原因：嵌套调用冲突 / 框架内部错误）")
             else:
                 success = False
-                print(f"[Outnoder] run_task 返回 None, 节点: '{target_node}'")
+                print(f"[Outnoder] run_task('{target_node}') 返回了空 status")
         except Exception as e:
-            print(f"[Outnoder] run_task 失败, 节点: '{target_node}': {e}")
+            print(f"[Outnoder] run_task('{target_node}') 抛出异常: {e}")
             traceback.print_exc()
             success = False
 

@@ -8,14 +8,7 @@ from maa.custom_action import CustomAction
 
 
 def resolve_macro_path(file_path: str) -> str:
-    """
-    解析宏文件路径。
-    如果是纯文件名（如 "夜航手册60.json"），则自动添加 "resource/macros/" 前缀。
-    如果是已有路径（包含分隔符），则保持原样。
-    """
     if os.path.isabs(file_path):
-        return file_path
-    if os.sep in file_path or '/' in file_path:
         return file_path
     _project_root = os.getcwd()
     return os.path.join(_project_root, "resource", "macros", file_path)

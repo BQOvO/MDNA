@@ -17,9 +17,10 @@ from agent.custom.sink.count_cleanup import CountAutoCleanup
 from agent.custom.sink.screenshot_on_fail import NodeScreenshotSink
 from agent.custom.sink.focus_prefix import FocusPrefix
 from agent.custom.sink.option_validation import OptionValidationSink
-from agent.custom.sink.game_health import GameHealthSink
+#from agent.custom.sink.game_health_override import GameHealthOverride   （暂时不用先）
 
 from agent.custom.recongition.CheckResolution import CheckResolution
+from agent.custom.recongition.GameProcessCheck import GameProcessCheck
 
 
 def _register(name, base_cls, decorator):
@@ -47,3 +48,4 @@ _register("CheckTimeout", CheckTimeout, AgentServer.custom_action)
 _register("RoundTracker", RoundTracker, AgentServer.custom_action)
 _register("TextWatcher", TextWatcher, AgentServer.custom_action)
 _register("CheckResolution", CheckResolution, AgentServer.custom_recognition)
+_register("GameProcessCheck", GameProcessCheck, AgentServer.custom_recognition)

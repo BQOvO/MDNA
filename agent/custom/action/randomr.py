@@ -32,7 +32,12 @@ class randomr(CustomAction):
         print(f"[randomr] 从 {next_list} 中选中节点: {selected}")
 
         # 执行选中的节点（同步）
-        context.run_task(selected)
+        task_detail = context.run_task(selected)
+        if task_detail is not None and task_detail.status is not None:
+            if not task_detail.status.succeeded:
+                print(f"[randomr] 节点 '{selected}' 执行失败")
+        else:
+            print(f"[randomr] run_task('{selected}') 返回异常")
 
         # 覆盖当前节点的 next 为空，防止 MAA 执行静态 next 列表
         context.override_next(node_name, [])
