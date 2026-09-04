@@ -25,19 +25,6 @@
         ],
         "action": "Click"
     },
-    "加载中": {
-        "recognition": "TemplateMatch",
-        "roi": [
-            1184,
-            632,
-            71,
-            61
-        ],
-        "template": [
-            "加载过程中百分号.png"
-        ],
-        "action": "DoNothing"
-    },
     "委托完成": {
         "recognition": "OCR",
         "roi": [

@@ -1,5 +1,5 @@
 {
-    "设置检查系统-启动节点": {
+    "设置检查系统-启动": {
         "recognition": "DirectHit",
         "action": "DoNothing",
         "post_delay": 1500,

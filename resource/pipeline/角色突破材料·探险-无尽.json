@@ -1,25 +1,44 @@
 {
-    "武器经验·驱逐-下一把": {
+    "角色突破·探险-亮走廊图": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    ""
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "角色突破·探险-亮走廊图-寻路"
+        ]
+    },
+    "角色突破·探险-亮走廊图-寻路": {
         "recognition": {
             "type": "DirectHit"
         },
         "action": {
             "type": "Custom",
             "param": {
-                "custom_action_param": "委托下一把流程",
-                "custom_action": "outnoder"
+                "custom_action_param": {
+                    "file": "角色突破·探险.json"
+                },
+                "custom_action": "MacroPlayer"
             }
         },
         "pre_delay": 0,
-        "anchor": {
-            "武器经验·驱逐-回到加载": "武器经验·驱逐-加载中间过渡节点"
+        "focus": {
+            "Node.Action.Succeeded": "到达挂机点，开刷！",
+            "Node.Recognition.Starting": "(ง •̀_•́)ง 自动寻路中，马上就到！"
         },
         "post_delay": 0,
         "next": [
-            "[Anchor]武器经验·驱逐-回到加载"
+            "角色突破·探险-角色主控"
         ]
     },
-    "武器经验·驱逐-再接再厉": {
+    "角色突破·探险-再接再厉": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -33,10 +52,30 @@
         "pre_delay": 0,
         "post_delay": 0,
         "next": [
-            "武器经验·驱逐-失败计数"
+            "角色突破·探险-失败计数"
         ]
     },
-    "武器经验·驱逐-加成书选择": {
+    "角色突破·探险-再次进行": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action_param": "再次进行",
+                "custom_action": "outnoder"
+            }
+        },
+        "pre_delay": 0,
+        "anchor": {
+            "角色突破·探险-回到选择加成书": "角色突破·探险-加成书选择"
+        },
+        "post_delay": 0,
+        "next": [
+            "[Anchor]角色突破·探险-回到选择加成书"
+        ]
+    },
+    "角色突破·探险-加成书选择": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -50,26 +89,10 @@
         "pre_delay": 0,
         "post_delay": 0,
         "next": [
-            "武器经验·驱逐-选书-开始挑战"
+            "角色突破·探险-选书-开始挑战"
         ]
     },
-    "武器经验·驱逐-加载中间过渡节点": {
-        "recognition": {
-            "type": "DirectHit"
-        },
-        "action": {
-            "type": "DoNothing"
-        },
-        "focus": {
-            "Node.Recognition.Succeeded": "(´-ω-`) 正在加载副本，稍等一下~"
-        },
-        "post_delay": 1000,
-        "next": [
-            "[JumpBack]历练-副本加载中",
-            "武器经验·驱逐-检测是否成功进入驱逐"
-        ]
-    },
-    "武器经验·驱逐-启动": {
+    "角色突破·探险-启动": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -77,10 +100,10 @@
             "type": "DoNothing"
         },
         "next": [
-            "武器经验·驱逐-回到主界面"
+            "角色突破·探险-回到主界面"
         ]
     },
-    "武器经验·驱逐-回到主界面": {
+    "角色突破·探险-回到主界面": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -97,10 +120,10 @@
         },
         "post_delay": 0,
         "next": [
-            "武器经验·驱逐-进入历练界面"
+            "角色突破·探险-进入历练界面"
         ]
     },
-    "武器经验·驱逐-失败计数": {
+    "角色突破·探险-失败计数": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -115,14 +138,14 @@
         },
         "pre_delay": 0,
         "anchor": {
-            "武器经验·驱逐-回到计数": "武器经验·驱逐-总计数"
+            "角色突破·探险-回到计数": "角色突破·探险-总计数"
         },
         "post_delay": 0,
         "on_error": [
-            "[Anchor]武器经验·驱逐-回到计数"
+            "[Anchor]角色突破·探险-回到计数"
         ]
     },
-    "武器经验·驱逐-委托界面": {
+    "角色突破·探险-委托界面": {
         "recognition": {
             "type": "OCR",
             "param": {
@@ -141,33 +164,10 @@
             "type": "DoNothing"
         },
         "next": [
-            "武器经验·驱逐-进入驱逐委托"
+            "角色突破·探险-进入探险委托"
         ]
     },
-    "武器经验·驱逐-寻路": {
-        "recognition": {
-            "type": "DirectHit"
-        },
-        "action": {
-            "type": "Custom",
-            "param": {
-                "custom_action_param": {
-                    "file": "武器经验·驱逐.json"
-                },
-                "custom_action": "MacroPlayer"
-            }
-        },
-        "pre_delay": 0,
-        "focus": {
-            "Node.Action.Succeeded": "到达挂机点，开刷！",
-            "Node.Recognition.Starting": "(ง •̀_•́)ง 自动寻路中，马上就到！"
-        },
-        "post_delay": 0,
-        "next": [
-            "武器经验·驱逐-角色主控"
-        ]
-    },
-    "武器经验·驱逐-开始挑战": {
+    "角色突破·探险-开始挑战": {
         "recognition": {
             "type": "OCR",
             "param": {
@@ -180,10 +180,10 @@
             "type": "Click"
         },
         "next": [
-            "武器经验·驱逐-加成书选择"
+            "角色突破·探险-加成书选择"
         ]
     },
-    "武器经验·驱逐-总计数": {
+    "角色突破·探险-总计数": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -200,13 +200,13 @@
         "pre_delay": 0,
         "post_delay": 0,
         "next": [
-            "武器经验·驱逐-输出信息节点1"
+            "角色突破·探险-输出信息节点1"
         ],
         "on_error": [
-            "武器经验·驱逐-输出信息节点2"
+            "角色突破·探险-输出信息节点2"
         ]
     },
-    "武器经验·驱逐-成功计数": {
+    "角色突破·探险-成功计数": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -222,10 +222,10 @@
         "pre_delay": 0,
         "post_delay": 0,
         "on_error": [
-            "武器经验·驱逐-总计数"
+            "角色突破·探险-总计数"
         ]
     },
-    "武器经验·驱逐-放弃挑战": {
+    "角色突破·探险-放弃挑战": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -239,10 +239,49 @@
         "pre_delay": 0,
         "post_delay": 0,
         "next": [
-            "武器经验·驱逐-确定退出"
+            "角色突破·探险-确定退出"
         ]
     },
-    "武器经验·驱逐-检查超时": {
+    "角色突破·探险-暗高台图": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "template": [
+                    ""
+                ]
+            }
+        },
+        "action": {
+            "type": "DoNothing"
+        },
+        "next": [
+            "角色突破·探险-暗高台图-寻路"
+        ]
+    },
+    "角色突破·探险-暗高台图-寻路": {
+        "recognition": {
+            "type": "DirectHit"
+        },
+        "action": {
+            "type": "Custom",
+            "param": {
+                "custom_action_param": {
+                    "file": "角色突破·探险.json"
+                },
+                "custom_action": "MacroPlayer"
+            }
+        },
+        "pre_delay": 0,
+        "focus": {
+            "Node.Action.Succeeded": "到达挂机点，开刷！",
+            "Node.Recognition.Starting": "(ง •̀_•́)ง 自动寻路中，马上就到！"
+        },
+        "post_delay": 0,
+        "next": [
+            "角色突破·探险-角色主控"
+        ]
+    },
+    "角色突破·探险-检查超时": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -255,13 +294,13 @@
         "pre_delay": 0,
         "post_delay": 0,
         "next": [
-            "武器经验·驱逐-角色主控"
+            "角色突破·探险-角色主控"
         ],
         "on_error": [
-            "武器经验·驱逐-超时处理"
+            "角色突破·探险-超时处理"
         ]
     },
-    "武器经验·驱逐-检测是否完成委托": {
+    "角色突破·探险-检测是否完成委托": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -280,13 +319,13 @@
         "pre_delay": 0,
         "post_delay": 0,
         "next": [
-            "武器经验·驱逐-结束计时"
+            "角色突破·探险-结束计时"
         ],
         "on_error": [
-            "武器经验·驱逐-检查超时"
+            "角色突破·探险-检查超时"
         ]
     },
-    "武器经验·驱逐-检测是否成功进入驱逐": {
+    "角色突破·探险-检测是否成功进入探险": {
         "recognition": {
             "type": "OCR",
             "param": {
@@ -297,7 +336,7 @@
                     32
                 ],
                 "expected": [
-                    "驱逐敌人"
+                    "制作血清"
                 ]
             }
         },
@@ -305,13 +344,13 @@
             "type": "DoNothing"
         },
         "focus": {
-            "Node.Recognition.Succeeded": "成功进入驱逐副本"
+            "Node.Recognition.Succeeded": "进入副本成功！"
         },
         "next": [
-            "武器经验·驱逐-超时计时开始"
+            "角色突破·探险-超时计时开始"
         ]
     },
-    "武器经验·驱逐-点击历练": {
+    "角色突破·探险-点击历练": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -331,10 +370,10 @@
         },
         "post_delay": 2000,
         "next": [
-            "武器经验·驱逐-点击历练委托"
+            "角色突破·探险-点击历练委托"
         ]
     },
-    "武器经验·驱逐-点击历练委托": {
+    "角色突破·探险-点击历练委托": {
         "recognition": {
             "type": "TemplateMatch",
             "param": {
@@ -356,10 +395,10 @@
         "post_delay": 1500,
         "next": [
             "[JumpBack]历练-深境委托界面",
-            "武器经验·驱逐-委托界面"
+            "角色突破·探险-委托界面"
         ]
     },
-    "武器经验·驱逐-确定退出": {
+    "角色突破·探险-确定退出": {
         "recognition": {
             "type": "OCR",
             "param": {
@@ -378,10 +417,10 @@
             "type": "Click"
         },
         "next": [
-            "武器经验·驱逐-等待退出节点"
+            "角色突破·探险-等待退出节点"
         ]
     },
-    "武器经验·驱逐-等待退出节点": {
+    "角色突破·探险-等待退出节点": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -391,28 +430,28 @@
         "timeout": 100,
         "post_delay": 1000,
         "next": [
-            "武器经验·驱逐-再接再厉",
+            "角色突破·探险-再接再厉",
             "[JumpBack]历练-失败后等待"
         ]
     },
-    "武器经验·驱逐-等级选择": {
+    "角色突破·探险-等级选择": {
         "recognition": {
             "type": "DirectHit"
         },
         "action": {
             "type": "Custom",
             "param": {
-                "custom_action_param": "等级选择50",
+                "custom_action_param": "等级选择40",
                 "custom_action": "outnoder"
             }
         },
         "pre_delay": 0,
         "post_delay": 0,
         "next": [
-            "武器经验·驱逐-开始挑战"
+            "角色突破·探险-开始挑战"
         ]
     },
-    "武器经验·驱逐-结束计时": {
+    "角色突破·探险-结束计时": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -425,10 +464,10 @@
         "pre_delay": 0,
         "post_delay": 0,
         "next": [
-            "武器经验·驱逐-成功计数"
+            "角色突破·探险-成功计数"
         ]
     },
-    "武器经验·驱逐-角色主控": {
+    "角色突破·探险-角色主控": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -442,10 +481,10 @@
         "pre_delay": 0,
         "post_delay": 0,
         "next": [
-            "武器经验·驱逐-检测是否完成委托"
+            "角色突破·探险-检测是否完成委托"
         ]
     },
-    "武器经验·驱逐-超时处理": {
+    "角色突破·探险-超时处理": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -463,10 +502,10 @@
         },
         "post_delay": 0,
         "next": [
-            "武器经验·驱逐-放弃挑战"
+            "角色突破·探险-放弃挑战"
         ]
     },
-    "武器经验·驱逐-超时计时开始": {
+    "角色突破·探险-超时计时开始": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -474,7 +513,7 @@
             "type": "Custom",
             "param": {
                 "custom_action_param": {
-                    "duration": 100
+                    "duration": 60
                 },
                 "custom_action": "TimeoutStart"
             }
@@ -485,10 +524,11 @@
         },
         "post_delay": 1000,
         "next": [
-            "武器经验·驱逐-寻路"
+            "角色突破·探险-亮走廊图",
+            "角色突破·探险-暗高台图"
         ]
     },
-    "武器经验·驱逐-输出信息节点1": {
+    "角色突破·探险-输出信息节点1": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -496,7 +536,7 @@
             "type": "Custom",
             "param": {
                 "custom_action_param": {
-                    "msg": "武器经验·驱逐已全部完成 失败{failed}次 成功{success}次"
+                    "msg": "角色突破·探险已全部完成 失败{failed}次 成功{success}次"
                 },
                 "custom_action": "CountPrint"
             }
@@ -504,10 +544,10 @@
         "pre_delay": 0,
         "post_delay": 0,
         "next": [
-            "武器经验·驱逐-退出委托流程"
+            "角色突破·探险-退出委托流程"
         ]
     },
-    "武器经验·驱逐-输出信息节点2": {
+    "角色突破·探险-输出信息节点2": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -515,7 +555,7 @@
             "type": "Custom",
             "param": {
                 "custom_action_param": {
-                    "msg": "武器经验·驱逐已完成{all}/{all_target}次 失败{failed}次 成功{success}次"
+                    "msg": "角色突破·探险已完成{all}/{all_target}次 失败{failed}次 成功{success}次"
                 },
                 "custom_action": "CountPrint"
             }
@@ -523,10 +563,10 @@
         "pre_delay": 0,
         "post_delay": 0,
         "next": [
-            "武器经验·驱逐-下一把"
+            "角色突破·探险-再次进行"
         ]
     },
-    "武器经验·驱逐-进入历练界面": {
+    "角色突破·探险-进入历练界面": {
         "recognition": {
             "type": "TemplateMatch",
             "param": {
@@ -552,15 +592,15 @@
         },
         "post_delay": 1500,
         "next": [
-            "武器经验·驱逐-点击历练"
+            "角色突破·探险-点击历练"
         ]
     },
-    "武器经验·驱逐-进入驱逐委托": {
+    "角色突破·探险-进入探险委托": {
         "recognition": {
             "type": "OCR",
             "param": {
                 "expected": [
-                    "驱逐"
+                    "探险"
                 ]
             }
         },
@@ -568,14 +608,14 @@
             "type": "Click"
         },
         "focus": {
-            "Node.Action.Succeeded": "成功进入驱逐副本"
+            "Node.Action.Succeeded": "进入副本成功！"
         },
         "post_delay": 1500,
         "next": [
-            "武器经验·驱逐-等级选择"
+            "角色突破·探险-等级选择"
         ]
     },
-    "武器经验·驱逐-退出委托流程": {
+    "角色突破·探险-退出委托流程": {
         "recognition": {
             "type": "DirectHit"
         },
@@ -589,7 +629,7 @@
         "pre_delay": 0,
         "post_delay": 0
     },
-    "武器经验·驱逐-选书-开始挑战": {
+    "角色突破·探险-选书-开始挑战": {
         "recognition": {
             "type": "OCR",
             "param": {
@@ -611,7 +651,8 @@
             "Node.Action.Succeeded": "正在加载，稍等一下~"
         },
         "next": [
-            "武器经验·驱逐-加载中间过渡节点"
+            "[JumpBack]历练-副本加载中",
+            "角色突破·探险-检测是否成功进入探险"
         ]
     }
 }

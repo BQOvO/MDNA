@@ -1,5 +1,8 @@
 {
   "角色经验·避险-下一把": {
+    "recognition": {
+      "type": "DirectHit"
+    },
     "pre_delay": 0,
     "action": {
       "type": "Custom",
@@ -44,33 +47,23 @@
       "角色经验·避险-选书-开始挑战"
     ]
   },
-  "角色经验·避险-加载中": {
-    "recognition": {
-      "type": "TemplateMatch",
-      "param": {
-        "roi": [
-          1198,
-          643,
-          49,
-          38
-        ],
-        "template": [
-          "加载过程中百分号.png"
-        ]
-      }
-    }
-  },
   "角色经验·避险-加载中间过渡节点": {
+    "recognition": {
+      "type": "DirectHit"
+    },
     "post_delay": 1000,
     "focus": {
       "Node.Recognition.Succeeded": "(´-ω-`) 正在加载副本，稍等一下~"
     },
     "next": [
-      "[JumpBack]角色经验·避险-加载中",
+      "[JumpBack]历练-副本加载中",
       "角色经验·避险-检测是否成功进入避险"
     ]
   },
-  "角色经验·避险-启动节点": {
+  "角色经验·避险-启动": {
+    "recognition": {
+      "type": "DirectHit"
+    },
     "next": [
       "角色经验·避险-回到主界面"
     ]
@@ -91,9 +84,6 @@
     "next": [
       "角色经验·避险-进入历练界面"
     ]
-  },
-  "角色经验·避险-失败后等待节点": {
-    "post_delay": 1000
   },
   "角色经验·避险-失败计数": {
     "pre_delay": 0,
@@ -279,26 +269,10 @@
       "角色经验·避险-超时计时开始"
     ]
   },
-  "角色经验·避险-深境委托界面": {
-    "recognition": {
-      "type": "OCR",
-      "param": {
-        "roi": [
-          951,
-          614,
-          319,
-          73
-        ],
-        "expected": [
-          "深境委托"
-        ]
-      }
-    },
-    "action": {
-      "type": "Click"
-    }
-  },
   "角色经验·避险-点击历练": {
+    "recognition": {
+      "type": "DirectHit"
+    },
     "action": {
       "type": "Click",
       "param": {
@@ -339,7 +313,7 @@
     },
     "post_delay": 1500,
     "next": [
-      "[JumpBack]角色经验·避险-深境委托界面",
+      "[JumpBack]历练-深境委托界面",
       "角色经验·避险-委托界面"
     ]
   },
@@ -366,11 +340,14 @@
     ]
   },
   "角色经验·避险-等待退出节点": {
+    "recognition": {
+      "type": "DirectHit"
+    },
     "post_delay": 1000,
     "timeout": 100,
     "next": [
       "角色经验·避险-再接再厉",
-      "[JumpBack]角色经验·避险-失败后等待节点"
+      "[JumpBack]历练-失败后等待"
     ]
   },
   "角色经验·避险-等级选择": {
