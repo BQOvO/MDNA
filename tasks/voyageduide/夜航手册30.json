@@ -267,7 +267,7 @@
         }
       ],
       "pipeline_override": {
-        "轮次": {
+        "夜航30-检测轮次": {
           "custom_action_param": {
             "target": "{轮次}"
           }
