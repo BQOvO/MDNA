@@ -9,7 +9,7 @@ from ..utils.Logger import Logger
 
 class RoundTracker(CustomAction):
     _last_values = {}
-    MAX_RETRIES = 20
+    MAX_RETRIES = 5
 
     def run(self, context: Context, argv: CustomAction.RunArg) -> CustomAction.RunResult:
         roi = [155, 222, 45, 33]
