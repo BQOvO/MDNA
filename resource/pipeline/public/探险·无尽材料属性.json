@@ -1,0 +1,44 @@
+{
+    "火": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "探险元素/火.png"
+        ],
+        "action": "Click"
+    },
+    "暗": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "探险元素/暗.png"
+        ],
+        "action": "Click"
+    },
+    "光": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "探险元素/光.png"
+        ],
+        "action": "Click"
+    },
+    "风": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "探险元素/风.png"
+        ],
+        "action": "Click"
+    },
+    "雷": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "探险元素/雷.png"
+        ],
+        "action": "Click"
+    },
+    "水": {
+        "recognition": "TemplateMatch",
+        "template": [
+            "探险元素/水.png"
+        ],
+        "action": "Click"
+    }
+}
