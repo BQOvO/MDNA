@@ -56,17 +56,6 @@ All issues and consequences arising from the use of this software are not relate
 \* **更多新的副本与功能正在加急开发**
 \* **若有其他功能需求请提交 [issue](https://github.com/BQOvO/MDNA/issues)**
 
-## 赞助
-
-<a href="https://ifdian.net/a/BQQvQ">
-  <img width="200" src="https://pic1.afdiancdn.com/static/img/welcome/button-sponsorme.png">
-</a>
-
-如果喜欢本项目，可以微信赞赏送作者一杯咖啡☕
-
-您的支持就是作者开发和维护项目的动力🚀
-
-<img width="400" src="resource/image/赞助/微信.jpg" alt="微信赞助码">
 
 ## 相关项目
 
