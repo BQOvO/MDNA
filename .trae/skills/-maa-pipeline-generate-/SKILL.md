@@ -1,9 +1,15 @@
 ---
-name: "pipeline-generate"
-description: "自动生成 Pipeline OCR 文本节点。直接调 ocr() 拿目标文字 box，扩大 ROI 后合并到目标 pipeline 文件。提供单节点生成 (generate_node.py) + ROI 扫描找最佳 expand (generate_sweep.py) 两个脚本。"
+name: "maa-pipeline-generate"
+description: "Generate MaaFramework Pipeline nodes and recognition snippets from screenshots or observed UI state. Use for OCR node generation, ROI sweep, choosing TemplateMatch/OCR/ColorMatch/CustomRecognition, preserving target-file schema style, and designing `next`/`[JumpBack]` links before merging generated nodes into pipeline JSON."
 ---
 
-# pipeline-generate
+# Maa Pipeline Generate
+
+如果用户提出的是尚未定义起始状态、安全边界和验收条件的端到端自动化目标，先交给 `$maa-workflow-build` 建立任务契约与状态机；已有契约时，再用本 skill 生成其中的具体节点与识别参数。
+
+## 项目初始化接力
+
+生成节点前先在目标项目根目录查找 `basic_info.md`。存在且包含第 0 节时，读取“0. Maa Skills 接力协议”和第 3/4/5/7/8/9 节，用它快速定位目标文件、公共节点、返回路径、OCR 文本、模板目录与 ROI 基准。它是缓存，不替代当前目标文件和当前设备画面；生成前仍须核实目标文件语法风格，并重新 OCR/截图确认页面。文件缺失或没有第 0 节时按本 skill 直接发现项目结构；不得自动调用 `$maa-project-init`，只有用户明确要求初始化或刷新时才调用。若相关源码更新更晚，则把缓存视为可能过期并以当前源码为准，不自动刷新或覆盖。
 
 ## 概念
 
@@ -11,12 +17,12 @@ Pipeline 由 Node 组成。本 skill 针对**OCR 文本识别节点**，按 Pipe
 
 **核心流程**：连接设备 → `ocr()` 拿 box → 扩大 ROI → 合并节点
 
-**自带脚本**（与本 SKILL.md 同目录）：
+**自带脚本**（位于本 skill 的 `scripts/` 目录）：
 
 | 脚本 | 用途 |
 |------|------|
-| `generate_node.py` | 单节点生成（默认 `expand=20`） |
-| `generate_sweep.py` | 多 expand 变体扫描，找最佳 ROI |
+| `scripts/generate_node.py` | 单节点生成（默认 `expand=20`） |
+| `scripts/generate_sweep.py` | 多 expand 变体扫描，找最佳 ROI |
 
 ## MCP 工具绑定
 
@@ -36,7 +42,7 @@ Pipeline 由 Node 组成。本 skill 针对**OCR 文本识别节点**，按 Pipe
 |------|------|------|------|
 | `target_text` | ✅ | — | 要识别的目标中文文字 |
 | `node_name` | ✅ | — | 节点名（PascalCase） |
-| `pipeline_file` | ✅ | — | 目标 pipeline 路径（相对 `assets/resource/base/pipeline/xxx.json` 或绝对路径） |
+| `pipeline_file` | ✅ | — | 目标 pipeline 路径（推荐传主 Interface 声明资源根下的项目相对或绝对路径；`assets/resource/base/pipeline/xxx.json` 是 boilerplate-family 项目示例） |
 | `action_type` | ❌ | `Click` | Click / DoNothing / LongPress / Swipe / ClickKey / InputText |
 | `expand_offset` | ❌ | `20` | ROI 扩边像素（**推荐先用 sweep 找最佳**） |
 | `post_delay` | ❌ | `500` | |
@@ -78,10 +84,10 @@ roi = [
 from maa_mcp.pipeline_tools import load_pipeline, save_pipeline
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parents[3]
-pipeline_path = Path(pipeline_file)
-if not pipeline_path.is_absolute():
-    pipeline_path = PROJECT_ROOT / "assets" / "resource" / "base" / "pipeline" / pipeline_file
+# Read resource[].path from the project's main Interface and resolve the
+# supplied path against that project root before reading or writing it.
+project_root = find_project_root()
+pipeline_path = resolve_pipeline_path(pipeline_file)
 
 existing = load_pipeline(str(pipeline_path)) or {}
 if node_name in existing and not overwrite:
@@ -116,31 +122,41 @@ save_pipeline(
 
 ## 使用流程
 
-> 脚本位于 `.claude/skills/pipeline-generate/`，所有命令从**项目根目录** `f:\workspace\MAAGC` 运行。
+先解析当前 skill 所在目录为 `<skill-dir>`，再从目标 Maa 项目根目录运行以下命令。不要假设 skill 安装在 `.claude/skills` 或某个固定盘符。
 
 ### 步骤 1: Sweep 找最佳 expand
 
 ```bash
 # 生成多个 expand 变体的测试 pipeline
-python .claude/skills/pipeline-generate/generate_sweep.py "角色" "46,1248,50,30" 0,5,10,15,20,25,30
+python "<skill-dir>/scripts/generate_sweep.py" "角色" "46,1248,50,30" 0,5,10,15,20,25,30
 ```
 
-然后用 `run_pipeline` 逐个测试每个 `Sweep_<text>_eN` 节点，**用 `BackButton_500ms` 返回大地图**（详见 [pipeline-testing](../pipeline-testing/SKILL.md)）。记录成功的 expand 值（score ≥ 0.99 为佳）。
+然后用 `run_pipeline` 逐个测试每个 `Sweep_<text>_eN` 节点，**用目标项目自己的安全返回节点**恢复页面（详见 [maa-pipeline-testing](../maa-pipeline-testing/SKILL.md)）。记录成功的 expand 值（score ≥ 0.99 为佳）。
 
 ### 步骤 2: 正式生成节点
 
 ```bash
-python .claude/skills/pipeline-generate/generate_node.py "角色" UI_RoleListPage main_ui.json --expand 20 --overwrite
+python "<skill-dir>/scripts/generate_node.py" "角色" UI_RoleListPage resource/base/pipeline/main_ui.json --expand 20 --overwrite
 ```
 
 ## 关键经验
 
-1. **`ocr()` 自动截图**：内部已调 `controller.post_screencap()`，**不要**再手动 screencap。证据：[vision.py:58](../MaaMCP/maa_mcp/vision.py#L58)。
+### 历史审查后的生成策略
+
+- 先判断节点类型，不要默认所有问题都是 OCR：稳定图标/按钮优先 TemplateMatch，颜色状态可用 ColorMatch，动态文本用 OCR，列表/复杂图像后处理用 CustomRecognition。
+- **点击目标必须由识别结果推导**：生成 Click 节点时不写 `target`，让 MaaFramework 点识别框中心；非文字元素用 `screencap` 裁图存进该资源根的 image 目录后走 TemplateMatch。不要用 `DirectHit` + 硬编码 `target` 跳过识别，也不要识别命中后再用写死的 `target_offset` 挪到未被识别的控件上。写法与例外见 [coordinate-hygiene](../maa-pipeline-guide/references/coordinate-hygiene.md)。
+- **UI 流程未探明时不要先生成节点**：节点的 ROI、`expected` 和模板都应来自实际探索到的画面。起始状态或成功状态还是猜测时，先回到 [`$maa-workflow-build`](../maa-workflow-build/SKILL.md) 的 EXPLORE 阶段用 `ocr`/`screencap`/`click` 走通一次完整流程，再生成节点。
+- MaaGumballs 的历史文件多为平铺字段风格；M9A HEAD 多为 v5 object-form：`action: { type, param }`、`recognition: { type, param }`。生成时沿用目标文件的既有风格，不要在同一局部混用两套格式。
+- 生成链路时先画父级 `next` 状态机：稳定页面、成功态、弹窗 `[JumpBack]`、加载 `[JumpBack]`、危险确认分支分开建节点。
+- 对会消耗资源或改变账号状态的节点，默认生成 `DoNothing` 或单独验证节点；只有用户明确要执行时才生成直接点击确认。
+- 如果需要 Python，先决定是 CustomAction 还是 CustomRecognition：动作/控制流用 CustomAction；识别后处理和动态 box 返回用 CustomRecognition。
+
+1. **`ocr()` 自动截图**：MaaMCP 的 `ocr()` 工具会自行获取当前画面，调用前不要重复 `screencap()`；如果换了 MCP provider，先读该工具的参数说明确认截图语义。
 2. **ROI 不是越大越好**：默认 `expand=75` 会失败（OCR 把"角色"拆成"电"+"色"）。多数节点 sweet spot 是 `expand=20-30`。
 3. **特殊节点需要小 ROI**："城堡" expand≥20 全失败，**只接受 0-15**（上方有图标 M/3.9m/1077/👍 干扰）。
-4. **`expected` 必须是中文**：`["角色"]` 正确，`["Role"]` 永远找不到。
+4. **`expected` 必须匹配当前资源实际显示文本**：在 MaaGumballs 中文资源里 `["角色"]` 正确、`["Role"]` 找不到；跨语言项目要按目标资源/locale 写实际 OCR 文本或项目约定的 i18n 形式。
 5. **OCR 非确定性**：同一 ROI 不同次结果可能不同，`timeout: 2000` 期间会重试。
-6. **OCR 失败不要换 TemplateMatch**：先用 sweep 找 sweet spot，多数情况能解决。
+6. **OCR 失败不要立刻换 TemplateMatch**：先看截图、扫 ROI、检查 `expected` 与颜色干扰；如果目标本质是稳定图标/按钮，TemplateMatch 本来就是正确选择，不必死守 OCR。
 7. **可滚动 UI 用大 ROI + 父级 orchestrator**（**重要**）：
    - **不要**在 Click 节点的 `next` 里放 `[JumpBack]CastleSwipeDown/Up` —— 找不到文字时会**死循环滑动**！
    - 正确模式参考 marry.json 里的 `CastleHall` 节点：父级 orchestrator 节点的 `next` 列表里放 `[JumpBack]XXXEntry` + `[JumpBack]XXXSwipeDown` + `[JumpBack]XXXSwipeUp` 等
@@ -151,9 +167,9 @@ python .claude/skills/pipeline-generate/generate_node.py "角色" UI_RoleListPag
 11. **ROI 上边界 ≤ 元素最小 y**：目标元素在 y=424 时，ROI y 起点必须 ≤ 424，否则切掉顶部导致 OCR 失败。例：原 ROI `[100, 450, ...]` 把"城堡管理"切掉 26px → 改为 `[100, 400, ...]` 通过。
 12. **卡住时截图查看**：节点超时、OCR 找不到、行为异常时，调 `screencap` 看当前屏幕实际状态。可能界面已不在预期页、可能位置已被遮挡。
 
-13. **跨页面流程用 `next` 状态机而非 Python orchestration**：当一个流程涉及多个页面跳转（如：大地图 → 活动入口 → 难度选择 → 队伍 → 战斗），用 MaaFramework 的 `next` + `[JumpBack]` 串节点。**不要**写 Python `for/while` 调 `context.run_task()` 模拟状态机。详见 [.claude/skills/pipeline-option/SKILL.md](../pipeline-option/SKILL.md) 的「不要做 #10」和 [.claude/skills/pipeline-guide/SKILL.md](../pipeline-guide/SKILL.md) 的「跨页面状态机」。
+13. **跨页面流程用 `next` 状态机而非 Python orchestration**：当一个流程涉及多个页面跳转（如：大地图 → 活动入口 → 难度选择 → 队伍 → 战斗），用 MaaFramework 的 `next` + `[JumpBack]` 串节点。**不要**写 Python `for/while` 调 `context.run_task()` 模拟状态机。详见 [option 反模式](../maa-pipeline-option/references/anti-patterns.md) 和 [maa-pipeline-guide](../maa-pipeline-guide/SKILL.md) 的「跨页面状态机」。
 
-14. **跨文件节点引用在 `run_pipeline` 测试中会失败**：MaaFramework 全局加载时所有 `assets/resource/base/pipeline/*.json` 合并到同一命名空间，`[JumpBack]OtherFileNode` 能解析。但 `run_pipeline` **只加载单文件**，跨文件引用会报"加载 Pipeline 失败"。**应对**：
+14. **跨文件节点引用在 `run_pipeline` 测试中会失败**：MaaFramework 全局加载同一声明 resource bundle 时，`pipeline/` 目录下各 JSON 合并到同一命名空间，`[JumpBack]OtherFileNode` 能解析。但 `run_pipeline` **只加载单文件**，跨文件引用会报"加载 Pipeline 失败"。**应对**：
     - 单元测试每个节点用 `run_pipeline`（无跨文件依赖的子流程）是 OK 的
     - 含跨文件引用的状态机流程，集成测试必须用 MaaFramework GUI/CLI 触发
     - 调试时可考虑 `MaaCli` 命令行运行全 bundle
@@ -167,6 +183,40 @@ python .claude/skills/pipeline-generate/generate_node.py "角色" UI_RoleListPag
 | `UI_CastlePage` | **3** | 0.997 | ⚠️ 仅 0-15 |
 | `UI_TeamPage` | **20** | 0.997 | 城堡右边 |
 | `ClickGoToArchipelago` | **20** | 0.991 | 中间大地图按钮 |
+
+### 用 `color_filter` 减少 OCR 干扰(实战技巧)
+
+**场景**:ROI 里同时有**目标文字 + 周边装饰**(如"0/31"绿色能量条 vs "0/23"绿色节点数),OCR 可能误识别装饰色块。
+
+**方案**:先建一个 `ColorMatch` 节点(限定像素颜色范围),然后在其他 OCR 节点上加 `color_filter` 字段引用它。
+
+```jsonc
+"AutoSky_GreenCheck": {
+    "recognition": "ColorMatch",
+    "roi": [558, 802, 157, 45],
+    "method": 4,
+    "lower": [22, 123, 57],      // RGB 下界(暗绿)
+    "upper": [55, 215, 102],     // RGB 上界(亮绿)
+    "action": "DoNothing",
+    "post_delay": 200,
+    "timeout": 2000
+},
+
+"AutoSky_CheckEnergyZero": {
+    "recognition": "OCR",
+    "expected": ["0/\\d+"],
+    "roi": [850, 1280, 220, 50],
+    "color_filter": "AutoSky_GreenCheck",  // ← 只在绿色区域 OCR
+    "action": "DoNothing"
+}
+```
+
+**取色技巧**(用截图工具):
+- 目标区域:取目标**装饰/边框**色(非文字色,文字一般会变色)
+- RGB 范围要**宽松**一些(±20),覆盖光照变化
+- method=4 是 RGB(0=HSV)
+
+**实战案例**:本项目(MaaGumballs)用这个方法区分"能量条 0/31"vs"节点数 0/23",两者都是绿色 OCR 文本,周围装饰色也不同。
 
 ### 已验证：可滚动 UI 统一 ROI（10 城堡建筑）
 
@@ -247,7 +297,7 @@ python .claude/skills/pipeline-generate/generate_node.py "角色" UI_RoleListPag
 
 1. **`[JumpBack]` 是状态回退的关键**：命中后执行完节点链，自动返回父节点的 `next` 继续。
 2. **窄 ROI 区分同名字段**：用 y 范围 [490, 740, 100, 80] vs [490, 590, 100, 80] 区分两个"确定"按钮行（y 范围不重叠）。
-3. **`target_offset` 偏移点击**：识别难度文字后用 `target_offset: [270, 0, 0, 0]` 把点击位置右移到"确定"按钮上。
+3. **偏移点击是最后手段**：能识别目标本身就直接识别（OCR 窄 ROI 或 TemplateMatch）。只有目标既无稳定文字也无稳定图案时，才在识别结果上加 `target_offset`（如 `target_offset: [270, 0, 0, 0]`），并记录该偏移量的实测来源；不要把偏移写成与识别无关的绝对坐标。详见 [coordinate-hygiene](../maa-pipeline-guide/references/coordinate-hygiene.md)。
 4. **跨文件节点引用**：MaaFramework 全局加载会合并所有 `pipeline/*.json`，所以 `[JumpBack]BigMap_Activity`（在 main_ui.json）能从 growth_trial.json 引用。但 `run_pipeline` 测试只加载单文件，集成测试需用 GUI/CLI。
 
 ### 与 Python orchestration 的本质区别
@@ -259,4 +309,4 @@ python .claude/skills/pipeline-generate/generate_node.py "角色" UI_RoleListPag
 | `[JumpBack]` 自动状态回退 | 手动实现回退逻辑 |
 | 跨页面异常有自然路径 | 需手动 try/except |
 
-详见 [.claude/skills/pipeline-option/SKILL.md](../pipeline-option/SKILL.md) 的「不要做 #10」和 [.claude/skills/pipeline-guide/SKILL.md](../pipeline-guide/SKILL.md) 的「跨页面状态机」典型模式。
+详见 [option 反模式](../maa-pipeline-option/references/anti-patterns.md) 和 [maa-pipeline-guide](../maa-pipeline-guide/SKILL.md) 的「跨页面状态机」典型模式。
