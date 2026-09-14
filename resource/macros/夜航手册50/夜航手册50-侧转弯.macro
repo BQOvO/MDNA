@@ -1,3 +1,0 @@
-up{end_hold(2115), wait(500)};
-right{end_hold(3477), wait(500)};
-up{end_hold(5890), wait(500)};
