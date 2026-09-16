@@ -98,8 +98,7 @@ def install_resource():
         interface = jsonc.load(f)
 
     interface["version"] = version
-    interface["title"] = f"二重螺旋小助手 Oᴗoಣ 旅途愉快~| 版本号:{version} | 如果出现了bug,请在群里或github的issue中上传日志"
-    #标题行往这里塞
+    interface["title"] = f"MDNA 皎皎二重小助手 Oᴗoಣ 旅途愉快~| 版本号:{version} "
 
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
         jsonc.dump(interface, f, ensure_ascii=False, indent=4)
