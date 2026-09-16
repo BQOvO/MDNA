@@ -58,12 +58,7 @@
     "recognition": {
       "type": "OCR",
       "param": {
-        "roi": [
-          21,
-          442,
-          141,
-          45
-        ],
+        "roi": [4,389,215,127],
         "expected": [
           "委托完成"
         ]
