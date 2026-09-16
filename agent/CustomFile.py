@@ -11,12 +11,11 @@ from agent.custom.action.outnoder import Outnoder
 from agent.custom.action.NumberComparator import NumberComparator
 from agent.custom.action.Timeout import TimeoutStart, TimeoutReset, CheckTimeout
 from agent.custom.action.RoundTracker import RoundTracker
-from agent.custom.action.TextWatcher import TextWatcher
 
 from agent.custom.sink.aspect_ratio import AspectRatioChecker
 from agent.custom.sink.count_cleanup import CountAutoCleanup
 from agent.custom.sink.screenshot_on_fail import NodeScreenshotSink
-from agent.custom.sink.focus_prefix import FocusPrefix
+
 from agent.custom.sink.option_validation import OptionValidationSink
 #from agent.custom.sink.game_health_override import GameHealthOverride   （暂时不用先）
 
@@ -53,6 +52,6 @@ _register("TimeoutStart", TimeoutStart, AgentServer.custom_action)
 _register("TimeoutReset", TimeoutReset, AgentServer.custom_action)
 _register("CheckTimeout", CheckTimeout, AgentServer.custom_action)
 _register("RoundTracker", RoundTracker, AgentServer.custom_action)
-_register("TextWatcher", TextWatcher, AgentServer.custom_action)
+
 _register("CheckResolution", CheckResolution, AgentServer.custom_recognition)
 _register("GameProcessCheck", GameProcessCheck, AgentServer.custom_recognition)

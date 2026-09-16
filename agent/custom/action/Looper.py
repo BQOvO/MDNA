@@ -112,5 +112,4 @@ class Looper(CustomAction):
 ===== 注意 =====
 
 Looper 依赖 pipeline JSON 中已定义的节点（如 "委托完成" 需在 副本通用.json 中定义）。
-如果只需检测单一文本，推荐使用 TextWatcher（更简洁，不依赖外部 pipeline 节点定义）。
 """
