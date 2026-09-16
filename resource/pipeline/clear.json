@@ -1,0 +1,127 @@
+{
+  "ClearStartChallenge": {
+    "recognition": {
+      "type": "OCR",
+      "param": {
+        "roi": [
+          655,
+          493,
+          284,
+          47
+        ],
+        "expected": [
+          "开始挑战"
+        ]
+      }
+    },
+    "action": {
+      "type": "Click"
+    },
+    "focus": {
+      "Node.Action.Starting": "【驱离 | Clear】开始进入副本"
+    },
+    "next": [
+      "ClearInChallenge",
+      "[JumpBack]ClearWaitLoading"
+    ]
+  },
+  "ClearWaitLoading": {},
+  "ClearInChallenge": {
+    "recognition": {
+      "type": "OCR",
+      "param": {
+        "roi": [
+          25,
+          222,
+          54,
+          34
+        ],
+        "expected": [
+          "驱离"
+        ]
+      }
+    },
+    "focus": {
+      "Node.Recognition.Succeeded": "【驱离 | Clear】成功进入副本，开始挂机"
+    },
+    "next": [
+      "ClearFinish",
+      "[JumpBack]ClearWaitFinish"
+    ]
+  },
+  "Clear": {
+    "next": [
+      "ClearStartChallenge"
+    ]
+  },
+  "ClearFinish": {
+    "recognition": {
+      "type": "OCR",
+      "param": {
+        "roi": [
+          21,
+          442,
+          141,
+          45
+        ],
+        "expected": [
+          "委托完成"
+        ]
+      }
+    },
+    "rate_limit": 2500,
+    "next": [
+      "ClearAddCount"
+    ]
+  },
+  "ClearCountPrint": {
+    "action": {
+      "type": "Custom",
+      "param": {
+        "custom_action": "CountPrint",
+        "custom_action_param": "【驱离 | Clear】副本已完成{clear}次"
+      }
+    },
+    "next": [
+      "ClearChallengAgain"
+    ]
+  },
+  "ClearWaitFinish": {},
+  "ClearAddCount": {
+    "action": {
+      "type": "Custom",
+      "param": {
+        "custom_action": "CountAdd",
+        "custom_action_param": {
+          "id": "clear",
+          "step": 1
+        }
+      }
+    },
+    "next": [
+      "ClearCountPrint"
+    ]
+  },
+  "ClearChallengAgain": {
+    "recognition": {
+      "type": "OCR",
+      "param": {
+        "expected": [
+          "再次进行"
+        ]
+      }
+    },
+    "action": {
+      "type": "Click"
+    },
+    "anchor": {
+      "ClearReturnStartChallenge": "ClearStartChallenge"
+    },
+    "focus": {
+      "Node.Action.Succeeded": "【驱离 | Clear】再次进行副本挑战"
+    },
+    "next": [
+      "[Anchor]ClearReturnStartChallenge"
+    ]
+  }
+}

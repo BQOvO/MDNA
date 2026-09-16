@@ -1,0 +1,9 @@
+{
+    "task": [
+        {
+            "name": "魔之锲·驱离",
+            "entry": "Clear",
+            "description": "./resource/docs/Clear.md"
+        }
+    ]
+}
