@@ -1,5 +1,10 @@
 name: install
 
+permissions:
+  contents: write
+  packages: write
+  actions: read
+
 # 依赖版本号：留空使用最新版，或指定如 "v4.6.0" / "v0.6.0"
 env:
   MAAFRAMEWORK_VERSION: "v5.12.1"   # MaaXYZ/MaaFramework 版本
@@ -300,6 +305,7 @@ jobs:
 
       - uses: softprops/action-gh-release@v2
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           files: assets/*
           tag_name: ${{ needs.meta.outputs.tag }}
           body: ${{ needs.changelog.outputs.release_body }}
