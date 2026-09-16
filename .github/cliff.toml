@@ -88,6 +88,7 @@ commit_parsers = [
     { body = ".*security", group = "<!-- 11 -->安全 | Security" },
     { message = "^wip", group = "<!-- 12 -->暂存 | WIP" },
     { message = "^[Rr]evert", group = "<!-- 13 -->撤销 | Reverts" },
+    { message = "^remove", group = "<!-- 15 -->文件删除 | File Removal" },
 ]
 
 # 忽略这些提交
