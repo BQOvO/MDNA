@@ -91,6 +91,7 @@ class Logger:
 
         if not Logger._compressed_old_logs:
             self._compress_old_logs()
+            self._cleanup_debug_dir_size()
             Logger._compressed_old_logs = True
 
         if not Logger._initialized:
@@ -122,9 +123,17 @@ class Logger:
                 except Exception:
                     pass
 
+            maafw_log = log_dir / "maafw.log"
+            try:
+                if maafw_log.exists() and maafw_log.stat().st_size > 200 * 1024 * 1024:
+                    bak_name = f"maafw.bak.{datetime.now().strftime('%Y.%m.%d-%H.%M.%S.%f')[:-3]}.log"
+                    maafw_log.rename(log_dir / bak_name)
+            except Exception:
+                pass
+
             active = {"agent.log", "maafw.log", "deploy.log"}
             files = sorted(
-                [f for f in log_dir.iterdir() if f.is_file() and f.name not in active],
+                [f for f in log_dir.rglob("*") if f.is_file() and f.name not in active],
                 key=lambda f: f.stat().st_mtime,
             )
             total = sum(f.stat().st_size for f in files)
@@ -184,6 +193,30 @@ class Logger:
                 log_file.unlink()
             except Exception:
                 pass
+
+    def _cleanup_debug_dir_size(self):
+        active = {"agent.log", "maafw.log", "deploy.log"}
+        files = sorted(
+            [f for f in self.log_dir.rglob("*") if f.is_file() and f.name not in active],
+            key=lambda f: f.stat().st_mtime,
+        )
+        total = sum(f.stat().st_size for f in files)
+        limit_bytes = Logger._dir_size_limit_mb * 1024 * 1024
+        while total > limit_bytes and files:
+            oldest = files.pop(0)
+            total -= oldest.stat().st_size
+            try:
+                oldest.unlink()
+            except Exception:
+                pass
+
+        maafw_log = self.log_dir / "maafw.log"
+        try:
+            if maafw_log.exists() and maafw_log.stat().st_size > 200 * 1024 * 1024:
+                bak_name = f"maafw.bak.{datetime.now().strftime('%Y.%m.%d-%H.%M.%S.%f')[:-3]}.log"
+                maafw_log.rename(self.log_dir / bak_name)
+        except Exception:
+            pass
 
     def _normalize_color(self, color: str) -> str:
         color = color.strip().lower()

@@ -6,6 +6,7 @@
 import io
 import json
 import logging
+import logging.handlers
 import subprocess
 import sys
 from pathlib import Path
@@ -54,8 +55,10 @@ def setup_logger():
         "%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
     )
 
-    # 文件处理器（追加模式）
-    file_handler = logging.FileHandler(log_file, mode="a", encoding="utf-8")
+    # 文件处理器（轮转模式，最多保留3个备份，每个最大10MB）
+    file_handler = logging.handlers.RotatingFileHandler(
+        log_file, mode="a", encoding="utf-8", maxBytes=10 * 1024 * 1024, backupCount=3
+    )
     file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
 

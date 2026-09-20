@@ -25,7 +25,7 @@ _SCREENSHOT_DIR = os.environ.get(
     str(Path.cwd() / "debug"),
 )
 _SCREENSHOT_DIR = str(Path(_SCREENSHOT_DIR) / "screenshots")
-_MAX_SCREENSHOTS = 300    # 最多保留 300 张截图
+_MAX_SCREENSHOTS = 300
 
 _log = Logger("ScreenshotOnFail")
 _log.info("ScreenshotOnFail 模块已加载")
