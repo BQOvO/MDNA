@@ -176,6 +176,9 @@ class MacroPlayer(CustomAction):
                         self._execute_macro(steps, controller)
                     else:
                         self._execute_json(content, controller)
+
+                elif "action" in param:
+                    self._execute_single_action(param, controller)
                 else:
                     print("[MacroPlayer] 未指定 steps 或 file 参数", flush=True)
                     return CustomAction.RunResult(success=False)
@@ -190,6 +193,28 @@ class MacroPlayer(CustomAction):
             print(f"[MacroPlayer] 未捕获的异常: {e}", flush=True)
             traceback.print_exc()
             return CustomAction.RunResult(success=False)
+
+    # ==================== 单 action 模式 ====================
+
+    def _execute_single_action(self, param: dict, controller) -> None:
+        action = param["action"]
+        step = {
+            "action": action,
+            "wait": param.get("wait", 0),
+            "repeat": param.get("repeat", 1),
+            "positional": list(param.get("positional", [])),
+            "duration": param.get("duration", 0),
+            "end_hold": param.get("end_hold", param.get("hold", 0)),
+        }
+
+        if "x" in param and "y" in param:
+            _x, _y = param["x"], param["y"]
+            if isinstance(_x, list) and isinstance(_y, list):
+                step["positional"].append(tuple(_x + _y))
+            else:
+                step["positional"].append((int(_x), int(_y)))
+
+        self._execute_new_step(step, controller)
 
     # ==================== .macro 格式执行 ====================
 
@@ -405,4 +430,22 @@ class MacroPlayer(CustomAction):
         "custom_action_param": "夜航手册60/夜航手册60.macro"
     }
 }
+
+===== 单 action 模式（新） =====
+
+直接在 custom_action_param 里写 action，无需创建 .macro 文件：
+
+    "custom_action_param": {"action": "fly"}
+
+    "custom_action_param": {"action": "fly", "x": 1107, "y": 360}
+
+    "custom_action_param": {"action": "up"}
+
+    "custom_action_param": {"action": "up", "hold": 200}
+
+    "custom_action_param": {"action": "up", "repeat": 3, "wait": 500}
+
+    "custom_action_param": {"action": "swipe", "x": [900, 350], "y": [200, 350], "duration": 300}
+
+支持全部 action: fly, jump, click, longpress, swipe, up, down, left, right, up_right, up_left, down_right, down_left, wait.
 """
