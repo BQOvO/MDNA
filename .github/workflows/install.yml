@@ -8,7 +8,7 @@ permissions:
 # 依赖版本号：留空使用最新版，或指定如 "v4.6.0" / "v0.6.0"
 env:
   MAAFRAMEWORK_VERSION: "v5.12.1"   # MaaXYZ/MaaFramework 版本
-  MFAAVALONIA_VERSION: "v2.16.1"  # SweetSmellFox/MFAAvalonia 版本
+  MFAAVALONIA_VERSION: ""  # BQOvO/MDNAvalonia 版本，留空使用最新版
 
 on:
   push:
@@ -152,9 +152,9 @@ jobs:
         id: download_mfa
         uses: robinraju/release-downloader@v1
         with:
-          repository: SweetSmellFox/MFAAvalonia
+          repository: BQOvO/MDNAvalonia
           fileName: "MFAAvalonia-*-${{ (matrix.os == 'win' && 'win') || (matrix.os == 'macos' && 'osx') || (matrix.os == 'linux' && 'linux') }}-${{ (matrix.arch == 'x86_64' && 'x64') || (matrix.arch == 'aarch64' && 'arm64') }}*"
-          tag: ${{ env.MFAAVALONIA_VERSION }}
+          latest: true
           out-file-path: "MFA"
           extract: true
 
