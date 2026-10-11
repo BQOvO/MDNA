@@ -452,3 +452,6 @@ tools/ImageCropper/**/*.png
 
 config
 debug
+
+# Trae IDE skills and configuration
+.trae/
